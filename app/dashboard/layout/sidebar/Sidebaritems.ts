@@ -42,13 +42,6 @@ const SidebarContent: MenuItem[] = [
         url: "/dashboard",
         isPro: false
       },
-      {
-        name: "Statistiques",
-        icon: "solar:chart-line-duotone",
-        id: uniqueId(),
-        url: "/dashboard/statistiques",
-        isPro: false
-      },
     ],
   },
   {
@@ -144,32 +137,6 @@ const SidebarContent: MenuItem[] = [
         icon: "solar:document-text-line-duotone",
         id: uniqueId(),
         url: "/dashboard/pannes",
-        isPro: false
-      },
-    ],
-  },
-  {
-    heading: 'Configuration',
-    children: [
-      {
-        name: "Paramètres",
-        icon: "solar:settings-minimalistic-line-duotone",
-        id: uniqueId(),
-        url: "/dashboard/parametres",
-        isPro: false
-      },
-      {
-        name: "Utilisateurs",
-        icon: "solar:user-circle-line-duotone",
-        id: uniqueId(),
-        url: "/dashboard/utilisateurs",
-        isPro: false
-      },
-      {
-        name: "API & Intégrations",
-        icon: "solar:code-line-duotone",
-        id: uniqueId(),
-        url: "/dashboard/api",
         isPro: false
       },
     ],

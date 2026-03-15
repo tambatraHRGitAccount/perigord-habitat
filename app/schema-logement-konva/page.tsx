@@ -340,7 +340,7 @@ export default function SchemaLogementKonva() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Wrench className="w-8 h-8 text-indigo-600" />
-              <h1 className="text-2xl font-bold text-gray-900">Qui fait quoi ?</h1>
+              <h1 className="text-lg sm:text-2xl font-bold text-gray-900">Qui fait quoi ?</h1>
             </div>
             <Link 
               href="/schema-logement"
@@ -362,7 +362,7 @@ export default function SchemaLogementKonva() {
             placeholder="Rechercher un problème... (ex: robinet qui fuit)"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-gray-200 focus:border-indigo-500 focus:outline-none text-lg shadow-sm"
+            className="w-full pl-12 pr-4 py-3 sm:py-4 rounded-2xl border-2 border-gray-200 focus:border-indigo-500 focus:outline-none text-base sm:text-lg shadow-sm"
           />
         </div>
       </div>
@@ -371,7 +371,7 @@ export default function SchemaLogementKonva() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Title */}
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
             Plan interactif de votre logement
           </h2>
           <p className="text-gray-600">

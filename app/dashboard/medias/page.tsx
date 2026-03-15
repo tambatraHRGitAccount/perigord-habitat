@@ -241,7 +241,7 @@ export default function MediasPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-dark dark:text-white flex items-center gap-2">
+          <h1 className="text-xl sm:text-3xl font-bold text-dark dark:text-white flex items-center gap-2">
             <ImageIcon className="w-8 h-8 text-indigo-600" />
             Gestion des médias
           </h1>
@@ -249,12 +249,12 @@ export default function MediasPage() {
             {filteredMedias.length} média(s) trouvé(s)
           </p>
         </div>
-        <div className="flex gap-2">
-          <Button variant="outline" className="gap-2">
+        <div className="flex gap-2 w-full sm:w-auto">
+          <Button variant="outline" className="gap-2 flex-1 sm:flex-none">
             <Download className="w-4 h-4" />
             Télécharger
           </Button>
-          <Button className="gap-2 bg-indigo-600 hover:bg-indigo-700">
+          <Button className="gap-2 bg-indigo-600 hover:bg-indigo-700 flex-1 sm:flex-none">
             <Upload className="w-4 h-4" />
             Uploader
           </Button>

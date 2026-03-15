@@ -222,22 +222,12 @@ export default function PannesPage() {
     return matchSearch && matchResponsable;
   });
 
-  // Statistiques globales
-  const globalStats = {
-    total: pannes.length,
-    locataire: pannes.filter((p) => p.responsable === "locataire").length,
-    bailleur: pannes.filter((p) => p.responsable === "bailleur").length,
-    contrat: pannes.filter((p) => p.responsable === "contrat").length,
-    a_verifier: pannes.filter((p) => p.responsable === "a_verifier").length,
-    avec_auto_depannage: pannes.filter((p) => p.auto_depannage_etapes !== null).length,
-  };
-
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-dark dark:text-white flex items-center gap-2">
+          <h1 className="text-xl sm:text-3xl font-bold text-dark dark:text-white flex items-center gap-2">
             <Wrench className="w-8 h-8 text-amber-600" />
             Base de connaissances - Pannes
           </h1>
@@ -246,46 +236,12 @@ export default function PannesPage() {
           </p>
         </div>
         <Button
-          className="gap-2 bg-amber-600 hover:bg-amber-700"
+          className="gap-2 bg-amber-600 hover:bg-amber-700 w-full sm:w-auto"
           onClick={() => setIsCreateDialogOpen(true)}
         >
           <Plus className="w-4 h-4" />
           Nouvelle panne
         </Button>
-      </div>
-
-      {/* Statistiques globales */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <Wrench className="w-5 h-5 text-gray-400 mb-2" />
-          <p className="text-2xl font-bold text-dark dark:text-white">{globalStats.total}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Total</p>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <User className="w-5 h-5 text-orange-600 mb-2" />
-          <p className="text-2xl font-bold text-orange-600">{globalStats.locataire}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Locataire</p>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <Building2 className="w-5 h-5 text-blue-600 mb-2" />
-          <p className="text-2xl font-bold text-blue-600">{globalStats.bailleur}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Bailleur</p>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <FileText className="w-5 h-5 text-purple-600 mb-2" />
-          <p className="text-2xl font-bold text-purple-600">{globalStats.contrat}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Contrat</p>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <HelpCircle className="w-5 h-5 text-gray-600 mb-2" />
-          <p className="text-2xl font-bold text-gray-600">{globalStats.a_verifier}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">À vérifier</p>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <BookOpen className="w-5 h-5 text-green-600 mb-2" />
-          <p className="text-2xl font-bold text-green-600">{globalStats.avec_auto_depannage}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Auto-dépannage</p>
-        </div>
       </div>
 
       {/* Filtres */}
@@ -318,7 +274,7 @@ export default function PannesPage() {
       </div>
 
       {/* Tableau des pannes */}
-      <div className="bg-white dark:bg-darkgray rounded-lg shadow-md overflow-hidden">
+      <div className="bg-white dark:bg-darkgray rounded-lg shadow-md overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
@@ -513,21 +469,6 @@ export default function PannesPage() {
                                 </div>
                               )}
 
-                              {/* Statistiques */}
-                              <div>
-                                <Label className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3 block">
-                                  Statistiques
-                                </Label>
-                                <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-lg">
-                                  <AlertCircle className="w-6 h-6 text-amber-600 mb-2" />
-                                  <p className="text-2xl font-bold text-amber-600">
-                                    {selectedPanne.stats?.incidents_lies || 0}
-                                  </p>
-                                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                                    Incident(s) lié(s)
-                                  </p>
-                                </div>
-                              </div>
                             </div>
                           )}
                           <DialogFooter>

@@ -243,20 +243,12 @@ export default function LocatairesPage() {
     return matchSearch && matchBailleur;
   });
 
-  // Statistiques globales
-  const globalStats = {
-    total: locataires.length,
-    avecIncidents: locataires.filter((l) => l.stats && l.stats.incidents_actifs > 0).length,
-    sansIncidents: locataires.filter((l) => !l.stats || l.stats.incidents_actifs === 0).length,
-    totalIncidents: locataires.reduce((sum, l) => sum + (l.stats?.incidents_actifs || 0), 0),
-  };
-
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-dark dark:text-white flex items-center gap-2">
+          <h1 className="text-xl sm:text-3xl font-bold text-dark dark:text-white flex items-center gap-2">
             <Users className="w-8 h-8 text-purple-600" />
             Gestion des locataires
           </h1>
@@ -265,44 +257,12 @@ export default function LocatairesPage() {
           </p>
         </div>
         <Button
-          className="gap-2 bg-purple-600 hover:bg-purple-700"
+          className="gap-2 bg-purple-600 hover:bg-purple-700 w-full sm:w-auto"
           onClick={() => setIsCreateDialogOpen(true)}
         >
           <Plus className="w-4 h-4" />
           Nouveau locataire
         </Button>
-      </div>
-
-      {/* Statistiques globales */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <div className="flex items-center justify-between mb-2">
-            <Users className="w-5 h-5 text-gray-400" />
-          </div>
-          <p className="text-2xl font-bold text-dark dark:text-white">{globalStats.total}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Total</p>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <div className="flex items-center justify-between mb-2">
-            <CheckCircle className="w-5 h-5 text-green-600" />
-          </div>
-          <p className="text-2xl font-bold text-green-600">{globalStats.sansIncidents}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Sans incidents</p>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <div className="flex items-center justify-between mb-2">
-            <AlertTriangle className="w-5 h-5 text-orange-600" />
-          </div>
-          <p className="text-2xl font-bold text-orange-600">{globalStats.avecIncidents}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Avec incidents</p>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <div className="flex items-center justify-between mb-2">
-            <XCircle className="w-5 h-5 text-red-600" />
-          </div>
-          <p className="text-2xl font-bold text-red-600">{globalStats.totalIncidents}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Incidents actifs</p>
-        </div>
       </div>
 
       {/* Filtres */}
@@ -336,7 +296,7 @@ export default function LocatairesPage() {
       </div>
 
       {/* Tableau des locataires */}
-      <div className="bg-white dark:bg-darkgray rounded-lg shadow-md overflow-hidden">
+      <div className="bg-white dark:bg-darkgray rounded-lg shadow-md overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
@@ -548,32 +508,6 @@ export default function LocatairesPage() {
                                 )}
                               </div>
 
-                              {/* Statistiques */}
-                              <div>
-                                <Label className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3 block">
-                                  Statistiques des incidents
-                                </Label>
-                                <div className="grid grid-cols-2 gap-4">
-                                  <div className="p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
-                                    <AlertTriangle className="w-6 h-6 text-orange-600 mb-2" />
-                                    <p className="text-2xl font-bold text-orange-600">
-                                      {selectedLocataire.stats?.incidents_actifs || 0}
-                                    </p>
-                                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                                      Incident(s) actif(s)
-                                    </p>
-                                  </div>
-                                  <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                                    <CheckCircle className="w-6 h-6 text-gray-600 mb-2" />
-                                    <p className="text-2xl font-bold text-gray-600">
-                                      {selectedLocataire.stats?.incidents_total || 0}
-                                    </p>
-                                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                                      Total incidents
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
                             </div>
                           )}
                           <DialogFooter>

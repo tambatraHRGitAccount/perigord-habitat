@@ -36,7 +36,7 @@ export default function ParametresPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-dark dark:text-white flex items-center gap-2">
+        <h1 className="text-xl sm:text-3xl font-bold text-dark dark:text-white flex items-center gap-2">
           <Settings className="w-8 h-8 text-gray-600" />
           Paramètres
         </h1>

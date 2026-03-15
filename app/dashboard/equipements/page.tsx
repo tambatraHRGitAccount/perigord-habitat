@@ -229,30 +229,12 @@ export default function EquipementsPage() {
     return matchSearch && matchPiece && matchContrat;
   });
 
-  // Statistiques globales
-  const globalStats = {
-    total: equipements.length,
-    sousContrat: equipements.filter((e) => e.sous_contrat).length,
-    horsContrat: equipements.filter((e) => !e.sous_contrat).length,
-    totalPannes: equipements.reduce((sum, e) => sum + (e.stats?.pannes || 0), 0),
-  };
-
-  // Statistiques par pièce
-  const statsByPiece = pieces.map((piece) => {
-    const equipementsCount = equipements.filter((e) => e.piece_id === piece.id).length;
-    return {
-      piece_id: piece.id,
-      nom: piece.nom,
-      count: equipementsCount,
-    };
-  });
-
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-dark dark:text-white flex items-center gap-2">
+          <h1 className="text-xl sm:text-3xl font-bold text-dark dark:text-white flex items-center gap-2">
             <Package className="w-8 h-8 text-indigo-600" />
             Gestion des équipements
           </h1>
@@ -261,60 +243,12 @@ export default function EquipementsPage() {
           </p>
         </div>
         <Button
-          className="gap-2 bg-indigo-600 hover:bg-indigo-700"
+          className="gap-2 bg-indigo-600 hover:bg-indigo-700 w-full sm:w-auto"
           onClick={() => setIsCreateDialogOpen(true)}
         >
           <Plus className="w-4 h-4" />
           Nouvel équipement
         </Button>
-      </div>
-
-      {/* Statistiques globales */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <div className="flex items-center justify-between mb-2">
-            <Package className="w-5 h-5 text-gray-400" />
-          </div>
-          <p className="text-2xl font-bold text-dark dark:text-white">{globalStats.total}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Total</p>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <div className="flex items-center justify-between mb-2">
-            <FileText className="w-5 h-5 text-blue-600" />
-          </div>
-          <p className="text-2xl font-bold text-blue-600">{globalStats.sousContrat}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Sous contrat</p>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <div className="flex items-center justify-between mb-2">
-            <XCircle className="w-5 h-5 text-gray-600" />
-          </div>
-          <p className="text-2xl font-bold text-gray-600">{globalStats.horsContrat}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Hors contrat</p>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <div className="flex items-center justify-between mb-2">
-            <AlertTriangle className="w-5 h-5 text-orange-600" />
-          </div>
-          <p className="text-2xl font-bold text-orange-600">{globalStats.totalPannes}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Pannes référencées</p>
-        </div>
-      </div>
-
-      {/* Répartition par pièce */}
-      <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-        <h3 className="text-lg font-semibold text-dark dark:text-white mb-4 flex items-center gap-2">
-          <Grid3x3 className="w-5 h-5" />
-          Répartition par pièce
-        </h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {statsByPiece.map((stat) => (
-            <div key={stat.piece_id} className="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{stat.nom}</p>
-              <p className="text-2xl font-bold text-dark dark:text-white">{stat.count}</p>
-            </div>
-          ))}
-        </div>
       </div>
 
       {/* Filtres */}
@@ -358,7 +292,7 @@ export default function EquipementsPage() {
       </div>
 
       {/* Tableau des équipements */}
-      <div className="bg-white dark:bg-darkgray rounded-lg shadow-md overflow-hidden">
+      <div className="bg-white dark:bg-darkgray rounded-lg shadow-md overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
@@ -475,21 +409,6 @@ export default function EquipementsPage() {
                                 </div>
                               </div>
 
-                              {/* Statistiques */}
-                              <div>
-                                <Label className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3 block">
-                                  Statistiques
-                                </Label>
-                                <div className="p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
-                                  <AlertTriangle className="w-6 h-6 text-orange-600 mb-2" />
-                                  <p className="text-2xl font-bold text-orange-600">
-                                    {selectedEquipement.stats?.pannes || 0}
-                                  </p>
-                                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                                    Panne(s) référencée(s)
-                                  </p>
-                                </div>
-                              </div>
 
                               {/* Note sur le contrat */}
                               {selectedEquipement.sous_contrat && (

@@ -224,20 +224,20 @@ function IncidentsContent() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-dark dark:text-white flex items-center gap-2">
-            <AlertTriangle className="w-8 h-8 text-orange-600" />
+          <h1 className="text-xl sm:text-3xl font-bold text-dark dark:text-white flex items-center gap-2">
+            <AlertTriangle className="w-6 h-6 sm:w-8 sm:h-8 text-orange-600" />
             Gestion des incidents
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mt-1">
             {filteredIncidents.length} incident(s) trouvé(s)
           </p>
         </div>
-        <div className="flex gap-2">
-          <Button variant="outline" className="gap-2">
+        <div className="flex gap-2 w-full sm:w-auto">
+          <Button variant="outline" className="gap-2 flex-1 sm:flex-none">
             <Download className="w-4 h-4" />
             Exporter
           </Button>
-          <Button className="gap-2 bg-indigo-600 hover:bg-indigo-700">
+          <Button className="gap-2 bg-indigo-600 hover:bg-indigo-700 flex-1 sm:flex-none">
             <Plus className="w-4 h-4" />
             Nouvel incident
           </Button>
@@ -286,7 +286,7 @@ function IncidentsContent() {
       </div>
 
       {/* Tableau des incidents */}
-      <div className="bg-white dark:bg-darkgray rounded-lg shadow-md overflow-hidden">
+      <div className="bg-white dark:bg-darkgray rounded-lg shadow-md overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
@@ -381,61 +381,6 @@ function IncidentsContent() {
         </Table>
       </div>
 
-      {/* Statistiques rapides */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Nouveaux</p>
-              <p className="text-2xl font-bold text-orange-600">
-                {incidents.filter((i) => i.statut === "nouveau").length}
-              </p>
-            </div>
-            <div className="p-3 bg-orange-100 rounded-lg">
-              <AlertTriangle className="w-6 h-6 text-orange-600" />
-            </div>
-          </div>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">En cours</p>
-              <p className="text-2xl font-bold text-blue-600">
-                {incidents.filter((i) => i.statut === "en_cours").length}
-              </p>
-            </div>
-            <div className="p-3 bg-blue-100 rounded-lg">
-              <Clock className="w-6 h-6 text-blue-600" />
-            </div>
-          </div>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Résolus</p>
-              <p className="text-2xl font-bold text-green-600">
-                {incidents.filter((i) => i.statut === "resolu").length}
-              </p>
-            </div>
-            <div className="p-3 bg-green-100 rounded-lg">
-              <AlertTriangle className="w-6 h-6 text-green-600" />
-            </div>
-          </div>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Total</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                {incidents.length}
-              </p>
-            </div>
-            <div className="p-3 bg-gray-100 rounded-lg">
-              <AlertTriangle className="w-6 h-6 text-gray-600" />
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

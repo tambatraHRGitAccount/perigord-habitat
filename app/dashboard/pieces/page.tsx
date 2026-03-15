@@ -137,7 +137,7 @@ export default function PiecesPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-dark dark:text-white flex items-center gap-2">
+          <h1 className="text-xl sm:text-3xl font-bold text-dark dark:text-white flex items-center gap-2">
             <Grid3x3 className="w-8 h-8 text-teal-600" />
             Gestion des pièces
           </h1>
@@ -146,7 +146,7 @@ export default function PiecesPage() {
           </p>
         </div>
         <Button
-          className="gap-2 bg-teal-600 hover:bg-teal-700"
+          className="gap-2 bg-teal-600 hover:bg-teal-700 w-full sm:w-auto"
           onClick={() => setIsCreateDialogOpen(true)}
         >
           <Plus className="w-4 h-4" />
@@ -352,7 +352,7 @@ export default function PiecesPage() {
       </div>
 
       {/* Tableau alternatif (optionnel) */}
-      <div className="bg-white dark:bg-darkgray rounded-lg shadow-md overflow-hidden">
+      <div className="bg-white dark:bg-darkgray rounded-lg shadow-md overflow-x-auto">
         <div className="p-4 border-b border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-semibold text-dark dark:text-white flex items-center gap-2">
             <Wrench className="w-5 h-5" />

@@ -172,82 +172,26 @@ export default function BailleursPage() {
     return matchSearch && matchStatut;
   });
 
-  // Statistiques globales
-  const globalStats = {
-    total: bailleurs.length,
-    actifs: bailleurs.filter((b) => b.actif).length,
-    inactifs: bailleurs.filter((b) => !b.actif).length,
-    totalLogements: bailleurs.reduce((sum, b) => sum + b.stats.logements, 0),
-    totalLocataires: bailleurs.reduce((sum, b) => sum + b.stats.locataires, 0),
-    totalIncidents: bailleurs.reduce((sum, b) => sum + b.stats.incidents_actifs, 0),
-  };
-
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-dark dark:text-white flex items-center gap-2">
-            <Building2 className="w-8 h-8 text-indigo-600" />
-            Gestion des bailleurs
+      <div className="flex flex-wrap items-start sm:items-center justify-between gap-4">
+        <div className="min-w-0">
+          <h1 className="text-xl sm:text-3xl font-bold text-dark dark:text-white flex items-center gap-2">
+            <Building2 className="w-6 h-6 sm:w-8 sm:h-8 text-indigo-600 shrink-0" />
+            <span className="truncate">Gestion des bailleurs</span>
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mt-1">
             {filteredBailleurs.length} bailleur(s) trouvé(s)
           </p>
         </div>
         <Button
-          className="gap-2 bg-indigo-600 hover:bg-indigo-700"
+          className="gap-2 bg-indigo-600 hover:bg-indigo-700 shrink-0"
           onClick={() => setIsCreateDialogOpen(true)}
         >
           <Plus className="w-4 h-4" />
           Nouveau bailleur
         </Button>
-      </div>
-
-      {/* Statistiques globales */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <div className="flex items-center justify-between mb-2">
-            <Building2 className="w-5 h-5 text-gray-400" />
-          </div>
-          <p className="text-2xl font-bold text-dark dark:text-white">{globalStats.total}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Total</p>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <div className="flex items-center justify-between mb-2">
-            <CheckCircle className="w-5 h-5 text-green-600" />
-          </div>
-          <p className="text-2xl font-bold text-green-600">{globalStats.actifs}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Actifs</p>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <div className="flex items-center justify-between mb-2">
-            <XCircle className="w-5 h-5 text-red-600" />
-          </div>
-          <p className="text-2xl font-bold text-red-600">{globalStats.inactifs}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Inactifs</p>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <div className="flex items-center justify-between mb-2">
-            <Home className="w-5 h-5 text-blue-600" />
-          </div>
-          <p className="text-2xl font-bold text-blue-600">{globalStats.totalLogements}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Logements</p>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <div className="flex items-center justify-between mb-2">
-            <Users className="w-5 h-5 text-purple-600" />
-          </div>
-          <p className="text-2xl font-bold text-purple-600">{globalStats.totalLocataires}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Locataires</p>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <div className="flex items-center justify-between mb-2">
-            <AlertTriangle className="w-5 h-5 text-orange-600" />
-          </div>
-          <p className="text-2xl font-bold text-orange-600">{globalStats.totalIncidents}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Incidents</p>
-        </div>
       </div>
 
       {/* Filtres */}
@@ -278,7 +222,7 @@ export default function BailleursPage() {
       </div>
 
       {/* Tableau des bailleurs */}
-      <div className="bg-white dark:bg-darkgray rounded-lg shadow-md overflow-hidden">
+      <div className="bg-white dark:bg-darkgray rounded-lg shadow-md overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
@@ -447,35 +391,6 @@ export default function BailleursPage() {
                                 </div>
                               </div>
 
-                              {/* Statistiques */}
-                              <div>
-                                <Label className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3 block">
-                                  Statistiques
-                                </Label>
-                                <div className="grid grid-cols-3 gap-4">
-                                  <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                                    <Home className="w-6 h-6 text-blue-600 mb-2" />
-                                    <p className="text-2xl font-bold text-blue-600">
-                                      {selectedBailleur.stats.logements}
-                                    </p>
-                                    <p className="text-sm text-gray-600 dark:text-gray-400">Logements</p>
-                                  </div>
-                                  <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-                                    <Users className="w-6 h-6 text-purple-600 mb-2" />
-                                    <p className="text-2xl font-bold text-purple-600">
-                                      {selectedBailleur.stats.locataires}
-                                    </p>
-                                    <p className="text-sm text-gray-600 dark:text-gray-400">Locataires</p>
-                                  </div>
-                                  <div className="p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
-                                    <AlertTriangle className="w-6 h-6 text-orange-600 mb-2" />
-                                    <p className="text-2xl font-bold text-orange-600">
-                                      {selectedBailleur.stats.incidents_actifs}
-                                    </p>
-                                    <p className="text-sm text-gray-600 dark:text-gray-400">Incidents</p>
-                                  </div>
-                                </div>
-                              </div>
                             </div>
                           )}
                           <DialogFooter>

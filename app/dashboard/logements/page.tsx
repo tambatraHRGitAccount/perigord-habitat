@@ -162,30 +162,12 @@ export default function LogementsPage() {
     return matchSearch && matchBailleur;
   });
 
-  // Statistiques globales
-  const globalStats = {
-    total: logements.length,
-    occupes: logements.filter((l) => l.stats && l.stats.locataires > 0).length,
-    vacants: logements.filter((l) => !l.stats || l.stats.locataires === 0).length,
-    avecIncidents: logements.filter((l) => l.stats && l.stats.incidents_actifs > 0).length,
-  };
-
-  // Statistiques par bailleur
-  const statsByBailleur = bailleurs.map((bailleur) => {
-    const logementsCount = logements.filter((l) => l.bailleur_id === bailleur.id).length;
-    return {
-      bailleur_id: bailleur.id,
-      nom: bailleur.nom,
-      count: logementsCount,
-    };
-  });
-
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-dark dark:text-white flex items-center gap-2">
+          <h1 className="text-xl sm:text-3xl font-bold text-dark dark:text-white flex items-center gap-2">
             <Home className="w-8 h-8 text-blue-600" />
             Gestion des logements
           </h1>
@@ -194,60 +176,12 @@ export default function LogementsPage() {
           </p>
         </div>
         <Button
-          className="gap-2 bg-blue-600 hover:bg-blue-700"
+          className="gap-2 bg-blue-600 hover:bg-blue-700 w-full sm:w-auto"
           onClick={() => setIsCreateDialogOpen(true)}
         >
           <Plus className="w-4 h-4" />
           Nouveau logement
         </Button>
-      </div>
-
-      {/* Statistiques globales */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <div className="flex items-center justify-between mb-2">
-            <Home className="w-5 h-5 text-gray-400" />
-          </div>
-          <p className="text-2xl font-bold text-dark dark:text-white">{globalStats.total}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Total</p>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <div className="flex items-center justify-between mb-2">
-            <Users className="w-5 h-5 text-green-600" />
-          </div>
-          <p className="text-2xl font-bold text-green-600">{globalStats.occupes}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Occupés</p>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <div className="flex items-center justify-between mb-2">
-            <Home className="w-5 h-5 text-orange-600" />
-          </div>
-          <p className="text-2xl font-bold text-orange-600">{globalStats.vacants}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Vacants</p>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <div className="flex items-center justify-between mb-2">
-            <AlertTriangle className="w-5 h-5 text-red-600" />
-          </div>
-          <p className="text-2xl font-bold text-red-600">{globalStats.avecIncidents}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Avec incidents</p>
-        </div>
-      </div>
-
-      {/* Statistiques par bailleur */}
-      <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-        <h3 className="text-lg font-semibold text-dark dark:text-white mb-4 flex items-center gap-2">
-          <Building2 className="w-5 h-5" />
-          Répartition par bailleur
-        </h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {statsByBailleur.map((stat) => (
-            <div key={stat.bailleur_id} className="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{stat.nom}</p>
-              <p className="text-2xl font-bold text-dark dark:text-white">{stat.count}</p>
-            </div>
-          ))}
-        </div>
       </div>
 
       {/* Filtres */}
@@ -281,7 +215,7 @@ export default function LogementsPage() {
       </div>
 
       {/* Tableau des logements */}
-      <div className="bg-white dark:bg-darkgray rounded-lg shadow-md overflow-hidden">
+      <div className="bg-white dark:bg-darkgray rounded-lg shadow-md overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
@@ -453,32 +387,6 @@ export default function LogementsPage() {
                                 </div>
                               </div>
 
-                              {/* Statistiques */}
-                              <div>
-                                <Label className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3 block">
-                                  Statistiques
-                                </Label>
-                                <div className="grid grid-cols-2 gap-4">
-                                  <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-                                    <Users className="w-6 h-6 text-purple-600 mb-2" />
-                                    <p className="text-2xl font-bold text-purple-600">
-                                      {selectedLogement.stats?.locataires || 0}
-                                    </p>
-                                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                                      Locataire(s)
-                                    </p>
-                                  </div>
-                                  <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
-                                    <AlertTriangle className="w-6 h-6 text-red-600 mb-2" />
-                                    <p className="text-2xl font-bold text-red-600">
-                                      {selectedLogement.stats?.incidents_actifs || 0}
-                                    </p>
-                                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                                      Incident(s) actif(s)
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
                             </div>
                           )}
                           <DialogFooter>

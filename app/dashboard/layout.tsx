@@ -17,12 +17,12 @@ export default function Layout({
             <Sidebar />
           </div>
 
-          <div className='body-wrapper w-full'>
+          <div className='body-wrapper w-full overflow-x-hidden'>
             {/* Top Header  */}
             <Header />
             {/* Body Content  */}
-            <div className="bg-lightgray dark:bg-dark mr-3 rounded-3xl min-h-[90vh]">
-              <div className={`container mx-auto px-6 py-30`}>{children}</div>
+            <div className="bg-lightgray dark:bg-dark mr-0 xl:mr-3 rounded-none xl:rounded-3xl min-h-[90vh]">
+              <div className={`w-full max-w-7xl mx-auto px-3 sm:px-6 py-6 sm:py-30`}>{children}</div>
             </div>
           </div>
         </div>

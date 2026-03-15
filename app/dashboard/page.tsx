@@ -76,34 +76,34 @@ const page = () => {
       <div className="space-y-6">
         {/* Header */}
         <div>
-          <h1 className="text-3xl font-bold text-dark dark:text-white mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-dark dark:text-white mb-2">
             Bienvenue sur Qui fait quoi
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
             Tableau de bord administrateur - Vue d'ensemble de la plateforme
           </p>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="bg-white dark:bg-darkgray p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+              className="bg-white dark:bg-darkgray p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
             >
-              <div className="flex items-center justify-between mb-4">
-                <div className={`p-3 rounded-lg ${stat.bgColor}`}>
-                  <stat.icon className={`w-6 h-6 ${stat.color}`} />
+              <div className="flex items-center justify-between mb-3 sm:mb-4">
+                <div className={`p-2 sm:p-3 rounded-lg ${stat.bgColor}`}>
+                  <stat.icon className={`w-5 h-5 sm:w-6 sm:h-6 ${stat.color}`} />
                 </div>
-                <span className="text-sm font-medium text-green-600 flex items-center gap-1">
-                  <TrendingUp className="w-4 h-4" />
+                <span className="text-xs sm:text-sm font-medium text-green-600 flex items-center gap-1">
+                  <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4" />
                   {stat.change}
                 </span>
               </div>
-              <h3 className="text-2xl font-bold text-dark dark:text-white mb-1">
+              <h3 className="text-xl sm:text-2xl font-bold text-dark dark:text-white mb-1">
                 {stat.value}
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                 {stat.title}
               </p>
             </div>
@@ -112,9 +112,9 @@ const page = () => {
 
         {/* Recent Incidents */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white dark:bg-darkgray p-6 rounded-lg shadow-md">
+          <div className="bg-white dark:bg-darkgray p-4 sm:p-6 rounded-lg shadow-md">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-dark dark:text-white">
+              <h2 className="text-lg sm:text-xl font-bold text-dark dark:text-white">
                 Incidents récents
               </h2>
               <Link
@@ -130,8 +130,8 @@ const page = () => {
                   key={incident.id}
                   className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                 >
-                  <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-medium text-dark dark:text-white">
+                  <div className="flex items-start justify-between gap-2 mb-2">
+                    <h3 className="font-medium text-dark dark:text-white text-sm sm:text-base">
                       {incident.titre}
                     </h3>
                     {getStatutBadge(incident.statut)}
@@ -146,11 +146,11 @@ const page = () => {
           </div>
 
           {/* Quick Actions */}
-          <div className="bg-white dark:bg-darkgray p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-bold text-dark dark:text-white mb-4">
+          <div className="bg-white dark:bg-darkgray p-4 sm:p-6 rounded-lg shadow-md">
+            <h2 className="text-lg sm:text-xl font-bold text-dark dark:text-white mb-4">
               Actions rapides
             </h2>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
               <Link
                 href="/dashboard/incidents"
                 className="p-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg hover:border-indigo-500 dark:hover:border-indigo-500 transition-colors text-center group"

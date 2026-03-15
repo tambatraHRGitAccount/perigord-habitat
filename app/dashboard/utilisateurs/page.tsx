@@ -172,22 +172,12 @@ export default function UtilisateursPage() {
     return matchSearch && matchRole;
   });
 
-  // Statistiques globales
-  const globalStats = {
-    total: utilisateurs.length,
-    actifs: utilisateurs.filter((u) => u.actif).length,
-    inactifs: utilisateurs.filter((u) => !u.actif).length,
-    super_admin: utilisateurs.filter((u) => u.role === "super_admin").length,
-    admin: utilisateurs.filter((u) => u.role === "admin").length,
-    gestionnaire: utilisateurs.filter((u) => u.role === "gestionnaire").length,
-  };
-
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-dark dark:text-white flex items-center gap-2">
+          <h1 className="text-xl sm:text-3xl font-bold text-dark dark:text-white flex items-center gap-2">
             <Users className="w-8 h-8 text-cyan-600" />
             Gestion des utilisateurs
           </h1>
@@ -196,46 +186,12 @@ export default function UtilisateursPage() {
           </p>
         </div>
         <Button
-          className="gap-2 bg-cyan-600 hover:bg-cyan-700"
+          className="gap-2 bg-cyan-600 hover:bg-cyan-700 w-full sm:w-auto"
           onClick={() => setIsCreateDialogOpen(true)}
         >
           <Plus className="w-4 h-4" />
           Nouvel utilisateur
         </Button>
-      </div>
-
-      {/* Statistiques globales */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <Users className="w-5 h-5 text-gray-400 mb-2" />
-          <p className="text-2xl font-bold text-dark dark:text-white">{globalStats.total}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Total</p>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <CheckCircle className="w-5 h-5 text-green-600 mb-2" />
-          <p className="text-2xl font-bold text-green-600">{globalStats.actifs}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Actifs</p>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <XCircle className="w-5 h-5 text-gray-600 mb-2" />
-          <p className="text-2xl font-bold text-gray-600">{globalStats.inactifs}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Inactifs</p>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <Shield className="w-5 h-5 text-red-600 mb-2" />
-          <p className="text-2xl font-bold text-red-600">{globalStats.super_admin}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Super Admin</p>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <UserCog className="w-5 h-5 text-blue-600 mb-2" />
-          <p className="text-2xl font-bold text-blue-600">{globalStats.admin}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Admin</p>
-        </div>
-        <div className="bg-white dark:bg-darkgray p-4 rounded-lg shadow-md">
-          <Users className="w-5 h-5 text-purple-600 mb-2" />
-          <p className="text-2xl font-bold text-purple-600">{globalStats.gestionnaire}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Gestionnaire</p>
-        </div>
       </div>
 
       {/* Filtres */}
@@ -267,7 +223,7 @@ export default function UtilisateursPage() {
       </div>
 
       {/* Tableau des utilisateurs */}
-      <div className="bg-white dark:bg-darkgray rounded-lg shadow-md overflow-hidden">
+      <div className="bg-white dark:bg-darkgray rounded-lg shadow-md overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
