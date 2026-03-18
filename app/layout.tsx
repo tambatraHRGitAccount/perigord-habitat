@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   title: "Qui fait quoi - Dashboard",
   description: "Dashboard de gestion Qui fait quoi",
   icons: {
-    icon: '/favicon.svg',
+    icon: '/logo-default.png',
   },
 };
 
@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="fr" suppressHydrationWarning>
       <head>
-        <link rel='icon' href='/favicon.svg' type='image/svg+xml' />
+        <link rel='icon' href='/logo-default.png' type='image/png' />
       </head>
       <body className={`${manrope.className}`}>
         <ThemeProvider
