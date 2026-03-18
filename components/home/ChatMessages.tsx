@@ -23,27 +23,63 @@ export function ChatMessages({ messages }: ChatMessagesProps) {
           key={msg.id}
           className={`flex gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
         >
-          {/* Avatar assistant */}
           {msg.role === "assistant" && (
             <div className="shrink-0 w-8 h-8 rounded-full overflow-hidden border border-gray-200">
               <Image src="/logo-default.png" alt="QFQ" width={32} height={32} />
             </div>
           )}
 
-          <div
-            className={`max-w-[75%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
-              msg.role === "user"
-                ? "bg-indigo-600 text-white rounded-br-sm"
-                : "bg-gray-100 text-gray-800 rounded-bl-sm"
-            }`}
-          >
-            {msg.fileName && (
-              <div className="flex items-center gap-1.5 mb-2 text-xs opacity-75">
-                <Paperclip size={12} />
-                <span>{msg.fileName}</span>
+          <div className={`max-w-[75%] flex flex-col gap-2 ${msg.role === "user" ? "items-end" : "items-start"}`}>
+
+            {/* Médias attachés */}
+            {msg.medias && msg.medias.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {msg.medias.map((media, i) => {
+                  if (media.type === "image" && media.url) {
+                    return (
+                      <div key={i} className="rounded-xl overflow-hidden border border-gray-200 shadow-sm">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={media.url}
+                          alt={media.name}
+                          className="max-h-48 max-w-xs object-cover"
+                        />
+                      </div>
+                    );
+                  }
+                  if (media.type === "video" && media.url) {
+                    return (
+                      <div key={i} className="rounded-xl overflow-hidden border border-gray-200 shadow-sm">
+                        <video
+                          src={media.url}
+                          controls
+                          className="max-h-48 max-w-xs object-cover"
+                        />
+                      </div>
+                    );
+                  }
+                  return (
+                    <div key={i} className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 border border-indigo-200 rounded-lg text-xs text-indigo-700">
+                      <Paperclip size={12} />
+                      <span className="truncate max-w-[180px]">{media.name}</span>
+                    </div>
+                  );
+                })}
               </div>
             )}
-            {msg.content && <p>{msg.content}</p>}
+
+            {/* Texte du message */}
+            {msg.content && (
+              <div
+                className={`rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-line ${
+                  msg.role === "user"
+                    ? "bg-indigo-600 text-white rounded-br-sm"
+                    : "bg-gray-100 text-gray-800 rounded-bl-sm"
+                }`}
+              >
+                {msg.content}
+              </div>
+            )}
           </div>
         </div>
       ))}

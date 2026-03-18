@@ -19,12 +19,12 @@ const NAV_ITEMS = [
   { href: "/register", label: "S'inscrire" },
 ];
 
-export function HeaderApp() {
+export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
   return (
     <header className="sticky top-0 z-10 flex items-center justify-between px-4 sm:px-6 py-3 bg-white border-b border-gray-100">
 
       {/* Logo */}
-      <Link href="/" className="flex items-center gap-2 shrink-0">
+      <Link href="/" className="flex items-center gap-2 shrink-0" onClick={onLogoClick}>
         <Image src="/logo-default.png" alt="Qui fait quoi" width={32} height={32} className="rounded" />
         <span className="font-semibold text-base sm:text-lg tracking-tight text-gray-900">
           Qui fait quoi ?
@@ -33,8 +33,10 @@ export function HeaderApp() {
 
       {/* Desktop */}
       <div className="hidden sm:flex items-center gap-1">
-        <Button variant="ghost" size="icon" asChild title="Schéma logement">
-          <Link href="/schema-logement-konva"><Box size={18} /></Link>
+        <Button variant="ghost" size="icon" className="bg-primary/10 text-primary hover:bg-primary/20" asChild title="Schéma logement">
+          <Link href="/schema-logement-konva">
+            <Box size={18} />
+          </Link>
         </Button>
         <Button variant="ghost" size="sm" asChild>
           <Link href="/login">Se connecter</Link>
@@ -57,7 +59,7 @@ export function HeaderApp() {
 
             {/* Header du sheet */}
             <div className="flex items-center justify-between mb-8">
-              <Link href="/" className="flex items-center gap-2">
+              <Link href="/" className="flex items-center gap-2" onClick={onLogoClick}>
                 <Image src="/logo-default.png" alt="Qui fait quoi" width={32} height={32} className="rounded" />
                 <span className="font-semibold text-lg text-gray-900">Qui fait quoi ?</span>
               </Link>
