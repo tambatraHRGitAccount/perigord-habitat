@@ -47,7 +47,7 @@ export function RegisterForm() {
         </div>
         <p className="text-xs text-gray-400">
           Déjà confirmé ?{" "}
-          <Link href="/login" className="text-indigo-600 hover:underline font-medium">
+          <Link href="/client/auth/login" className="text-indigo-600 hover:underline font-medium">
             Se connecter
           </Link>
         </p>
@@ -131,11 +131,11 @@ export function RegisterForm() {
         <Separator className="flex-1" />
       </div>
 
-      <GoogleButton label="S'inscrire avec Google" onClick={loginWithGoogle} disabled={pending} />
+      {/* <GoogleButton label="S'inscrire avec Google" onClick={loginWithGoogle} disabled={pending} /> */}
 
       <p className="text-center text-sm text-gray-500">
         Déjà un compte ?{" "}
-        <Link href="/login" className="text-indigo-600 font-medium hover:underline">
+        <Link href="/client/auth/login" className="text-indigo-600 font-medium hover:underline">
           Se connecter
         </Link>
       </p>

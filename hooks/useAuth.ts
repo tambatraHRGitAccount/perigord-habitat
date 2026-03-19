@@ -16,7 +16,7 @@ export function useAuth() {
       setPending(true);
       setError(null);
       await authService.signInWithEmail(email, password);
-      router.push("/");
+      router.push("/client/materiels");
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Erreur de connexion");
     } finally {
@@ -57,7 +57,7 @@ export function useAuth() {
 
   const logout = async () => {
     await authService.signOut();
-    router.push("/login");
+    router.push("/client/auth/login");
   };
 
   return { user, session, loading, pending, error, login, register, loginWithGoogle, logout };

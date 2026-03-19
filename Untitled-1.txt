@@ -1,0 +1,25 @@
+tache 1 : structure projet
+
+tache 2 : 
+menu de navation header
+integration IA
+
+flux 1
+1. page d'accueil (liste des materieles)
+(clique une des listes des materieles)
+    
+    |
+    ▼
+
+3. page de detail qui explique la resolution de panne (detail permettant de resoudres le panne d'une materieles):
+- consultation notice de PDF,
+- voir vidéo, 
+- envoyer au bailleur
+
+flux 2
+
+
+
+prompt
+
+utilisons drizzle, j'aimerais faire dynamiser tous logique avec celle de Incidents (coté client et coté admin), un client peut declenché une incident et il peut voir tous ses listes des incidents avec le filtre possible ainsi que l'admin peut gerer tous les incidents

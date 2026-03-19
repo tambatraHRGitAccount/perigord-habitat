@@ -24,6 +24,15 @@ export type Conversation = {
   messages: ChatMessage[];
 };
 
+/** Supprime les accents et normalise le texte pour la recherche */
+function normalizeInput(text: string): string {
+  return text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
 const FALLBACK_RESPONSE =
   "Je n'ai pas trouvé de réponse précise pour votre demande.\n\n" +
   "Essayez de décrire votre problème différemment, par exemple :\n" +
@@ -50,6 +59,7 @@ export function useChat() {
   const [attachedFiles, setAttachedFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
+  const [streamingMsgId, setStreamingMsgId] = useState<string | null>(null);
 
   // Charge les conversations quand l'user est prêt
   useEffect(() => {
@@ -178,8 +188,8 @@ export function useChat() {
 
     const userContent = message.trim();
 
-    // Recherche dans la base de connaissance via RPC
-    const queryText = userContent || uploadedMedias.map((m) => m.type).join(" ");
+    // Recherche dans la base de connaissance via RPC (texte normalisé sans accents)
+    const queryText = normalizeInput(userContent || uploadedMedias.map((m) => m.type).join(" "));
     const { data: matches } = await supabase.rpc("match_ai_response", {
       user_input: queryText,
     });
@@ -270,6 +280,7 @@ export function useChat() {
       )
     );
 
+    setStreamingMsgId(localAssistantMsg.id);
     setMessage("");
     setAttachedFiles([]);
     setSending(false);
@@ -279,6 +290,7 @@ export function useChat() {
     setActiveConvId(null);
     setMessage("");
     setAttachedFiles([]);
+    setStreamingMsgId(null);
   };
 
   const switchConversation = async (id: string) => {
@@ -300,6 +312,7 @@ export function useChat() {
     setActiveConvId(null);
     setMessage("");
     setAttachedFiles([]);
+    setStreamingMsgId(null);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -325,5 +338,7 @@ export function useChat() {
     switchConversation,
     loading,
     sending,
+    streamingMsgId,
+    setStreamingMsgId,
   };
 }

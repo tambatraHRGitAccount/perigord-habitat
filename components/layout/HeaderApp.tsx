@@ -147,10 +147,10 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
           ) : (
             <>
               <Button variant="ghost" size="sm" asChild>
-                <Link href="/login">Se connecter</Link>
+                <Link href="/client/auth/login">Se connecter</Link>
               </Button>
               <Button size="sm" asChild>
-                <Link href="/register">S'inscrire</Link>
+                <Link href="/client/auth/register">S'inscrire</Link>
               </Button>
             </>
           )
@@ -192,8 +192,8 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
 
             <nav className="flex flex-col gap-1 flex-1 overflow-y-auto">
               {(user ? MOBILE_AUTH : [
-                { href: "/login",     label: "Se connecter" },
-                { href: "/register",  label: "S'inscrire" },
+                { href: "/client/auth/login",     label: "Se connecter" },
+                { href: "/client/auth/register",  label: "S'inscrire" },
               ]).map((item) => (
                 <SheetClose asChild key={item.href}>
                   <Link

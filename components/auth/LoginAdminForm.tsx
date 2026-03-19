@@ -1,24 +1,46 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { GoogleButton } from "./GoogleButton";
-import { useAuth } from "@/hooks/useAuth";
+import { createClient } from "@/lib/supabase/client";
 
-export function LoginForm() {
-  const [showPassword, setShowPassword] = useState(false);
+export function LoginAdminForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, loginWithGoogle, pending, error } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await login(email, password);
+    setPending(true);
+    setError(null);
+
+    try {
+      const supabase = createClient();
+      const { data, error: authError } = await supabase.auth.signInWithPassword({ email, password });
+
+      if (authError) throw authError;
+
+      // Vérifier le rôle admin dans les métadonnées utilisateur
+      const role = data.user?.user_metadata?.role ?? data.user?.app_metadata?.role;
+      if (role !== "admin") {
+        await supabase.auth.signOut();
+        setError("Accès refusé. Vous n'avez pas les droits administrateur.");
+        return;
+      }
+
+      router.push("/admin/dashboard");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Erreur de connexion");
+    } finally {
+      setPending(false);
+    }
   };
 
   return (
@@ -32,7 +54,7 @@ export function LoginForm() {
         <Input
           id="email"
           type="email"
-          placeholder="vous@exemple.com"
+          placeholder="admin@exemple.com"
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -40,12 +62,7 @@ export function LoginForm() {
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <div className="flex items-center justify-between">
-          <Label htmlFor="password">Mot de passe</Label>
-          <Link href="#" className="text-xs text-indigo-600 hover:underline">
-            Mot de passe oublié ?
-          </Link>
-        </div>
+        <Label htmlFor="password">Mot de passe</Label>
         <div className="relative">
           <Input
             id="password"
@@ -67,23 +84,8 @@ export function LoginForm() {
       </div>
 
       <Button type="submit" className="w-full mt-1" disabled={pending}>
-        {pending ? "Connexion..." : "Se connecter"}
+        {pending ? "Connexion..." : "Accéder au tableau de bord"}
       </Button>
-
-      <div className="flex items-center gap-3">
-        <Separator className="flex-1" />
-        <span className="text-xs text-gray-400">ou</span>
-        <Separator className="flex-1" />
-      </div>
-
-      {/* <GoogleButton label="Continuer avec Google" onClick={loginWithGoogle} disabled={pending} /> */}
-
-      <p className="text-center text-sm text-gray-500">
-        Pas encore de compte ?{" "}
-        <Link href="/client/auth/register" className="text-indigo-600 font-medium hover:underline">
-          S'inscrire
-        </Link>
-      </p>
     </form>
   );
 }

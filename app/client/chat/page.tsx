@@ -24,6 +24,8 @@ export default function HomePage() {
     switchConversation,
     loading,
     sending,
+    streamingMsgId,
+    setStreamingMsgId,
   } = useChat();
 
   const isChatMode = conversations.length > 0;
@@ -71,7 +73,12 @@ export default function HomePage() {
           <div className="flex flex-col flex-1 overflow-hidden">
             {messages.length > 0 ? (
               <>
-                <ChatMessages messages={messages} isTyping={sending} />
+                <ChatMessages
+                  messages={messages}
+                  isTyping={sending}
+                  streamingMsgId={streamingMsgId}
+                  onStreamingDone={() => setStreamingMsgId(null)}
+                />
                 <div className="px-6 py-3">
                   <div className="max-w-2xl mx-auto">
                     {chatInput}

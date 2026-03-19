@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Paperclip } from "lucide-react";
 import Image from "next/image";
 import type { ChatMessage } from "@/hooks/useChat";
@@ -8,14 +8,63 @@ import type { ChatMessage } from "@/hooks/useChat";
 interface ChatMessagesProps {
   messages: ChatMessage[];
   isTyping?: boolean;
+  streamingMsgId?: string | null;
+  onStreamingDone?: () => void;
 }
 
-export function ChatMessages({ messages, isTyping = false }: ChatMessagesProps) {
+/** Affiche le texte caractère par caractère avec un curseur clignotant */
+function TypewriterText({ content, onDone }: { content: string; onDone: () => void }) {
+  const [displayed, setDisplayed] = useState("");
+  const indexRef = useRef(0);
+  const doneCalledRef = useRef(false);
+
+  useEffect(() => {
+    indexRef.current = 0;
+    doneCalledRef.current = false;
+    setDisplayed("");
+
+    // Vitesse adaptée : plus le texte est long, on saute plus de chars par tick
+    const charsPerTick = content.length > 500 ? 4 : content.length > 250 ? 2 : 1;
+    const intervalMs = 14;
+
+    const timer = setInterval(() => {
+      indexRef.current = Math.min(indexRef.current + charsPerTick, content.length);
+      setDisplayed(content.slice(0, indexRef.current));
+
+      if (indexRef.current >= content.length) {
+        clearInterval(timer);
+        if (!doneCalledRef.current) {
+          doneCalledRef.current = true;
+          onDone();
+        }
+      }
+    }, intervalMs);
+
+    return () => clearInterval(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [content]);
+
+  return (
+    <>
+      <span className="whitespace-pre-line">{displayed}</span>
+      {displayed.length < content.length && (
+        <span className="inline-block w-0.5 h-4 bg-gray-500 ml-0.5 animate-pulse align-middle" />
+      )}
+    </>
+  );
+}
+
+export function ChatMessages({
+  messages,
+  isTyping = false,
+  streamingMsgId,
+  onStreamingDone,
+}: ChatMessagesProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, isTyping]);
+  }, [messages, isTyping, streamingMsgId]);
 
   return (
     <div className="flex-1 overflow-y-auto py-6">
@@ -41,22 +90,14 @@ export function ChatMessages({ messages, isTyping = false }: ChatMessagesProps) 
                     return (
                       <div key={i} className="rounded-xl overflow-hidden border border-gray-200 shadow-sm">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={media.url}
-                          alt={media.name}
-                          className="max-h-48 max-w-xs object-cover"
-                        />
+                        <img src={media.url} alt={media.name} className="max-h-48 max-w-xs object-cover" />
                       </div>
                     );
                   }
                   if (media.type === "video" && media.url) {
                     return (
                       <div key={i} className="rounded-xl overflow-hidden border border-gray-200 shadow-sm">
-                        <video
-                          src={media.url}
-                          controls
-                          className="max-h-48 max-w-xs object-cover"
-                        />
+                        <video src={media.url} controls className="max-h-48 max-w-xs object-cover" />
                       </div>
                     );
                   }
@@ -73,18 +114,26 @@ export function ChatMessages({ messages, isTyping = false }: ChatMessagesProps) 
             {/* Texte du message */}
             {msg.content && (
               <div
-                className={`rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-line ${
+                className={`rounded-2xl px-4 py-3 text-sm leading-relaxed ${
                   msg.role === "user"
-                    ? "bg-indigo-600 text-white rounded-br-sm"
+                    ? "bg-indigo-600 text-white rounded-br-sm whitespace-pre-line"
                     : "bg-gray-100 text-gray-800 rounded-bl-sm"
                 }`}
               >
-                {msg.content}
+                {msg.role === "assistant" && msg.id === streamingMsgId ? (
+                  <TypewriterText
+                    content={msg.content}
+                    onDone={onStreamingDone ?? (() => {})}
+                  />
+                ) : (
+                  <span className="whitespace-pre-line">{msg.content}</span>
+                )}
               </div>
             )}
           </div>
         </div>
       ))}
+
       {/* Indicateur "en train d'écrire" style Messenger */}
       {isTyping && (
         <div className="flex gap-3 justify-start">

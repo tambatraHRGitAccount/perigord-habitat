@@ -49,6 +49,7 @@ AS $$
 DECLARE
   normalized text;
 BEGIN
+  -- L'input arrive déjà normalisé (sans accents, minuscules) depuis le client
   normalized := lower(user_input);
 
   RETURN QUERY
@@ -63,15 +64,41 @@ BEGIN
   WHERE EXISTS (
     SELECT 1
     FROM unnest(r.keywords) AS kw
-    WHERE normalized ILIKE '%' || kw || '%'
+    WHERE
+      -- Match direct : l'input contient le mot-clé complet
+      normalized ILIKE '%' || kw || '%'
+      OR
+      -- Match inverse : un mot du mot-clé (> 3 chars) est présent dans l'input
+      -- Ex: keyword "robinet cuisine" → teste "robinet" et "cuisine" séparément
+      EXISTS (
+        SELECT 1
+        FROM unnest(string_to_array(kw, ' ')) AS kw_word
+        WHERE length(kw_word) > 3
+          AND normalized ILIKE '%' || kw_word || '%'
+      )
   )
   ORDER BY
+    -- Score fort : mots-clés complets trouvés dans l'input
     (
       SELECT COUNT(*)
       FROM unnest(r.keywords) AS kw
       WHERE normalized ILIKE '%' || kw || '%'
-    ) DESC,
-    r.priority DESC
+    ) * 3
+    +
+    -- Score faible : mots individuels des keywords trouvés dans l'input
+    (
+      SELECT COUNT(*)
+      FROM unnest(r.keywords) AS kw
+      WHERE EXISTS (
+        SELECT 1
+        FROM unnest(string_to_array(kw, ' ')) AS kw_word
+        WHERE length(kw_word) > 3
+          AND normalized ILIKE '%' || kw_word || '%'
+      )
+    )
+    +
+    r.priority
+  DESC
   LIMIT 1;
 END;
 $$;
