@@ -55,7 +55,7 @@ export default function HomePage() {
             {messages.length > 0 ? (
               <>
                 <ChatMessages messages={messages} />
-                <div className="px-4 py-3">
+                <div className="px-6 py-3">
                   <div className="max-w-2xl mx-auto">
                     {chatInput}
                   </div>
