@@ -4,7 +4,8 @@
       "Bash(npx next:*)",
       "Bash(find /e/dossier/init/project/perigord-habitat/perigord-habitat/app -type f -name *.ts*)",
       "Bash(find e:/dossier/init/project/perigord-habitat/perigord-habitat/app/client -name *.tsx -o -name *.ts)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(npm run:*)"
     ]
   }
 }
