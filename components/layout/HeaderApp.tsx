@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Box, MessageSquare, Menu, X, User, Settings, LogOut, LayoutDashboard } from "lucide-react";
+import { Box, MessageSquare, Menu, X, User, Settings, LogOut, LayoutDashboard, List } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -62,7 +62,7 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
       <div className="hidden sm:flex items-center gap-1">
         <Button variant="ghost" size="icon" className="bg-primary/10 text-primary hover:bg-primary/20" asChild title={isSchemaPage ? "Chat" : "Schéma logement"}>
           <Link href={isSchemaPage ? "/" : "/schema-logement-konva"}>
-            {isSchemaPage ? <MessageSquare size={18} /> : <Box size={18} />}
+            {isSchemaPage ? <MessageSquare size={18} /> : <Box size={18} /> }
           </Link>
         </Button>
 
@@ -87,8 +87,8 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link href="/dashboard" className="flex items-center gap-2 cursor-pointer">
-                    <LayoutDashboard size={15} /> Dashboard
+                  <Link href="/client/materiels" className="flex items-center gap-2 cursor-pointer">
+                    <List size={15} /> Listes des matériels
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>

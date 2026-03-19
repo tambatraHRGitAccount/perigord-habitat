@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, MessageSquare, Box, Star, Users, BookOpen } from "lucide-react";
+import { ArrowRight, MessageSquare, Box, Star, Users, BookOpen, List } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const CHAT_PREVIEW = [
@@ -14,38 +14,55 @@ const CHAT_PREVIEW = [
 
 export function HeroSection() {
   return (
-    <section className="flex-1 flex items-center px-6 sm:px-12 lg:px-20 py-12 gap-12 lg:gap-20">
+    <section className="
+      flex-1
+      flex flex-col lg:flex-row
+      items-center justify-center
+      w-full
+      px-4 sm:px-8 lg:px-16 xl:px-24
+      py-10 sm:py-14 lg:py-0
+      gap-10 lg:gap-16
+      min-h-0
+    ">
 
       {/* ── Colonne gauche ── */}
-      <div className="flex-1 flex flex-col gap-6 max-w-xl">
+      <div className="
+        w-full lg:flex-1
+        flex flex-col
+        items-center lg:items-start
+        text-center lg:text-left
+        gap-5 sm:gap-6
+        max-w-2xl lg:max-w-none
+      ">
 
         {/* Badge */}
-        <span className="inline-flex items-center gap-2 self-start px-4 py-1.5 rounded-full border border-indigo-200 bg-indigo-50 text-indigo-700 text-sm font-medium">
-          <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
+        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-indigo-200 bg-indigo-50 text-indigo-700 text-xs sm:text-sm font-medium">
+          <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse shrink-0" />
           Assistant locatif disponible
         </span>
 
         {/* Titre */}
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-gray-900">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold leading-tight text-gray-900">
           Résolvez vos litiges{" "}
           <span className="text-indigo-600">Locatifs,</span>
-          <br />Simplement
+          <br />
+          Simplement
         </h1>
 
         {/* Sous-titre */}
-        <p className="text-gray-500 text-base sm:text-lg leading-relaxed">
+        <p className="text-gray-500 text-sm sm:text-base lg:text-lg leading-relaxed max-w-lg">
           Posez vos questions sur vos incidents locatifs. Notre assistant identifie les responsabilités et vous guide pas à pas dans vos démarches.
         </p>
 
-        {/* CTA */}
-        <div className="flex flex-wrap items-center gap-3">
-          <Button asChild size="lg" className="gap-2 rounded-full px-6">
+        {/* CTAs */}
+        <div className="flex flex-col sm:flex-row flex-wrap justify-center lg:justify-start gap-3 w-full sm:w-auto">
+          <Button asChild size="lg" className="gap-2 rounded-full px-6 w-full sm:w-auto">
             <Link href="/client/chat">
               Démarrer le chat
               <ArrowRight size={16} />
             </Link>
           </Button>
-          <Button asChild size="lg" variant="outline" className="gap-2 rounded-full px-6">
+          <Button asChild size="lg" variant="outline" className="gap-2 rounded-full px-6 w-full sm:w-auto">
             <Link href="/schema-logement-konva">
               <Box size={16} />
               Schéma logement
@@ -54,30 +71,34 @@ export function HeroSection() {
         </div>
 
         {/* Stats */}
-        <div className="flex flex-wrap gap-6 pt-2">
+        <div className="flex flex-wrap justify-center lg:justify-start gap-4 sm:gap-6 pt-1">
           <div className="flex items-center gap-2 text-sm text-gray-500">
-            <Users size={16} className="text-indigo-500" />
+            <Users size={15} className="text-indigo-500 shrink-0" />
             <span><strong className="text-gray-900">1 200+</strong> Questions répondues</span>
           </div>
           <div className="flex items-center gap-2 text-sm text-gray-500">
-            <BookOpen size={16} className="text-indigo-500" />
+            <BookOpen size={15} className="text-indigo-500 shrink-0" />
             <span><strong className="text-gray-900">15</strong> Thèmes couverts</span>
           </div>
           <div className="flex items-center gap-2 text-sm text-gray-500">
-            <Star size={16} className="text-indigo-500" />
+            <Star size={15} className="text-indigo-500 shrink-0" />
             <span><strong className="text-gray-900">4.9</strong> Note moyenne</span>
           </div>
         </div>
       </div>
 
-      {/* ── Colonne droite – aperçu chat ── */}
-      <div className="hidden lg:flex flex-1 items-center justify-center relative">
+      {/* ── Colonne droite – aperçu chat (desktop only) ── */}
+      <div className="hidden lg:flex lg:flex-1 items-center justify-center relative py-8 xl:py-12">
 
-        {/* Badge "Rejoignez X+ locataires" */}
-        <div className="absolute -top-4 -right-2 flex items-center gap-2 bg-white rounded-2xl px-4 py-2.5 shadow-lg border border-gray-100 z-10">
+        {/* Badge top-right */}
+        <div className="absolute top-0 right-0 flex items-center gap-2 bg-white rounded-2xl px-4 py-2.5 shadow-lg border border-gray-100 z-10">
           <div className="flex -space-x-2">
             {["#6366f1", "#8b5cf6", "#a78bfa"].map((c, i) => (
-              <div key={i} className="w-7 h-7 rounded-full border-2 border-white flex items-center justify-center text-white text-xs font-bold" style={{ backgroundColor: c }}>
+              <div
+                key={i}
+                className="w-7 h-7 rounded-full border-2 border-white flex items-center justify-center text-white text-xs font-bold"
+                style={{ backgroundColor: c }}
+              >
                 {["A", "B", "C"][i]}
               </div>
             ))}
@@ -88,10 +109,8 @@ export function HeroSection() {
           </div>
         </div>
 
-        {/* Carte principale – preview du chat */}
-        <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
-
-          {/* En-tête carte */}
+        {/* Carte chat */}
+        <div className="w-full max-w-sm xl:max-w-md bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
           <div className="flex items-center gap-3 px-5 py-4 border-b border-gray-100 bg-gray-50">
             <Image src="/logo-default.png" alt="QFQ" width={32} height={32} className="rounded-lg" />
             <div>
@@ -103,24 +122,20 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Messages preview */}
           <div className="flex flex-col gap-3 px-5 py-5">
             {CHAT_PREVIEW.map((msg, i) => (
               <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-                <div
-                  className={`max-w-[85%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
-                    msg.role === "user"
-                      ? "bg-indigo-600 text-white rounded-br-sm"
-                      : "bg-gray-100 text-gray-800 rounded-bl-sm"
-                  }`}
-                >
+                <div className={`max-w-[85%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
+                  msg.role === "user"
+                    ? "bg-indigo-600 text-white rounded-br-sm"
+                    : "bg-gray-100 text-gray-800 rounded-bl-sm"
+                }`}>
                   {msg.text}
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Input preview */}
           <div className="px-5 pb-5">
             <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3">
               <MessageSquare size={14} className="text-gray-400 shrink-0" />
@@ -129,9 +144,9 @@ export function HeroSection() {
           </div>
         </div>
 
-        {/* Badge "200+ Thèmes" */}
-        <div className="absolute -bottom-2 left-0 flex items-center gap-2 bg-white rounded-2xl px-4 py-2.5 shadow-lg border border-gray-100">
-          <div className="w-8 h-8 rounded-xl bg-indigo-50 flex items-center justify-center">
+        {/* Badge bottom-left */}
+        <div className="absolute bottom-0 left-0 flex items-center gap-2 bg-white rounded-2xl px-4 py-2.5 shadow-lg border border-gray-100">
+          <div className="w-8 h-8 rounded-xl bg-indigo-50 flex items-center justify-center shrink-0">
             <BookOpen size={16} className="text-indigo-600" />
           </div>
           <div className="text-xs">
