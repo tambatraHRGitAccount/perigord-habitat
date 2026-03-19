@@ -14,6 +14,7 @@ interface ChatInputProps {
   attachedFiles: File[];
   onAddFiles: (files: File[]) => void;
   onRemoveFile: (index: number) => void;
+  isSending?: boolean;
 }
 
 export function ChatInput({
@@ -24,6 +25,7 @@ export function ChatInput({
   attachedFiles,
   onAddFiles,
   onRemoveFile,
+  isSending = false,
 }: ChatInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef(message);
@@ -109,12 +111,16 @@ export function ChatInput({
 
           <Button
             onClick={onSend}
-            disabled={!message.trim() && attachedFiles.length === 0}
+            disabled={isSending || (!message.trim() && attachedFiles.length === 0)}
             size="sm"
             className="gap-1.5"
           >
-            <Send className="w-4 h-4" />
-            Envoyer
+            {isSending ? (
+              <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            ) : (
+              <Send className="w-4 h-4" />
+            )}
+            {isSending ? "Envoi..." : "Envoyer"}
           </Button>
         </div>
       </div>
