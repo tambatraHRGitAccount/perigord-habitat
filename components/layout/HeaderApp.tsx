@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Box, Menu, X } from "lucide-react";
+import { Box, MessageSquare, Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -20,6 +21,9 @@ const NAV_ITEMS = [
 ];
 
 export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
+  const pathname = usePathname();
+  const isSchemaPage = pathname === "/schema-logement-konva";
+
   return (
     <header className="sticky top-0 z-10 flex items-center justify-between px-4 sm:px-6 py-3 bg-white border-b border-gray-100">
 
@@ -33,9 +37,9 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
 
       {/* Desktop */}
       <div className="hidden sm:flex items-center gap-1">
-        <Button variant="ghost" size="icon" className="bg-primary/10 text-primary hover:bg-primary/20" asChild title="Schéma logement">
-          <Link href="/schema-logement-konva">
-            <Box size={18} />
+        <Button variant="ghost" size="icon" className="bg-primary/10 text-primary hover:bg-primary/20" asChild title={isSchemaPage ? "Chat" : "Schéma logement"}>
+          <Link href={isSchemaPage ? "/" : "/schema-logement-konva"}>
+            {isSchemaPage ? <MessageSquare size={18} /> : <Box size={18} />}
           </Link>
         </Button>
         <Button variant="ghost" size="sm" asChild>
