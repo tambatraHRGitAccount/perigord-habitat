@@ -62,7 +62,7 @@ export default function PlanLogementKonva({ pieces, onPieceClick, selectedPieceI
   }, [])
 
   // Définition du plan de logement (proportions relatives)
-  const baseWidth = 620
+  const baseWidth = 760
   const baseHeight = 470
   const scaleRatio = Math.min(dimensions.width / baseWidth, dimensions.height / baseHeight)
   
@@ -234,10 +234,10 @@ export default function PlanLogementKonva({ pieces, onPieceClick, selectedPieceI
           {/* Ombre portée du bâtiment */}
           <Line
             points={[
-              45 * scaleRatio, 45 * scaleRatio, 
-              585 * scaleRatio, 45 * scaleRatio, 
-              585 * scaleRatio, 435 * scaleRatio, 
-              45 * scaleRatio, 435 * scaleRatio, 
+              45 * scaleRatio, 45 * scaleRatio,
+              585 * scaleRatio, 45 * scaleRatio,
+              585 * scaleRatio, 435 * scaleRatio,
+              45 * scaleRatio, 435 * scaleRatio,
               45 * scaleRatio, 45 * scaleRatio
             ]}
             stroke="rgba(0, 0, 0, 0.1)"
@@ -246,36 +246,96 @@ export default function PlanLogementKonva({ pieces, onPieceClick, selectedPieceI
             shadowBlur={20}
             shadowColor="rgba(0, 0, 0, 0.2)"
           />
-          
-          {/* Murs extérieurs - Design moderne */}
-          <Line
-            points={[
-              40 * scaleRatio, 40 * scaleRatio, 
-              580 * scaleRatio, 40 * scaleRatio, 
-              580 * scaleRatio, 430 * scaleRatio, 
-              40 * scaleRatio, 430 * scaleRatio, 
-              40 * scaleRatio, 40 * scaleRatio
-            ]}
-            stroke="#6366f1"
-            strokeWidth={5}
-            closed
-            shadowBlur={15}
-            shadowColor="#6366f1"
-          />
-          
+
+          {/* ── Murs extérieurs (avec ouverture sur le balcon) ── */}
+          {/* Haut */}
+          <Line points={[40*scaleRatio, 40*scaleRatio, 580*scaleRatio, 40*scaleRatio]} stroke="#6366f1" strokeWidth={5} shadowBlur={15} shadowColor="#6366f1" />
+          {/* Droite – segment au-dessus de l'ouverture balcon */}
+          <Line points={[580*scaleRatio, 40*scaleRatio, 580*scaleRatio, 68*scaleRatio]} stroke="#6366f1" strokeWidth={5} shadowBlur={15} shadowColor="#6366f1" />
+          {/* Droite – segment en-dessous de l'ouverture balcon */}
+          <Line points={[580*scaleRatio, 192*scaleRatio, 580*scaleRatio, 430*scaleRatio]} stroke="#6366f1" strokeWidth={5} shadowBlur={15} shadowColor="#6366f1" />
+          {/* Bas */}
+          <Line points={[580*scaleRatio, 430*scaleRatio, 40*scaleRatio, 430*scaleRatio]} stroke="#6366f1" strokeWidth={5} shadowBlur={15} shadowColor="#6366f1" />
+          {/* Gauche */}
+          <Line points={[40*scaleRatio, 430*scaleRatio, 40*scaleRatio, 40*scaleRatio]} stroke="#6366f1" strokeWidth={5} shadowBlur={15} shadowColor="#6366f1" />
+
           {/* Bordure intérieure lumineuse */}
           <Line
             points={[
-              42 * scaleRatio, 42 * scaleRatio, 
-              578 * scaleRatio, 42 * scaleRatio, 
-              578 * scaleRatio, 428 * scaleRatio, 
-              42 * scaleRatio, 428 * scaleRatio, 
+              42 * scaleRatio, 42 * scaleRatio,
+              578 * scaleRatio, 42 * scaleRatio,
+              578 * scaleRatio, 428 * scaleRatio,
+              42 * scaleRatio, 428 * scaleRatio,
               42 * scaleRatio, 42 * scaleRatio
             ]}
             stroke="#818cf8"
             strokeWidth={2}
             closed
             opacity={0.6}
+          />
+
+          {/* ── BALCON ── */}
+          {/* Plancher du balcon (espace ouvert) */}
+          <Rect
+            x={580 * scaleRatio}
+            y={68 * scaleRatio}
+            width={120 * scaleRatio}
+            height={124 * scaleRatio}
+            fill="rgba(134, 239, 172, 0.18)"
+          />
+          {/* Mur haut du balcon */}
+          <Line points={[580*scaleRatio, 68*scaleRatio, 700*scaleRatio, 68*scaleRatio]} stroke="#6366f1" strokeWidth={5} shadowBlur={15} shadowColor="#6366f1" />
+          {/* Mur bas du balcon */}
+          <Line points={[580*scaleRatio, 192*scaleRatio, 700*scaleRatio, 192*scaleRatio]} stroke="#6366f1" strokeWidth={5} shadowBlur={15} shadowColor="#6366f1" />
+
+          {/* Garde-fou – côté extérieur (droite) */}
+          <Line
+            points={[700*scaleRatio, 68*scaleRatio, 700*scaleRatio, 192*scaleRatio]}
+            stroke="#60a5fa"
+            strokeWidth={7}
+            dash={[12, 7]}
+            shadowBlur={12}
+            shadowColor="#60a5fa"
+          />
+          {/* Poteaux du garde-fou */}
+          {[82, 100, 118, 136, 154, 172].map((yPos, i) => (
+            <Line
+              key={`poteau-${i}`}
+              points={[695*scaleRatio, yPos*scaleRatio, 705*scaleRatio, yPos*scaleRatio]}
+              stroke="#60a5fa"
+              strokeWidth={3}
+            />
+          ))}
+
+          {/* Ouverture cuisine → balcon (porte coulissante) */}
+          <Line
+            points={[580*scaleRatio, 68*scaleRatio, 580*scaleRatio, 192*scaleRatio]}
+            stroke="#a78bfa"
+            strokeWidth={8}
+            dash={[14, 6]}
+            shadowBlur={10}
+            shadowColor="#a78bfa"
+          />
+
+          {/* Label BALCON */}
+          <Text
+            x={588 * scaleRatio}
+            y={114 * scaleRatio}
+            text="BALCON"
+            fontSize={13 * scaleRatio}
+            fontStyle="bold"
+            fill="#166534"
+            shadowBlur={4}
+            shadowColor="rgba(255,255,255,0.8)"
+          />
+          {/* Label garde-fou */}
+          <Text
+            x={588 * scaleRatio}
+            y={132 * scaleRatio}
+            text="garde-fou ›"
+            fontSize={9 * scaleRatio}
+            fill="#1d4ed8"
+            opacity={0.7}
           />
 
           {/* Dessiner chaque pièce - Design futuriste */}
