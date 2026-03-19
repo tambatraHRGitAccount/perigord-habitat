@@ -6,12 +6,11 @@ import { ZoomIn, ZoomOut, ArrowUpRight } from "lucide-react";
 import { useState } from "react";
 import { HeaderApp } from "@/components/layout/HeaderApp";
 import { MaterielFilters } from "@/components/client/MaterielFilters";
-import { MaterielSearch } from "@/components/client/MaterielSearch";
-import { RESPONSABLE_COLORS } from "@/data/materiels";
+import { RESPONSABLE_COLORS, PIECE_IMAGES } from "@/data/materiels";
 import { useMaterielFilter } from "@/hooks/useMaterielFilter";
 
 export default function MaterielsPage() {
-  const { filtre, setFiltre, search, setSearch, filtered } = useMaterielFilter();
+  const { filtre, setFiltre, filtered } = useMaterielFilter();
   const [scale, setScale] = useState(1);
 
   const current = filtered[0] ?? null;
@@ -44,7 +43,7 @@ export default function MaterielsPage() {
               style={{ transform: `scale(${scale})`, transformOrigin: "center center" }}
             >
               <Image
-                src={current.image ?? "/images/products/s10.jpg"}
+                src={PIECE_IMAGES[current.piece]}
                 alt={current.nom}
                 fill
                 className="object-cover"
@@ -103,10 +102,6 @@ export default function MaterielsPage() {
         )}
       </div>
 
-      {/* Recherche fixée en bas */}
-      <div className="shrink-0 px-4 sm:px-6 py-3 bg-gray-900/80 backdrop-blur-sm border-t border-white/10">
-        <MaterielSearch value={search} onChange={(v) => { setScale(1); setSearch(v); }} />
-      </div>
     </div>
   );
 }

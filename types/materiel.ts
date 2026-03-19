@@ -1,12 +1,9 @@
 export type Piece =
   | "Tous"
+  | "Salle de séjour"
   | "Cuisine"
   | "Salle de bain"
-  | "Chambre"
-  | "Salon"
-  | "WC"
-  | "Entrée"
-  | "Buanderie";
+  | "Extérieur";
 
 export type Responsable = "Propriétaire" | "Locataire" | "Partagé";
 
