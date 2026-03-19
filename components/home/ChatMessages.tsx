@@ -7,14 +7,15 @@ import type { ChatMessage } from "@/hooks/useChat";
 
 interface ChatMessagesProps {
   messages: ChatMessage[];
+  isTyping?: boolean;
 }
 
-export function ChatMessages({ messages }: ChatMessagesProps) {
+export function ChatMessages({ messages, isTyping = false }: ChatMessagesProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages, isTyping]);
 
   return (
     <div className="flex-1 overflow-y-auto py-6">
@@ -84,6 +85,20 @@ export function ChatMessages({ messages }: ChatMessagesProps) {
           </div>
         </div>
       ))}
+      {/* Indicateur "en train d'écrire" style Messenger */}
+      {isTyping && (
+        <div className="flex gap-3 justify-start">
+          <div className="shrink-0 w-8 h-8 rounded-full overflow-hidden border border-gray-200">
+            <Image src="/logo-default.png" alt="QFQ" width={32} height={32} />
+          </div>
+          <div className="bg-gray-100 rounded-2xl rounded-bl-sm px-4 py-3 flex items-center gap-1.5">
+            <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0ms]" />
+            <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:150ms]" />
+            <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:300ms]" />
+          </div>
+        </div>
+      )}
+
       <div ref={bottomRef} />
       </div>
     </div>

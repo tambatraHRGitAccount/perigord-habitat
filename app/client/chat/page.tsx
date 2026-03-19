@@ -71,7 +71,7 @@ export default function HomePage() {
           <div className="flex flex-col flex-1 overflow-hidden">
             {messages.length > 0 ? (
               <>
-                <ChatMessages messages={messages} />
+                <ChatMessages messages={messages} isTyping={sending} />
                 <div className="px-6 py-3">
                   <div className="max-w-2xl mx-auto">
                     {chatInput}
