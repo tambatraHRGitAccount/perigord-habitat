@@ -2,33 +2,68 @@
 
 import { useState } from "react";
 import { HeaderApp } from "@/components/layout/HeaderApp";
-import { INCIDENTS as INITIAL, STATUT_CONFIG, PRIORITE_CONFIG } from "@/data/incidents";
 import { SignalerIncidentDialog } from "@/components/client/SignalerIncidentDialog";
-import type { Incident, IncidentStatut } from "@/types/incident";
-import { AlertTriangle, Calendar, MapPin } from "lucide-react";
-
-const FILTRES: { value: IncidentStatut | "tous"; label: string }[] = [
-  { value: "tous",     label: "Tous" },
-  { value: "nouveau",  label: "Nouveaux" },
-  { value: "en_cours", label: "En cours" },
-  { value: "résolu",   label: "Résolus" },
-  { value: "fermé",    label: "Fermés" },
-];
+import { IncidentCard } from "@/components/client/IncidentCard";
+import { InitializeUserData } from "@/components/client/InitializeUserData";
+import { useIncidents } from "@/hooks/useIncidents";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { FILTRES_STATUT } from "@/config/incident.config";
+import type { IncidentStatut, CreateIncidentDTO } from "@/types/incident";
+import { AlertTriangle, Loader2 } from "lucide-react";
 
 export default function IncidentsPage() {
   const [filtre, setFiltre] = useState<IncidentStatut | "tous">("tous");
-  const [incidents, setIncidents] = useState<Incident[]>(INITIAL);
+  const { locataire, loading: loadingUser } = useCurrentUser();
+  const { incidents, loading, error, createIncident, filterByStatut } = useIncidents(locataire?.id ?? null);
 
-  const filtered = incidents.filter((i) => filtre === "tous" || i.statut === filtre);
+  const handleSignaler = async (data: CreateIncidentDTO) => {
+    if (!locataire?.logement_id || !locataire?.bailleur_id) {
+      alert("Informations manquantes pour créer l'incident");
+      return;
+    }
 
-  const handleSignaler = (data: Omit<Incident, "id" | "statut">) => {
-    const newIncident: Incident = {
-      ...data,
-      id: Date.now(),
-      statut: "nouveau",
-    };
-    setIncidents((prev) => [newIncident, ...prev]);
+    try {
+      await createIncident(locataire.logement_id, locataire.bailleur_id, data);
+    } catch (err) {
+      console.error("Erreur création incident:", err);
+      alert("Erreur lors de la création de l'incident");
+    }
   };
+
+  const filtered = filterByStatut(filtre);
+
+  if (loadingUser || loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex flex-col">
+        <HeaderApp />
+        <main className="flex-1 flex items-center justify-center">
+          <Loader2 className="animate-spin text-indigo-600" size={32} />
+        </main>
+      </div>
+    );
+  }
+
+  if (!locataire) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex flex-col">
+        <HeaderApp />
+        <main className="flex-1 w-full px-4 sm:px-6 py-8">
+          <InitializeUserData />
+        </main>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex flex-col">
+        <HeaderApp />
+        <main className="flex-1 flex items-center justify-center">
+          <p className="text-red-600">Erreur: {error}</p>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -53,7 +88,7 @@ export default function IncidentsPage() {
 
           {/* Filtres */}
           <div className="flex flex-wrap gap-2">
-            {FILTRES.map(({ value, label }) => (
+            {FILTRES_STATUT.map(({ value, label }) => (
               <button
                 key={value}
                 onClick={() => setFiltre(value)}
@@ -73,34 +108,9 @@ export default function IncidentsPage() {
             {filtered.length === 0 ? (
               <p className="text-center text-gray-400 py-16">Aucun incident dans cette catégorie.</p>
             ) : (
-              filtered.map((item) => {
-                const statut = STATUT_CONFIG[item.statut];
-                const priorite = PRIORITE_CONFIG[item.priorite];
-                return (
-                  <div key={item.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col gap-3">
-                    <div className="flex items-start justify-between gap-3 flex-wrap">
-                      <h2 className="font-semibold text-gray-900">{item.titre}</h2>
-                      <div className="flex items-center gap-2 shrink-0">
-                        <span className={`text-xs font-semibold ${priorite.color}`}>
-                          ● {priorite.label}
-                        </span>
-                        <span className={`text-xs px-2.5 py-1 rounded-full font-semibold ${statut.bg} ${statut.color}`}>
-                          {statut.label}
-                        </span>
-                      </div>
-                    </div>
-                    <p className="text-sm text-gray-500 leading-relaxed">{item.description}</p>
-                    <div className="flex flex-wrap gap-4">
-                      <span className="flex items-center gap-1.5 text-xs text-gray-400">
-                        <MapPin size={13} /> {item.piece}
-                      </span>
-                      <span className="flex items-center gap-1.5 text-xs text-gray-400">
-                        <Calendar size={13} /> {item.date}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })
+              filtered.map((incident) => (
+                <IncidentCard key={incident.id} incident={incident} />
+              ))
             )}
           </div>
         </div>
