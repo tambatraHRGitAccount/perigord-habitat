@@ -4,16 +4,19 @@ import { Scale, FileText, CheckCircle } from "lucide-react";
 
 export function RulesSection() {
   return (
-    <section className="w-full px-4 sm:px-8 lg:px-16 xl:px-24 py-16 sm:py-20 bg-white">
-      <div className="max-w-5xl mx-auto">
+    <section className="w-full py-16 sm:py-20 bg-white border-b border-gray-100">
+      <div className="w-full px-4 sm:px-6">
         {/* Titre */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 text-4xl mb-4">
-            <Scale className="text-indigo-600" size={40} />
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-indigo-100 mb-4">
+            <Scale className="text-indigo-600" size={28} />
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
             Sur quelles règles repose ce site ?
           </h2>
+          <p className="text-base text-gray-600">
+            Une base légale solide pour des réponses fiables
+          </p>
         </div>
 
         {/* Contenu */}
@@ -23,16 +26,16 @@ export function RulesSection() {
           </p>
 
           <div className="grid gap-4 mb-8">
-            <div className="flex items-start gap-3 bg-gray-50 p-4 rounded-lg border border-gray-200">
-              <FileText className="text-indigo-600 shrink-0 mt-1" size={20} />
+            <div className="flex items-start gap-3 bg-gray-50 p-5 rounded-xl border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50/50 transition-all">
+              <FileText className="text-indigo-600 shrink-0 mt-1" size={22} />
               <p className="text-gray-700">la <strong>loi du 6 juillet 1989</strong> sur les rapports locatifs</p>
             </div>
-            <div className="flex items-start gap-3 bg-gray-50 p-4 rounded-lg border border-gray-200">
-              <FileText className="text-indigo-600 shrink-0 mt-1" size={20} />
+            <div className="flex items-start gap-3 bg-gray-50 p-5 rounded-xl border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50/50 transition-all">
+              <FileText className="text-indigo-600 shrink-0 mt-1" size={22} />
               <p className="text-gray-700">le <strong>décret de 1987</strong> sur les réparations locatives</p>
             </div>
-            <div className="flex items-start gap-3 bg-gray-50 p-4 rounded-lg border border-gray-200">
-              <FileText className="text-indigo-600 shrink-0 mt-1" size={20} />
+            <div className="flex items-start gap-3 bg-gray-50 p-5 rounded-xl border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50/50 transition-all">
+              <FileText className="text-indigo-600 shrink-0 mt-1" size={22} />
               <p className="text-gray-700">le <strong>décret de 1987</strong> sur les charges récupérables</p>
             </div>
           </div>
@@ -56,12 +59,11 @@ export function RulesSection() {
             </div>
           </div>
 
-          <div className="bg-indigo-600 text-white p-6 rounded-lg">
-            <p className="text-xl font-semibold flex items-center gap-2">
-              <span className="text-2xl">👉</span>
+          <div className="bg-indigo-600 text-white p-6 rounded-xl">
+            <p className="text-xl font-semibold mb-3">
               Le principe est simple :
             </p>
-            <p className="text-lg mt-3 leading-relaxed">
+            <p className="text-lg leading-relaxed">
               le locataire <strong>entretient</strong>, le bailleur <strong>répare</strong> les éléments importants, sauf cas particuliers.
             </p>
           </div>

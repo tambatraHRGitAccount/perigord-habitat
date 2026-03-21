@@ -61,7 +61,7 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
   const initials = getInitials(user?.user_metadata?.full_name, user?.email);
 
   return (
-    <header className="sticky top-0 z-10 flex items-center justify-between px-4 sm:px-6 py-3 bg-white border-b border-gray-100">
+    <header className="sticky top-0 z-50 flex items-center justify-between px-4 sm:px-6 py-3 bg-white border-b border-gray-100 shadow-sm">
 
       {/* Logo */}
       <Link href="/" className="flex items-center gap-2 shrink-0" onClick={onLogoClick}>
