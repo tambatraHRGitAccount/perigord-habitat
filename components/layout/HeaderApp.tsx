@@ -3,8 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import {
-  Home, MessageSquare, Box, Bell, Menu, X, LogOut,
-  FileText, Wrench, AlertTriangle, UserCircle, History,
+  Home, Bot, Building2, BookOpen, HelpCircle,
+  Phone, UserCircle, Menu, X, LogOut, Bell,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -19,32 +19,19 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useAuth } from "@/hooks/useAuth";
 
-/* ── icônes nav principale (session connectée) ── */
-const NAV_AUTH = [
-  { href: "/",                  icon: Home,           title: "Accueil" },
-  { href: "/client/chat",       icon: MessageSquare,  title: "Assistant IA" },
-  { href: "/client/materiels",  icon: Box,            title: "Matériels" },
+const NAV_MAIN = [
+  { href: "/client/accueil",        icon: Home,          title: "Accueil" },
+  { href: "/client/chat",          icon: Bot,   title: "Diagnostiquer un problème" },
+  { href: "/client/logement",      icon: Building2,     title: "Mon logement" },
+  { href: "/client/tutos",         icon: BookOpen,      title: "Tutos & conseils" },
+  { href: "/client/qui-fait-quoi", icon: HelpCircle,    title: "Qui fait quoi ?" },
+  { href: "/client/contacts",      icon: Phone,         title: "Contacts utiles" },
 ];
 
-/* ── items dropdown profil ── */
-const DROPDOWN_ITEMS = [
-  { href: "/client/notices",       icon: FileText,      label: "Notices" },
-  { href: "/client/interventions", icon: Wrench,        label: "Interventions" },
-  { href: "/client/incidents",     icon: AlertTriangle, label: "Incidents" },
-  { href: "/client/profile",       icon: UserCircle,    label: "Profil" },
-  { href: "/client/historique",    icon: History,       label: "Historique" },
-];
-
-/* ── items mobile (session connectée) ── */
-const MOBILE_AUTH = [
-  { href: "/",                  label: "Accueil" },
-  { href: "/client/chat",       label: "Assistant IA" },
-  { href: "/client/materiels",  label: "Matériels" },
-  { href: "/client/notices",    label: "Notices" },
-  { href: "/client/interventions", label: "Interventions" },
-  { href: "/client/incidents",  label: "Incidents" },
-  { href: "/client/profile",    label: "Profil" },
-  { href: "/client/historique", label: "Historique" },
+const MOBILE_NAV = [
+  ...NAV_MAIN,
+  { href: "/client/notifications", icon: Bell,       title: "Notifications" },
+  { href: "/client/compte",        icon: UserCircle, title: "Mon compte" },
 ];
 
 function getInitials(name?: string | null, email?: string | null) {
@@ -64,59 +51,67 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
     <header className="sticky top-0 z-10 flex items-center justify-between px-4 sm:px-6 py-3 bg-white border-b border-gray-100">
 
       {/* Logo */}
-      <Link href="/" className="flex items-center gap-2 shrink-0" onClick={onLogoClick}>
-        <Image src="/logo-default.png" alt="Qui fait quoi" width={32} height={32} className="rounded" />
-        <span className="font-semibold text-base sm:text-lg tracking-tight text-gray-900">
+      <Link href="/client/accueil" className="flex items-center gap-2 shrink-0" onClick={onLogoClick}>
+        <Image src="/logo-default.png" alt="Logo" width={32} height={32} className="rounded" />
+        <span className="font-semibold text-base sm:text-lg tracking-tight text-gray-900 hidden sm:block">
           Qui fait quoi ?
         </span>
       </Link>
 
       {/* ── Desktop ── */}
-      <div className="hidden sm:flex items-center gap-1">
+      <div className="hidden lg:flex items-center gap-0.5">
         {!loading && (
           user ? (
             <>
-              {/* Nav icons */}
-              {NAV_AUTH.map(({ href, icon: Icon, title }) => (
+              {NAV_MAIN.map(({ href, icon: Icon, title }) => (
                 <Link
                   key={href}
                   href={href}
-                  className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-lg transition-colors text-xs font-medium ${
+                  title={title}
+                  className={`relative group p-2.5 rounded-lg transition-colors ${
                     pathname === href
                       ? "bg-primary/10 text-primary"
                       : "text-gray-500 hover:text-primary hover:bg-primary/10"
                   }`}
                 >
                   <Icon size={18} />
-                  <span>{title}</span>
+                  <span className="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 py-1 rounded bg-gray-800 text-white text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-50">
+                    {title}
+                  </span>
                 </Link>
               ))}
 
-              {/* Notification */}
+              {/* Notifications */}
               <Link
                 href="/client/notifications"
-                className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-lg transition-colors relative ${
+                title="Alertes"
+                className={`relative group p-2.5 rounded-lg transition-colors ${
                   pathname === "/client/notifications"
                     ? "bg-primary/10 text-primary"
                     : "text-gray-500 hover:text-primary hover:bg-primary/10"
                 }`}
               >
-                <span className="relative">
+                <span className="relative block">
                   <Bell size={18} />
                   <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-red-500" />
                 </span>
-                <span className="text-xs font-medium">Alertes</span>
+                <span className="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 py-1 rounded bg-gray-800 text-white text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-50">
+                  Alertes
+                </span>
               </Link>
 
-              {/* Profil dropdown */}
+              {/* Mon compte dropdown */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="ml-1 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">
-                    <Avatar className="h-10 w-10">
-                      <AvatarFallback className="bg-primary/10 text-primary text-xs font-semibold">
+                  <button className="group relative ml-1 p-2 rounded-lg text-gray-500 hover:text-primary hover:bg-primary/10 transition-colors focus:outline-none">
+                    <Avatar className="h-6 w-6">
+                      <AvatarFallback className="bg-primary/10 text-primary text-[9px] font-semibold">
                         {initials}
                       </AvatarFallback>
                     </Avatar>
+                    <span className="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 py-1 rounded bg-gray-800 text-white text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-50">
+                      Mon compte
+                    </span>
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-52">
@@ -127,13 +122,11 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
                     )}
                   </div>
                   <DropdownMenuSeparator />
-                  {DROPDOWN_ITEMS.map(({ href, icon: Icon, label }) => (
-                    <DropdownMenuItem key={href} asChild>
-                      <Link href={href} className="flex items-center gap-2 cursor-pointer">
-                        <Icon size={15} /> {label}
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
+                  <DropdownMenuItem asChild>
+                    <Link href="/client/compte" className="flex items-center gap-2 cursor-pointer">
+                      <UserCircle size={15} /> Mon profil
+                    </Link>
+                  </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
                     onClick={logout}
@@ -157,8 +150,8 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
         )}
       </div>
 
-      {/* ── Mobile ── */}
-      <div className="sm:hidden">
+      {/* ── Mobile / Tablet ── */}
+      <div className="lg:hidden">
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon"><Menu size={20} /></Button>
@@ -167,8 +160,8 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
             <VisuallyHidden><SheetTitle>Menu</SheetTitle></VisuallyHidden>
 
             <div className="flex items-center justify-between mb-6">
-              <Link href="/" className="flex items-center gap-2" onClick={onLogoClick}>
-                <Image src="/logo-default.png" alt="Qui fait quoi" width={32} height={32} className="rounded" />
+              <Link href="/client/accueil" className="flex items-center gap-2" onClick={onLogoClick}>
+                <Image src="/logo-default.png" alt="Logo" width={32} height={32} className="rounded" />
                 <span className="font-semibold text-lg text-gray-900">Qui fait quoi ?</span>
               </Link>
               <SheetClose asChild>
@@ -191,9 +184,9 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
             )}
 
             <nav className="flex flex-col gap-1 flex-1 overflow-y-auto">
-              {(user ? MOBILE_AUTH : [
-                { href: "/client/auth/login",     label: "Se connecter" },
-                { href: "/client/auth/register",  label: "S'inscrire" },
+              {(user ? MOBILE_NAV : [
+                { href: "/client/auth/login",    title: "Se connecter" },
+                { href: "/client/auth/register", title: "S'inscrire" },
               ]).map((item) => (
                 <SheetClose asChild key={item.href}>
                   <Link
@@ -202,7 +195,7 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
                       pathname === item.href ? "text-indigo-600" : "text-gray-700 hover:text-indigo-600"
                     }`}
                   >
-                    {item.label}
+                    {item.title}
                   </Link>
                 </SheetClose>
               ))}
