@@ -31,6 +31,29 @@
       opacity: 0 !important;
     }
 
+    /* Empêcher les chevauchements de zones cliquables */
+    .room {
+      pointer-events: bounding-box;
+    }
+    
+    /* Ordre de priorité pour les clics (plus le nombre est élevé, plus c'est prioritaire) */
+    .room.kitchen {
+      position: relative;
+      z-index: 10;
+    }
+    .room.showerroom {
+      position: relative;
+      z-index: 5;
+    }
+    .room.bedroom {
+      position: relative;
+      z-index: 5;
+    }
+    .room.livingroom {
+      position: relative;
+      z-index: 5;
+    }
+
     /* Contrôles de zoom */
     .zoom-controls {
       position: fixed;
@@ -3291,20 +3314,46 @@
   </div>
   <script>
     const routes = {
-      bedroom:    'chambre.html',
-      kitchen:    'cuisine.html',
-      showerroom: 'salle-eau.html',
-      livingroom: 'salon.html'
+      bedroom:    'chambre',
+      kitchen:    'cuisine',
+      showerroom: 'salle-eau',
+      livingroom: 'salon'
     };
+    
+    // Meilleure détection: vérifier quel élément est vraiment cliqué
     document.querySelectorAll('.room[role="button"]').forEach(function(el) {
       const key = Object.keys(routes).find(k => el.classList.contains(k));
       if (!key) return;
       el.style.cursor = 'pointer';
-      el.addEventListener('click', function() {
-        window.location.href = routes[key];
-      });
+      
+      el.addEventListener('click', function(e) {
+        // Vérifier que c'est bien CET élément qui est cliqué, pas un autre au-dessus
+        const clickedElement = document.elementFromPoint(e.clientX, e.clientY);
+        
+        // Vérifier si l'élément cliqué est bien dans cette room
+        if (clickedElement && (clickedElement === el || el.contains(clickedElement))) {
+          e.stopPropagation();
+          e.preventDefault();
+          
+          // Envoyer un message au parent React pour changer la vue
+          console.log('Clic sur pièce:', routes[key]);
+          window.parent.postMessage({
+            type: 'room-click',
+            room: routes[key]
+          }, '*');
+        }
+      }, true);
+      
       el.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' || e.key === ' ') window.location.href = routes[key];
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          
+          // Envoyer un message au parent React pour changer la vue
+          window.parent.postMessage({
+            type: 'room-click',
+            room: routes[key]
+          }, '*');
+        }
       });
     });
   </script>

@@ -20,7 +20,7 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useAuth } from "@/hooks/useAuth";
 
 const NAV_MAIN = [
-  { href: "/client/accueil",        icon: Home,          title: "Accueil" },
+  { href: "/",                     icon: Home,          title: "Accueil" },
   { href: "/client/chat",          icon: Bot,   title: "Diagnostiquer un problème" },
   { href: "/client/logement",      icon: Building2,     title: "Mon logement" },
   { href: "/client/tutos",         icon: BookOpen,      title: "Tutos & conseils" },
@@ -51,7 +51,7 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
     <header className="sticky top-0 z-50 flex items-center justify-between px-4 sm:px-6 py-3 bg-white border-b border-gray-100 shadow-sm">
 
       {/* Logo */}
-      <Link href="/client/accueil" className="flex items-center gap-2 shrink-0" onClick={onLogoClick}>
+      <Link href="/" className="flex items-center gap-2 shrink-0" onClick={onLogoClick}>
         <Image src="/logo-default.png" alt="Logo" width={32} height={32} className="rounded" />
         <span className="font-semibold text-base sm:text-lg tracking-tight text-gray-900 hidden sm:block">
           Qui fait quoi ?
@@ -160,7 +160,7 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
             <VisuallyHidden><SheetTitle>Menu</SheetTitle></VisuallyHidden>
 
             <div className="flex items-center justify-between mb-6">
-              <Link href="/client/accueil" className="flex items-center gap-2" onClick={onLogoClick}>
+              <Link href="/" className="flex items-center gap-2" onClick={onLogoClick}>
                 <Image src="/logo-default.png" alt="Logo" width={32} height={32} className="rounded" />
                 <span className="font-semibold text-lg text-gray-900">Qui fait quoi ?</span>
               </Link>

@@ -427,5 +427,33 @@
               </defs>
             </svg></g>
         </svg>
+
+<script>
+// Intercepter les clics sur les équipements et envoyer au parent
+console.log('Script de chambre chargé');
+
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOM chargé');
+  const equipements = document.querySelectorAll('[role="button"][aria-label]');
+  console.log('Équipements trouvés:', equipements.length);
+  
+  equipements.forEach(function(equipement) {
+    const label = equipement.getAttribute('aria-label');
+    console.log('Équipement:', label);
+    
+    equipement.addEventListener('click', function(e) {
+      console.log('Clic sur:', label);
+      
+      // Envoyer le message au parent
+      window.parent.postMessage({
+        type: 'equipement-click',
+        label: label
+      }, '*');
+      
+      console.log('Message envoyé au parent');
+    });
+  });
+});
+</script>
 </body>
 </html>
