@@ -35,6 +35,7 @@ export function LoginAdminForm() {
         return;
       }
 
+      router.refresh();
       router.push("/admin/dashboard");
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Erreur de connexion");
