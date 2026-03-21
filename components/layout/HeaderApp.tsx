@@ -63,23 +63,26 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
         {!loading && (
           user ? (
             <>
-              {NAV_MAIN.map(({ href, icon: Icon, title }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  title={title}
-                  className={`relative group p-2.5 rounded-lg transition-colors ${
-                    pathname === href
-                      ? "bg-primary/10 text-primary"
-                      : "text-gray-500 hover:text-primary hover:bg-primary/10"
-                  }`}
-                >
-                  <Icon size={18} />
-                  <span className="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 py-1 rounded bg-gray-800 text-white text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-50">
-                    {title}
-                  </span>
-                </Link>
-              ))}
+              {NAV_MAIN.map(({ href, icon: Icon, title }) => {
+                const isActive = pathname === href || (href !== "/" && pathname.startsWith(href));
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    title={title}
+                    className={`relative group p-2.5 rounded-lg transition-colors ${
+                      isActive
+                        ? "bg-primary/10 text-primary"
+                        : "text-gray-500 hover:text-primary hover:bg-primary/10"
+                    }`}
+                  >
+                    <Icon size={18} />
+                    <span className="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 py-1 rounded bg-gray-800 text-white text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-50">
+                      {title}
+                    </span>
+                  </Link>
+                );
+              })}
 
               {/* Notifications */}
               <Link
@@ -187,18 +190,21 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
               {(user ? MOBILE_NAV : [
                 { href: "/client/auth/login",    title: "Se connecter" },
                 { href: "/client/auth/register", title: "S'inscrire" },
-              ]).map((item) => (
-                <SheetClose asChild key={item.href}>
-                  <Link
-                    href={item.href}
-                    className={`text-base font-medium py-3 border-b border-gray-100 transition-colors ${
-                      pathname === item.href ? "text-indigo-600" : "text-gray-700 hover:text-indigo-600"
-                    }`}
-                  >
-                    {item.title}
-                  </Link>
-                </SheetClose>
-              ))}
+              ]).map((item) => {
+                const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+                return (
+                  <SheetClose asChild key={item.href}>
+                    <Link
+                      href={item.href}
+                      className={`text-base font-medium py-3 border-b border-gray-100 transition-colors ${
+                        isActive ? "text-indigo-600" : "text-gray-700 hover:text-indigo-600"
+                      }`}
+                    >
+                      {item.title}
+                    </Link>
+                  </SheetClose>
+                );
+              })}
             </nav>
 
             {user && (

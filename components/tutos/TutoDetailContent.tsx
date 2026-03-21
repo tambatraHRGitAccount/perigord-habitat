@@ -1,4 +1,4 @@
-import { Calendar, Clock, AlertTriangle, CheckCircle2, Lightbulb, Package, BookOpenCheck, Leaf, Shield } from "lucide-react";
+import { Calendar, Clock, AlertTriangle, CheckCircle2, Lightbulb, Package, BookOpenCheck, Leaf, Shield, ArrowRight } from "lucide-react";
 import type { Notice } from "@/types/notice";
 import { getCategorieConfig, getTypeConfig } from "@/config/tutosConfig";
 import { getTutoContent } from "@/data/tutosContent";
@@ -88,9 +88,9 @@ export function TutoDetailContent({ notice }: TutoDetailContentProps) {
           </div>
         )}
 
-        {/* Matériel nécessaire avec design amélioré */}
+        {/* Matériel nécessaire avec design en grille */}
         {content.materiel && content.materiel.length > 0 && (
-          <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 border-2 border-blue-100 shadow-lg hover:shadow-xl transition-shadow">
+          <div className="bg-blue-50 rounded-2xl p-8 border-2 border-blue-100 shadow-lg hover:shadow-xl transition-shadow">
             <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
               <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg">
                 <Package className="text-white" size={24} />
@@ -99,7 +99,7 @@ export function TutoDetailContent({ notice }: TutoDetailContentProps) {
             </h2>
             <div className="grid md:grid-cols-2 gap-3">
               {content.materiel.map((item, index) => (
-                <div key={index} className="flex items-start gap-3 bg-white/80 backdrop-blur-sm rounded-xl p-4 hover:bg-white transition-colors">
+                <div key={index} className="flex items-start gap-3 bg-white rounded-xl p-4 hover:shadow-md transition-shadow border border-blue-100">
                   <CheckCircle2 size={22} className="text-blue-600 shrink-0 mt-0.5" />
                   <span className="text-slate-700 font-medium">{item}</span>
                 </div>
@@ -108,7 +108,7 @@ export function TutoDetailContent({ notice }: TutoDetailContentProps) {
           </div>
         )}
 
-        {/* Tutoriels pas à pas avec design amélioré */}
+        {/* Tutoriels pas à pas avec design en cartes */}
         {content.etapes && content.etapes.length > 0 && (
           <div>
             <h2 className="text-3xl font-bold text-slate-900 mb-8 flex items-center gap-3">
@@ -120,30 +120,32 @@ export function TutoDetailContent({ notice }: TutoDetailContentProps) {
             <div className="space-y-6">
               {content.etapes.map((etape, index) => (
                 <div key={index} className="group">
-                  <div className="flex gap-5 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-6 border-2 border-indigo-100 hover:border-indigo-300 transition-all hover:shadow-lg">
-                    <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-600 text-white flex items-center justify-center font-bold text-xl shadow-lg group-hover:scale-110 transition-transform">
-                      {index + 1}
+                  <div className="bg-indigo-50 rounded-2xl p-6 border-2 border-indigo-100 hover:border-indigo-300 transition-all hover:shadow-lg">
+                    <div className="flex gap-5 mb-4">
+                      <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-bold text-xl shadow-lg group-hover:scale-110 transition-transform">
+                        {index + 1}
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-xl font-bold text-slate-900 mb-2">
+                          {etape.titre}
+                        </h3>
+                        <p className="text-slate-700 leading-relaxed">
+                          {etape.description}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex-1">
-                      <h3 className="text-xl font-bold text-slate-900 mb-3">
-                        {etape.titre}
-                      </h3>
-                      <p className="text-slate-700 leading-relaxed mb-4">
-                        {etape.description}
-                      </p>
-                      {etape.sousEtapes && etape.sousEtapes.length > 0 && (
-                        <ul className="space-y-3">
-                          {etape.sousEtapes.map((sousEtape, idx) => (
-                            <li key={idx} className="flex items-start gap-3 bg-white/70 backdrop-blur-sm rounded-lg p-3 hover:bg-white transition-colors">
-                              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold">
-                                {idx + 1}
-                              </span>
-                              <span className="text-slate-700">{sousEtape}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
+                    {etape.sousEtapes && etape.sousEtapes.length > 0 && (
+                      <div className="grid md:grid-cols-2 gap-3 ml-0 md:ml-19">
+                        {etape.sousEtapes.map((sousEtape, idx) => (
+                          <div key={idx} className="flex items-start gap-3 bg-white rounded-lg p-3 hover:shadow-md transition-shadow border border-indigo-100">
+                            <span className="flex-shrink-0 w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold">
+                              {idx + 1}
+                            </span>
+                            <span className="text-slate-700 text-sm">{sousEtape}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
@@ -151,7 +153,7 @@ export function TutoDetailContent({ notice }: TutoDetailContentProps) {
           </div>
         )}
 
-        {/* Écogestes avec design amélioré */}
+        {/* Écogestes avec design en grille */}
         {content.ecogestes && content.ecogestes.length > 0 && (
           <div>
             <h2 className="text-3xl font-bold text-slate-900 mb-8 flex items-center gap-3">
@@ -162,7 +164,7 @@ export function TutoDetailContent({ notice }: TutoDetailContentProps) {
             </h2>
             <div className="grid md:grid-cols-2 gap-4">
               {content.ecogestes.map((ecogeste, index) => (
-                <div key={index} className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-5 border-2 border-green-100 hover:border-green-300 transition-all hover:shadow-lg group">
+                <div key={index} className="bg-green-50 rounded-xl p-5 border-2 border-green-100 hover:border-green-300 transition-all hover:shadow-lg group">
                   <div className="flex gap-4">
                     <CheckCircle2 className="text-green-600 shrink-0 mt-1 group-hover:scale-110 transition-transform" size={24} />
                     <p className="text-slate-700 leading-relaxed">{ecogeste}</p>
@@ -173,7 +175,7 @@ export function TutoDetailContent({ notice }: TutoDetailContentProps) {
           </div>
         )}
 
-        {/* Prévention des pannes avec design amélioré */}
+        {/* Prévention des pannes avec design en grille */}
         {content.prevention && content.prevention.length > 0 && (
           <div>
             <h2 className="text-3xl font-bold text-slate-900 mb-8 flex items-center gap-3">
@@ -184,7 +186,7 @@ export function TutoDetailContent({ notice }: TutoDetailContentProps) {
             </h2>
             <div className="grid md:grid-cols-2 gap-4">
               {content.prevention.map((conseil, index) => (
-                <div key={index} className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl p-5 border-2 border-orange-100 hover:border-orange-300 transition-all hover:shadow-lg group">
+                <div key={index} className="bg-orange-50 rounded-xl p-5 border-2 border-orange-100 hover:border-orange-300 transition-all hover:shadow-lg group">
                   <div className="flex gap-4">
                     <Shield className="text-orange-600 shrink-0 mt-1 group-hover:scale-110 transition-transform" size={24} />
                     <p className="text-slate-700 leading-relaxed">{conseil}</p>
@@ -195,65 +197,63 @@ export function TutoDetailContent({ notice }: TutoDetailContentProps) {
           </div>
         )}
 
-        {/* Consignes de sécurité avec design amélioré */}
+        {/* Consignes de sécurité avec design en grille */}
         {content.securite && content.securite.length > 0 && (
-          <div className="bg-gradient-to-br from-red-50 to-rose-50 rounded-2xl p-8 border-l-8 border-red-500 shadow-lg hover:shadow-xl transition-shadow">
+          <div className="bg-red-50 rounded-2xl p-8 border-l-8 border-red-500 shadow-lg hover:shadow-xl transition-shadow">
             <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
               <div className="w-12 h-12 rounded-xl bg-red-600 flex items-center justify-center shadow-lg animate-pulse">
                 <AlertTriangle className="text-white" size={26} />
               </div>
               Consignes de sécurité
             </h2>
-            <ul className="space-y-4">
+            <div className="grid md:grid-cols-2 gap-3">
               {content.securite.map((item, index) => (
-                <li key={index} className="flex items-start gap-4 bg-white/70 backdrop-blur-sm rounded-lg p-4 hover:bg-white transition-colors">
-                  <span className="flex-shrink-0 w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-xl font-bold">
-                    ⚠
-                  </span>
+                <div key={index} className="flex items-start gap-4 bg-white rounded-lg p-4 hover:shadow-md transition-shadow border border-red-100">
+                  <AlertTriangle className="text-red-600 shrink-0 mt-1" size={20} />
                   <span className="text-slate-700 font-medium">{item}</span>
-                </li>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         )}
 
-        {/* Astuces avec design amélioré */}
+        {/* Astuces avec design en grille */}
         {content.astuces && content.astuces.length > 0 && (
-          <div className="bg-gradient-to-br from-yellow-50 to-amber-50 rounded-2xl p-8 border-2 border-yellow-200 shadow-lg hover:shadow-xl transition-shadow">
+          <div className="bg-yellow-50 rounded-2xl p-8 border-2 border-yellow-200 shadow-lg hover:shadow-xl transition-shadow">
             <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
               <div className="w-12 h-12 rounded-xl bg-yellow-500 flex items-center justify-center shadow-lg">
                 <Lightbulb className="text-white" size={26} />
               </div>
               Astuces et conseils
             </h2>
-            <ul className="space-y-4">
+            <div className="grid md:grid-cols-2 gap-4">
               {content.astuces.map((astuce, index) => (
-                <li key={index} className="flex items-start gap-4 bg-white/70 backdrop-blur-sm rounded-lg p-4 hover:bg-white transition-colors group">
-                  <span className="text-3xl group-hover:scale-110 transition-transform">💡</span>
+                <div key={index} className="flex items-start gap-4 bg-white rounded-lg p-4 hover:shadow-md transition-shadow border border-yellow-100 group">
+                  <Lightbulb className="text-yellow-600 shrink-0 mt-1 group-hover:scale-110 transition-transform" size={24} />
                   <span className="text-slate-700 leading-relaxed">{astuce}</span>
-                </li>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         )}
 
-        {/* Quand appeler un professionnel avec design amélioré */}
+        {/* Quand appeler un professionnel avec design en grille */}
         {content.quandAppeler && content.quandAppeler.length > 0 && (
-          <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-8 border-2 border-purple-200 shadow-lg hover:shadow-xl transition-shadow">
+          <div className="bg-purple-50 rounded-2xl p-8 border-2 border-purple-200 shadow-lg hover:shadow-xl transition-shadow">
             <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
               <div className="w-12 h-12 rounded-xl bg-purple-600 flex items-center justify-center shadow-lg">
                 <AlertTriangle className="text-white" size={26} />
               </div>
               Quand faire appel à un professionnel ?
             </h2>
-            <ul className="space-y-3">
+            <div className="grid md:grid-cols-2 gap-3">
               {content.quandAppeler.map((item, index) => (
-                <li key={index} className="flex items-start gap-4 bg-white/70 backdrop-blur-sm rounded-lg p-4 hover:bg-white transition-colors">
-                  <span className="text-purple-600 font-bold text-xl">→</span>
+                <div key={index} className="flex items-start gap-4 bg-white rounded-lg p-4 hover:shadow-md transition-shadow border border-purple-100">
+                  <ArrowRight className="text-purple-600 shrink-0 mt-1" size={20} />
                   <span className="text-slate-700 leading-relaxed">{item}</span>
-                </li>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         )}
       </div>

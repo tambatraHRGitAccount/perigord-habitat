@@ -1,71 +1,195 @@
 "use client";
 
-import { Scale, FileText, CheckCircle } from "lucide-react";
+import { Scale, FileText, CheckCircle, Shield, Users, BookOpen, AlertCircle } from "lucide-react";
 
 export function RulesSection() {
+  const lois = [
+    {
+      icon: FileText,
+      titre: "Loi du 6 juillet 1989",
+      description: "Cadre juridique des rapports locatifs",
+      details: "Définit les droits et obligations du locataire et du bailleur"
+    },
+    {
+      icon: BookOpen,
+      titre: "Décret de 1987",
+      description: "Liste des réparations locatives",
+      details: "Précise ce qui relève de l'entretien courant du locataire"
+    },
+    {
+      icon: Scale,
+      titre: "Décret de 1987",
+      description: "Charges récupérables",
+      details: "Détermine les charges que le bailleur peut récupérer"
+    }
+  ];
+
+  const responsabilites = [
+    {
+      icon: Users,
+      titre: "Locataire",
+      color: "blue",
+      items: [
+        "Entretien courant du logement",
+        "Petites réparations",
+        "Remplacement des consommables",
+        "Nettoyage régulier"
+      ]
+    },
+    {
+      icon: Shield,
+      titre: "Bailleur",
+      color: "indigo",
+      items: [
+        "Réparations importantes",
+        "Remplacement des équipements vétustes",
+        "Travaux de mise aux normes",
+        "Gros entretien"
+      ]
+    }
+  ];
+
   return (
-    <section className="w-full py-16 sm:py-20 bg-white border-b border-gray-100">
-      <div className="w-full px-4 sm:px-6">
+    <section className="w-full py-16 sm:py-20 bg-gray-50 border-b border-gray-100">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
         {/* Titre */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-indigo-100 mb-4">
-            <Scale className="text-indigo-600" size={28} />
-          </div>
+        <div className="mb-12">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
+            <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-indigo-100 mb-4 mr-4">
+              <Scale className="text-indigo-600" size={28} />
+            </div>
             Sur quelles règles repose ce site ?
           </h2>
           <p className="text-base text-gray-600">
-            Une base légale solide pour des réponses fiables
+            Une base légale solide pour des réponses fiables et conformes à la réglementation française
           </p>
         </div>
 
-        {/* Contenu */}
-        <div className="bg-white rounded-2xl p-8 sm:p-10 border border-gray-200 shadow-sm">
-          <p className="text-lg text-gray-700 mb-8 leading-relaxed">
-            Les informations présentées s'appuient sur la réglementation française en vigueur, notamment :
-          </p>
-
-          <div className="grid gap-4 mb-8">
-            <div className="flex items-start gap-3 bg-gray-50 p-5 rounded-xl border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50/50 transition-all">
-              <FileText className="text-indigo-600 shrink-0 mt-1" size={22} />
-              <p className="text-gray-700">la <strong>loi du 6 juillet 1989</strong> sur les rapports locatifs</p>
+        {/* Textes de loi - Design en cartes diagonales avec numérotation */}
+        <div className="mb-12">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-lg bg-indigo-100 flex items-center justify-center">
+              <BookOpen className="text-indigo-600" size={22} />
             </div>
-            <div className="flex items-start gap-3 bg-gray-50 p-5 rounded-xl border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50/50 transition-all">
-              <FileText className="text-indigo-600 shrink-0 mt-1" size={22} />
-              <p className="text-gray-700">le <strong>décret de 1987</strong> sur les réparations locatives</p>
-            </div>
-            <div className="flex items-start gap-3 bg-gray-50 p-5 rounded-xl border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50/50 transition-all">
-              <FileText className="text-indigo-600 shrink-0 mt-1" size={22} />
-              <p className="text-gray-700">le <strong>décret de 1987</strong> sur les charges récupérables</p>
-            </div>
+            <h3 className="text-2xl font-bold text-gray-900">Textes de référence</h3>
           </div>
-
-          <p className="text-lg text-gray-700 mb-6 font-medium">
-            Ces textes définissent clairement :
-          </p>
-
-          <div className="grid gap-3 mb-8">
-            <div className="flex items-start gap-3">
-              <CheckCircle className="text-green-500 shrink-0 mt-1" size={20} />
-              <p className="text-gray-700">ce qui relève de l'<strong>entretien courant</strong> (locataire)</p>
-            </div>
-            <div className="flex items-start gap-3">
-              <CheckCircle className="text-green-500 shrink-0 mt-1" size={20} />
-              <p className="text-gray-700">ce qui relève des <strong>réparations importantes</strong> (bailleur)</p>
-            </div>
-            <div className="flex items-start gap-3">
-              <CheckCircle className="text-green-500 shrink-0 mt-1" size={20} />
-              <p className="text-gray-700">et ce qui peut dépendre d'un <strong>contrat d'entretien</strong></p>
-            </div>
+          
+          <div className="grid md:grid-cols-3 gap-6">
+            {lois.map((loi, index) => {
+              const Icon = loi.icon;
+              return (
+                <div key={index} className="relative group">
+                  {/* Numéro en arrière-plan */}
+                  <div className="absolute -top-4 -left-4 w-20 h-20 rounded-full bg-indigo-100 flex items-center justify-center z-0 group-hover:scale-110 transition-transform">
+                    <span className="text-4xl font-black text-indigo-300">{index + 1}</span>
+                  </div>
+                  
+                  {/* Carte principale */}
+                  <div className="relative bg-white rounded-2xl p-6 border-l-4 border-indigo-500 shadow-md hover:shadow-2xl transition-all hover:-translate-y-1 z-10">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="w-12 h-12 rounded-lg bg-indigo-500 flex items-center justify-center transform rotate-12 group-hover:rotate-0 transition-transform">
+                        <Icon className="text-white" size={24} />
+                      </div>
+                      <div className="px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200">
+                        <span className="text-xs font-bold text-indigo-700">LOI</span>
+                      </div>
+                    </div>
+                    <h4 className="text-lg font-bold text-gray-900 mb-2">{loi.titre}</h4>
+                    <p className="text-indigo-600 font-semibold text-sm mb-2">{loi.description}</p>
+                    <div className="h-1 w-12 bg-indigo-500 rounded-full mb-3"></div>
+                    <p className="text-gray-600 text-sm leading-relaxed">{loi.details}</p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
+        </div>
 
-          <div className="bg-indigo-600 text-white p-6 rounded-xl">
-            <p className="text-xl font-semibold mb-3">
-              Le principe est simple :
-            </p>
-            <p className="text-lg leading-relaxed">
-              le locataire <strong>entretient</strong>, le bailleur <strong>répare</strong> les éléments importants, sauf cas particuliers.
-            </p>
+        {/* Responsabilités - Design en cartes avec onglets latéraux */}
+        <div className="mb-12">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center">
+              <AlertCircle className="text-purple-600" size={22} />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900">Qui fait quoi ?</h3>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-8">
+            {responsabilites.map((resp, index) => {
+              const Icon = resp.icon;
+              const mainColor = resp.color === "blue" ? "blue" : "indigo";
+              const bgPattern = resp.color === "blue" ? "bg-blue-500" : "bg-indigo-500";
+              const borderPattern = resp.color === "blue" ? "border-blue-500" : "border-indigo-500";
+              const dotColor = resp.color === "blue" ? "bg-blue-400" : "bg-indigo-400";
+              
+              return (
+                <div key={index} className="relative group">
+                  {/* Onglet latéral vertical */}
+                  <div className={`absolute -left-3 top-8 bottom-8 w-6 ${bgPattern} rounded-l-xl flex flex-col items-center justify-center gap-2 shadow-lg z-10`}>
+                    <div className="w-2 h-2 rounded-full bg-white opacity-50"></div>
+                    <div className="w-2 h-2 rounded-full bg-white opacity-75"></div>
+                    <div className="w-2 h-2 rounded-full bg-white"></div>
+                  </div>
+                  
+                  {/* Carte principale avec motif */}
+                  <div className={`relative bg-white rounded-2xl p-6 border-2 ${borderPattern} shadow-lg hover:shadow-2xl transition-all overflow-hidden`}>
+                    {/* Motif décoratif en arrière-plan */}
+                    <div className="absolute top-0 right-0 w-32 h-32 opacity-5">
+                      <div className={`absolute inset-0 ${bgPattern} rounded-full transform translate-x-12 -translate-y-12`}></div>
+                    </div>
+                    
+                    {/* En-tête avec icône */}
+                    <div className="relative flex items-center gap-4 mb-6 pb-4 border-b-2 border-gray-100">
+                      <div className={`w-16 h-16 rounded-2xl ${bgPattern} flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform`}>
+                        <Icon className="text-white" size={28} />
+                      </div>
+                      <div>
+                        <h4 className="text-2xl font-black text-gray-900">{resp.titre}</h4>
+                        <div className={`h-1 w-16 ${bgPattern} rounded-full mt-1`}></div>
+                      </div>
+                    </div>
+                    
+                    {/* Liste des items avec puces personnalisées */}
+                    <div className="relative space-y-3">
+                      {resp.items.map((item, idx) => (
+                        <div key={idx} className="flex items-start gap-3 group/item">
+                          <div className="relative flex items-center justify-center shrink-0 mt-1">
+                            <div className={`w-6 h-6 rounded-md ${bgPattern} flex items-center justify-center transform group-hover/item:rotate-12 transition-transform`}>
+                              <CheckCircle className="text-white" size={14} />
+                            </div>
+                          </div>
+                          <span className="text-gray-700 font-medium leading-relaxed">{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    {/* Indicateur de position */}
+                    <div className="absolute bottom-4 right-4 flex gap-1">
+                      <div className={`w-2 h-2 rounded-full ${dotColor}`}></div>
+                      <div className={`w-2 h-2 rounded-full ${dotColor} opacity-50`}></div>
+                      <div className={`w-2 h-2 rounded-full ${dotColor} opacity-25`}></div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Principe clé - Design amélioré */}
+        <div className="bg-white rounded-xl p-8 border-2 border-indigo-300 shadow-lg">
+          <div className="flex items-start gap-4">
+            <div className="w-14 h-14 rounded-xl bg-indigo-100 flex items-center justify-center shrink-0">
+              <Scale className="text-indigo-600" size={28} />
+            </div>
+            <div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">Le principe est simple</h3>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                Le locataire <span className="font-bold text-blue-600">entretient</span>, 
+                le bailleur <span className="font-bold text-indigo-600">répare</span> les éléments importants, 
+                sauf cas particuliers définis par la loi.
+              </p>
+            </div>
           </div>
         </div>
       </div>

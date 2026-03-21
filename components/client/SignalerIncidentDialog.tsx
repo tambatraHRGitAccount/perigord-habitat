@@ -27,6 +27,7 @@ const TOTAL_STEPS = 3;
 
 interface Props {
   onSubmit: (incident: CreateIncidentDTO) => Promise<void>;
+  children?: React.ReactNode;
 }
 
 /* ── composant barre de progression ── */
@@ -49,7 +50,7 @@ function StepBar({ step }: { step: number }) {
   );
 }
 
-export function SignalerIncidentDialog({ onSubmit }: Props) {
+export function SignalerIncidentDialog({ onSubmit, children }: Props) {
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState(1);
 
@@ -95,7 +96,7 @@ export function SignalerIncidentDialog({ onSubmit }: Props) {
   return (
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogTrigger asChild>
-        <Button className="gap-2"><Plus size={16} /> Signaler un incident</Button>
+        {children || <Button className="gap-2"><Plus size={16} /> Signaler un incident</Button>}
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
