@@ -1,83 +1,42 @@
 "use client";
 
-import { useState } from "react";
 import { HeaderApp } from "@/components/layout/HeaderApp";
-import { NOTICES, CATEGORIES, CAT_CONFIG } from "@/data/notices";
-import type { NoticeCategorie } from "@/types/notice";
-import { BookOpen, Calendar, Download } from "lucide-react";
+import { TutoStats } from "@/components/tutos/TutoStats";
+import { TutoFilters } from "@/components/tutos/TutoFilters";
+import { TutoGrid } from "@/components/tutos/TutoGrid";
+import { useTutos } from "@/hooks/useTutos";
+import { BookOpen } from "lucide-react";
 
 export default function TutosPage() {
-  const [filtre, setFiltre] = useState<NoticeCategorie | "Tous">("Tous");
-
-  const filtered = NOTICES.filter((n) => filtre === "Tous" || n.categorie === filtre);
+  const { filtre, setFiltre, filteredNotices, statistics } = useTutos();
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <HeaderApp />
 
-      <main className="flex-1 w-full px-4 sm:px-6 py-8">
-        <div className="flex flex-col gap-6">
-
+      <main className="flex-1 w-full px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex flex-col gap-8">
+          {/* En-tête */}
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center gap-2">
-              <BookOpen size={24} className="text-purple-600" />
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 flex items-center gap-3">
+              <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center">
+                <BookOpen className="w-7 h-7 text-indigo-600" />
+              </div>
               Tutos & conseils
             </h1>
-            <p className="text-gray-500 text-sm mt-0.5">Documents et guides d'utilisation de votre logement.</p>
+            <p className="text-gray-600 mt-2 text-base">
+              Découvrez nos guides pratiques pour entretenir et optimiser votre logement
+            </p>
           </div>
+
+          {/* Statistiques */}
+          <TutoStats {...statistics} />
 
           {/* Filtres */}
-          <div className="flex flex-wrap gap-2">
-            {(["Tous", ...CATEGORIES] as (NoticeCategorie | "Tous")[]).map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setFiltre(cat)}
-                className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${
-                  filtre === cat
-                    ? "bg-indigo-600 text-white border-indigo-600"
-                    : "bg-white text-gray-600 border-gray-200 hover:border-indigo-300 hover:text-indigo-600"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
+          <TutoFilters filtre={filtre} onFilterChange={setFiltre} />
 
-          {/* Grille */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filtered.map((notice) => {
-              const cfg = CAT_CONFIG[notice.categorie];
-              return (
-                <div key={notice.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-3 p-5">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0 ${cfg.bg}`}>
-                      {cfg.emoji}
-                    </div>
-                    <span className={`text-xs px-2.5 py-1 rounded-full font-semibold ${cfg.bg} ${cfg.color}`}>
-                      {notice.categorie}
-                    </span>
-                  </div>
-
-                  <div className="flex flex-col gap-1 flex-1">
-                    <h2 className="font-semibold text-gray-900 text-sm leading-snug">{notice.titre}</h2>
-                    <p className="text-xs text-gray-500 leading-relaxed line-clamp-3">{notice.description}</p>
-                  </div>
-
-                  <div className="flex items-center justify-between pt-1 border-t border-gray-100">
-                    <span className="flex items-center gap-1.5 text-xs text-gray-400">
-                      <Calendar size={12} /> {notice.date}
-                    </span>
-                    <button className="flex items-center gap-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-700 transition-colors">
-                      <Download size={13} /> Télécharger
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-            {filtered.length === 0 && (
-              <p className="col-span-full text-center text-gray-400 py-16">Aucune notice dans cette catégorie.</p>
-            )}
-          </div>
+          {/* Grille de tutoriels */}
+          <TutoGrid notices={filteredNotices} />
         </div>
       </main>
     </div>

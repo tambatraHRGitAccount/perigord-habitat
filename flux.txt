@@ -17,9 +17,4 @@ flux 1
 - envoyer au bailleur
 
 flux 2
-
-
-
-prompt
-
-utilisons drizzle, j'aimerais faire dynamiser tous logique avec celle de Incidents (coté client et coté admin), un client peut declenché une incident et il peut voir tous ses listes des incidents avec le filtre possible ainsi que l'admin peut gerer tous les incidents
+...
