@@ -8,25 +8,25 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import type { Incident, IncidentPriorite, IncidentTypeSinistre } from "@/types/incident";
+import type { CreateIncidentDTO, IncidentPriorite, IncidentTypeSinistre } from "@/types/incident";
 
 /* ── données ── */
 const PIECES = ["Cuisine", "Salle de bain", "Chambre", "Salon", "WC", "Entrée", "Buanderie", "Autre"];
 const PRIORITES: { value: IncidentPriorite; label: string }[] = [
-  { value: "faible",  label: "Faible"  },
-  { value: "moyenne", label: "Moyenne" },
-  { value: "haute",   label: "Haute"   },
-  { value: "urgente", label: "Urgente" },
+  { value: "basse",    label: "Basse"   },
+  { value: "normale",  label: "Normale" },
+  { value: "haute",    label: "Haute"   },
+  { value: "urgente",  label: "Urgente" },
 ];
 const TYPES_SINISTRE: { value: IncidentTypeSinistre; label: string; description: string }[] = [
   { value: "sinistre",   label: "Sinistre",    description: "Dégâts des eaux, incendie, catastrophe naturelle, etc." },
   { value: "vandalisme", label: "Vandalisme",  description: "Dégradations volontaires par un tiers, vol, tentative d'effraction." },
-  { value: "vétusté",   label: "Vétusté",     description: "Usure naturelle liée au temps ou au défaut d'entretien." },
+  { value: "vetuste",    label: "Vétusté",     description: "Usure naturelle liée au temps ou au défaut d'entretien." },
 ];
 const TOTAL_STEPS = 3;
 
 interface Props {
-  onSubmit: (incident: Omit<Incident, "id" | "statut">) => void;
+  onSubmit: (incident: CreateIncidentDTO) => Promise<void>;
 }
 
 /* ── composant barre de progression ── */
@@ -62,12 +62,12 @@ export function SignalerIncidentDialog({ onSubmit }: Props) {
   /* étape 2 */
   const [titre, setTitre] = useState("");
   const [piece, setPiece] = useState("");
-  const [priorite, setPriorite] = useState<IncidentPriorite>("moyenne");
+  const [priorite, setPriorite] = useState<IncidentPriorite>("normale");
 
   const reset = () => {
     setStep(1);
     setTypeSinistre(""); setDescription(""); setFichiers([]);
-    setTitre(""); setPiece(""); setPriorite("moyenne");
+    setTitre(""); setPiece(""); setPriorite("normale");
   };
 
   const handleClose = (v: boolean) => { if (!v) reset(); setOpen(v); };
@@ -75,18 +75,21 @@ export function SignalerIncidentDialog({ onSubmit }: Props) {
   const canNext1 = typeSinistre !== "" && description.trim().length > 0;
   const canNext2 = titre.trim().length > 0 && piece !== "";
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!typeSinistre || !piece) return;
-    onSubmit({
-      titre: titre || `${TYPES_SINISTRE.find(t => t.value === typeSinistre)?.label} — ${piece}`,
-      piece,
-      priorite,
-      typeSinistre,
-      description,
-      preuves: fichiers.map((f) => f.name),
-      date: new Date().toISOString().split("T")[0],
-    });
-    handleClose(false);
+    try {
+      await onSubmit({
+        titre: titre || `${TYPES_SINISTRE.find(t => t.value === typeSinistre)?.label} — ${piece}`,
+        piece,
+        priorite,
+        type_sinistre: typeSinistre,
+        description,
+        preuves: fichiers.map((f) => f.name),
+      });
+      handleClose(false);
+    } catch (error) {
+      console.error("Erreur lors de la soumission:", error);
+    }
   };
 
   return (
@@ -250,14 +253,14 @@ export function SignalerIncidentDialog({ onSubmit }: Props) {
               <div className="grid grid-cols-2 gap-2">
                 {PRIORITES.map(({ value, label }) => {
                   const colors: Record<string, string> = {
-                    faible: "border-gray-300 text-gray-600",
-                    moyenne: "border-yellow-400 text-yellow-700",
+                    basse: "border-gray-300 text-gray-600",
+                    normale: "border-yellow-400 text-yellow-700",
                     haute: "border-orange-400 text-orange-700",
                     urgente: "border-red-500 text-red-700",
                   };
                   const active: Record<string, string> = {
-                    faible: "bg-gray-50 border-gray-400",
-                    moyenne: "bg-yellow-50 border-yellow-500",
+                    basse: "bg-gray-50 border-gray-400",
+                    normale: "bg-yellow-50 border-yellow-500",
                     haute: "bg-orange-50 border-orange-500",
                     urgente: "bg-red-50 border-red-600",
                   };
