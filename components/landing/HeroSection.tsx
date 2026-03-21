@@ -2,160 +2,87 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, MessageSquare, Box, Star, Users, BookOpen, List } from "lucide-react";
+import { ArrowRight, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-const CHAT_PREVIEW = [
-  { role: "user", text: "Qui paie la réparation de la chaudière ?" },
-  { role: "assistant", text: "🔥 C'est la responsabilité du propriétaire. La chaudière fait partie des équipements à entretenir obligatoirement." },
-  { role: "user", text: "Et si c'est une fuite d'eau ?" },
-  { role: "assistant", text: "💧 Cela dépend de l'origine. Canalisation encastrée → propriétaire. Joint ou robinet → locataire." },
-];
 
 export function HeroSection() {
   return (
-    <section className="
-      flex-1
-      flex flex-col lg:flex-row
-      items-center justify-center
-      w-full
-      px-4 sm:px-8 lg:px-16 xl:px-24
-      py-10 sm:py-14 lg:py-0
-      gap-10 lg:gap-16
-      min-h-0
-    ">
+    <section className="w-full px-4 sm:px-8 lg:px-16 xl:px-24 py-16 sm:py-20 lg:py-24 bg-white">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          
+          {/* Colonne gauche - Contenu */}
+          <div className="text-center lg:text-left">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-indigo-200 bg-indigo-50 text-indigo-700 text-sm font-medium mb-6">
+              <Home size={16} className="shrink-0" />
+              Cher Locataire, Bienvenue
+            </div>
 
-      {/* ── Colonne gauche ── */}
-      <div className="
-        w-full lg:flex-1
-        flex flex-col
-        items-center lg:items-start
-        text-center lg:text-left
-        gap-5 sm:gap-6
-        max-w-2xl lg:max-w-none
-      ">
+            {/* Titre principal */}
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+              <span className="text-indigo-600">QUI FAIT QUOI</span>
+            </h1>
 
-        {/* Badge */}
-        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-indigo-200 bg-indigo-50 text-indigo-700 text-xs sm:text-sm font-medium">
-          <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse shrink-0" />
-          Assistant locatif disponible
-        </span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-700 mb-6 leading-tight">
+              Comprendre, diagnostiquer et résoudre<br />
+              les problèmes de votre logement
+            </h2>
 
-        {/* Titre */}
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold leading-tight text-gray-900">
-          Résolvez vos litiges{" "}
-          <span className="text-indigo-600">Locatifs,</span>
-          <br />
-          Simplement
-        </h1>
+            {/* Description */}
+            <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+              Cette plateforme a été conçue pour vous accompagner au quotidien dans l'entretien et les réparations de votre logement.
+            </p>
 
-        {/* Sous-titre */}
-        <p className="text-gray-500 text-sm sm:text-base lg:text-lg leading-relaxed max-w-lg">
-          Posez vos questions sur vos incidents locatifs. Notre assistant identifie les responsabilités et vous guide pas à pas dans vos démarches.
-        </p>
+            <p className="text-lg text-gray-700 mb-6 font-medium">
+              Son objectif est simple :
+            </p>
 
-        {/* CTAs */}
-        <div className="flex flex-col sm:flex-row flex-wrap justify-center lg:justify-start gap-3 w-full sm:w-auto">
-          <Button asChild size="lg" className="gap-2 rounded-full px-6 w-full sm:w-auto">
-            <Link href="/client/chat">
-              Démarrer le chat
-              <ArrowRight size={16} />
-            </Link>
-          </Button>
-          <Button asChild size="lg" variant="outline" className="gap-2 rounded-full px-6 w-full sm:w-auto">
-            <Link href="/schema-logement-konva">
-              <Box size={16} />
-              Schéma logement
-            </Link>
-          </Button>
-        </div>
-
-        {/* Stats */}
-        <div className="flex flex-wrap justify-center lg:justify-start gap-4 sm:gap-6 pt-1">
-          <div className="flex items-center gap-2 text-sm text-gray-500">
-            <Users size={15} className="text-indigo-500 shrink-0" />
-            <span><strong className="text-gray-900">1 200+</strong> Questions répondues</span>
-          </div>
-          <div className="flex items-center gap-2 text-sm text-gray-500">
-            <BookOpen size={15} className="text-indigo-500 shrink-0" />
-            <span><strong className="text-gray-900">15</strong> Thèmes couverts</span>
-          </div>
-          <div className="flex items-center gap-2 text-sm text-gray-500">
-            <Star size={15} className="text-indigo-500 shrink-0" />
-            <span><strong className="text-gray-900">4.9</strong> Note moyenne</span>
-          </div>
-        </div>
-      </div>
-
-      {/* ── Colonne droite – aperçu chat (desktop only) ── */}
-      <div className="hidden lg:flex lg:flex-1 items-center justify-center relative py-8 xl:py-12">
-
-        {/* Badge top-right */}
-        <div className="absolute top-0 right-0 flex items-center gap-2 bg-white rounded-2xl px-4 py-2.5 shadow-lg border border-gray-100 z-10">
-          <div className="flex -space-x-2">
-            {["#6366f1", "#8b5cf6", "#a78bfa"].map((c, i) => (
-              <div
-                key={i}
-                className="w-7 h-7 rounded-full border-2 border-white flex items-center justify-center text-white text-xs font-bold"
-                style={{ backgroundColor: c }}
-              >
-                {["A", "B", "C"][i]}
+            {/* Objectifs */}
+            <div className="flex flex-col gap-3 mb-8 text-left">
+              <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <span className="text-xl shrink-0">👉</span>
+                <p className="text-base text-gray-700">vous aider à <strong>savoir qui doit intervenir</strong>,</p>
               </div>
-            ))}
-          </div>
-          <div className="text-xs">
-            <p className="font-semibold text-gray-900">Rejoignez 1 200+</p>
-            <p className="text-gray-400">locataires</p>
-          </div>
-        </div>
+              <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <span className="text-xl shrink-0">👉</span>
+                <p className="text-base text-gray-700">comprendre <strong>qui paie</strong>,</p>
+              </div>
+              <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <span className="text-xl shrink-0">👉</span>
+                <p className="text-base text-gray-700">et vous permettre, lorsque c'est possible, de <strong>résoudre vous-même</strong> un problème rapidement.</p>
+              </div>
+            </div>
 
-        {/* Carte chat */}
-        <div className="w-full max-w-sm xl:max-w-md bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
-          <div className="flex items-center gap-3 px-5 py-4 border-b border-gray-100 bg-gray-50">
-            <Image src="/logo-default.png" alt="QFQ" width={32} height={32} className="rounded-lg" />
-            <div>
-              <p className="text-sm font-semibold text-gray-900">Qui fait quoi ?</p>
-              <p className="text-xs text-green-500 flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block" />
-                En ligne
-              </p>
+            {/* CTA */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <Button asChild size="lg" className="gap-2 rounded-lg px-8 text-base">
+                <Link href="/client/chat">
+                  Commencer maintenant
+                  <ArrowRight size={18} />
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="gap-2 rounded-lg px-8 text-base">
+                <Link href="#comment-ca-marche">
+                  En savoir plus
+                </Link>
+              </Button>
             </div>
           </div>
 
-          <div className="flex flex-col gap-3 px-5 py-5">
-            {CHAT_PREVIEW.map((msg, i) => (
-              <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-                <div className={`max-w-[85%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
-                  msg.role === "user"
-                    ? "bg-indigo-600 text-white rounded-br-sm"
-                    : "bg-gray-100 text-gray-800 rounded-bl-sm"
-                }`}>
-                  {msg.text}
-                </div>
-              </div>
-            ))}
+          {/* Colonne droite - Image */}
+          <div className="relative w-full h-[400px] lg:h-[600px] rounded-2xl overflow-hidden shadow-xl border border-gray-200">
+            <Image
+              src="/landing_page/hero-section.jpeg"
+              alt="Illustration de la plateforme Qui Fait Quoi"
+              fill
+              className="object-cover"
+              priority
+            />
           </div>
 
-          <div className="px-5 pb-5">
-            <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3">
-              <MessageSquare size={14} className="text-gray-400 shrink-0" />
-              <span className="text-sm text-gray-400">Posez votre question…</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Badge bottom-left */}
-        <div className="absolute bottom-0 left-0 flex items-center gap-2 bg-white rounded-2xl px-4 py-2.5 shadow-lg border border-gray-100">
-          <div className="w-8 h-8 rounded-xl bg-indigo-50 flex items-center justify-center shrink-0">
-            <BookOpen size={16} className="text-indigo-600" />
-          </div>
-          <div className="text-xs">
-            <p className="font-semibold text-gray-900">15 Thèmes</p>
-            <p className="text-gray-400">Couverts</p>
-          </div>
         </div>
       </div>
-
     </section>
   );
 }
