@@ -31,6 +31,8 @@ export class IncidentService {
         description: incident.description,
         priorite: incident.priorite,
         piece: incident.piece,
+        type_sinistre: incident.type_sinistre,
+        preuves: incident.preuves,
         statut: "nouveau",
       })
       .select()

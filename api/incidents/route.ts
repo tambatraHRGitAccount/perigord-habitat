@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { titre, description, priorite, piece, type_sinistre } = body;
+    const { titre, description, priorite, piece, type_sinistre, preuves } = body;
 
     const { data: incident, error } = await supabase
       .from("incidents")
@@ -70,6 +70,8 @@ export async function POST(request: NextRequest) {
         description,
         priorite,
         piece,
+        type_sinistre,
+        preuves,
         statut: "nouveau",
       })
       .select()
