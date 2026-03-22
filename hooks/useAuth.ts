@@ -17,7 +17,7 @@ export function useAuth() {
       setError(null);
       await authService.signInWithEmail(email, password);
       router.refresh();
-      router.push("/client/materiels");
+      router.push("/");
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Erreur de connexion");
     } finally {

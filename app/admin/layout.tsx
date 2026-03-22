@@ -29,7 +29,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
     // Connecté mais pas admin + dashboard → refus
     if (user && role !== "admin" && !isAdminAuthPage) {
-      router.replace("/client/materiels");
+      router.replace("/client/logement");
     }
   }, [user, role, loading, pathname, router, isAdminAuthPage]);
 
