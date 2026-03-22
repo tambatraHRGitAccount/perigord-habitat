@@ -2,9 +2,17 @@
 
 import { useState } from "react";
 import { HeaderApp } from "@/components/layout/HeaderApp";
-import { NOTICES, CATEGORIES, CAT_CONFIG } from "@/data/notices";
+import { NOTICES, CATEGORIES } from "@/data/notices";
 import type { NoticeCategorie } from "@/types/notice";
-import { FileText, Calendar, Download } from "lucide-react";
+import { FileText, Calendar, Download, Droplet, Zap, Flame, Wind, Sparkles } from "lucide-react";
+
+const CAT_CONFIG: Record<NoticeCategorie, { bg: string; color: string; icon: any }> = {
+  "Plomberie": { bg: "bg-blue-100", color: "text-blue-700", icon: Droplet },
+  "Électricité": { bg: "bg-yellow-100", color: "text-yellow-700", icon: Zap },
+  "Chauffage": { bg: "bg-orange-100", color: "text-orange-700", icon: Flame },
+  "Ventilation": { bg: "bg-cyan-100", color: "text-cyan-700", icon: Wind },
+  "Entretien": { bg: "bg-purple-100", color: "text-purple-700", icon: Sparkles },
+};
 
 export default function NoticesPage() {
   const [filtre, setFiltre] = useState<NoticeCategorie | "Tous">("Tous");
@@ -47,11 +55,12 @@ export default function NoticesPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {filtered.map((notice) => {
               const cfg = CAT_CONFIG[notice.categorie];
+              const Icon = cfg.icon;
               return (
                 <div key={notice.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-3 p-5">
                   <div className="flex items-start justify-between gap-2">
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0 ${cfg.bg}`}>
-                      {cfg.emoji}
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${cfg.bg}`}>
+                      <Icon className={cfg.color} size={20} />
                     </div>
                     <span className={`text-xs px-2.5 py-1 rounded-full font-semibold ${cfg.bg} ${cfg.color}`}>
                       {notice.categorie}
