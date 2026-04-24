@@ -22,7 +22,7 @@ import { useAuth } from "@/hooks/useAuth";
 const NAV_MAIN = [
   { href: "/",                     icon: Home,          title: "Accueil" },
   { href: "/client/chat",          icon: Bot,   title: "Diagnostiquer un problème" },
-  { href: "/client/logement",      icon: Building2,     title: "Mon logement" },
+  { href: "/maison",               icon: Building2,     title: "Mon logement" },
   { href: "/client/tutos",         icon: BookOpen,      title: "Tutos & conseils" },
   { href: "/client/qui-fait-quoi", icon: HelpCircle,    title: "Qui fait quoi ?" },
   { href: "/client/contacts",      icon: Phone,         title: "Contacts utiles" },

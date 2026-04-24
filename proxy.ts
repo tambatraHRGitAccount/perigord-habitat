@@ -38,7 +38,7 @@ export async function proxy(req: NextRequest) {
   // --- LOGIQUE CLIENT ---
   // Connecté (client) + page auth client → rediriger vers l'app client
   if (user && clientAuthPaths.includes(pathname)) {
-    return NextResponse.redirect(new URL("/client/materiels", req.url));
+    return NextResponse.redirect(new URL("/client/logement", req.url));
   }
   // Pas connecté + page client protégée → login client
   if (!user && pathname.startsWith("/client") && !clientAuthPaths.includes(pathname)) {
@@ -56,7 +56,7 @@ export async function proxy(req: NextRequest) {
   }
   // Connecté mais pas admin + dashboard admin → refus
   if (user && role !== "admin" && pathname.startsWith("/admin/dashboard")) {
-    return NextResponse.redirect(new URL("/client/materiels", req.url));
+    return NextResponse.redirect(new URL("/client/logement", req.url));
   }
 
   return res;
