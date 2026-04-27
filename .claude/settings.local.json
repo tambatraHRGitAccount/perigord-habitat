@@ -6,7 +6,8 @@
       "Bash(find e:/dossier/init/project/perigord-habitat/perigord-habitat/app/client -name *.tsx -o -name *.ts)",
       "Bash(npm install:*)",
       "Bash(npm run:*)",
-      "Bash(node -e \"console.log\\(require\\(''./node_modules/next/package.json''\\).version\\)\")"
+      "Bash(node -e \"console.log\\(require\\(''./node_modules/next/package.json''\\).version\\)\")",
+      "Bash(npm list *)"
     ]
   }
 }
