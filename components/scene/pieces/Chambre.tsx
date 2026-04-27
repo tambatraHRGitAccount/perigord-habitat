@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import { Sol } from '../structure/Sol';
+import { Interrupteur3D } from '../structure/Interrupteur3D';
 import { useElementSelectionnable } from '@/hooks/useElementSelectionnable';
 
 /**
@@ -238,7 +239,12 @@ export function Chambre({ lumiere, filDefer = false, masquerPlafond = false }: P
       )}
 
       {/* Lumière */}
-      {lumiere && <pointLight position={[-2.625, 2.5, 3.25]} intensity={35} distance={8} color="#ffcc80" castShadow shadow-mapSize={[256, 256]} />}
+      {lumiere && (
+        <rectAreaLight
+          position={[-2.625, 2.76, 3.25]} rotation={[-Math.PI / 2, 0, 0]}
+          width={1.6} height={1.6} intensity={3.5} color="#ffcc80"
+        />
+      )}
       <group position={[-2.625, 2.72, 3.25]}>
         <mesh>
           <cylinderGeometry args={[0.16, 0.12, 0.06, 20]} />
@@ -342,6 +348,14 @@ export function Chambre({ lumiere, filDefer = false, masquerPlafond = false }: P
           </mesh>
         </group>
       ))}
+
+      {/* Interrupteur — cloison avant (z≈1.625), près de la porte séjour */}
+      <Interrupteur3D
+        position={[-2.0, 1.2, 1.64]}
+        rotation={[0, -Math.PI / 2, 0]}
+        idPiece="chambre"
+        lumiere={lumiere}
+      />
 
       {/* ── Radiateur — mur arrière, sous la fenêtre ── */}
       <group {...radiateur.propsInteraction} position={[-2.5, 0.38, 4.78]}>
