@@ -1,5 +1,6 @@
 'use client';
 import { Sol } from '../structure/Sol';
+import { Interrupteur3D } from '../structure/Interrupteur3D';
 import { useElementSelectionnable } from '@/hooks/useElementSelectionnable';
 
 /**
@@ -51,7 +52,8 @@ export function SalleDeBain({ lumiere, filDefer = false, masquerPlafond = false 
       <Sol x={4.25} z={3.25} largeur={3.25} profondeur={3.25}
         couleur={sol.materiau.couleur} rugosite={sol.materiau.rugosite}
         propsInteraction={sol.propsInteraction} emissif={sol.emissif} intensiteEmissif={sol.intensiteEmissif}
-        filDefer={filDefer} />
+        filDefer={filDefer} clearcoat={0.65} clearcoatRoughness={0.04}
+        reflectif={true} mirrorForce={0.65} />
 
       {/* Plafond */}
       {!masquerPlafond && (
@@ -62,7 +64,12 @@ export function SalleDeBain({ lumiere, filDefer = false, masquerPlafond = false 
       )}
 
       {/* Lumière */}
-      {lumiere && <pointLight position={[4.25, 2.5, 3.25]} intensity={28} distance={5} color="#e8f4fd" castShadow />}
+      {lumiere && (
+        <rectAreaLight
+          position={[4.25, 2.76, 3.25]} rotation={[-Math.PI / 2, 0, 0]}
+          width={1.2} height={1.2} intensity={4} color="#e8f4fd"
+        />
+      )}
       <mesh position={[4.25, 2.72, 3.25]}>
         <cylinderGeometry args={[0.1, 0.12, 0.05, 12]} />
         <meshStandardMaterial color={lumiere ? '#e8f4fd' : '#d0d0d0'} emissive={lumiere ? '#e8f4fd' : '#000'} emissiveIntensity={lumiere ? 1.5 : 0} />
@@ -124,20 +131,27 @@ export function SalleDeBain({ lumiere, filDefer = false, masquerPlafond = false 
 
       {/* Miroir — au-dessus vasque */}
       <group position={[4.25, 1.55, 1.64]}>
+        {/* Cadre */}
         <mesh {...miroir.propsInteraction} castShadow>
           <boxGeometry args={[0.64, 0.72, 0.04]} />
-          <meshStandardMaterial {...M(miroir)} />
+          <meshPhysicalMaterial {...M(miroir)} clearcoat={0.6} clearcoatRoughness={0.08} />
         </mesh>
+        {/* Surface réfléchissante */}
         <mesh {...miroir.propsInteraction} position={[0, 0, 0.03]}>
           <boxGeometry args={[0.58, 0.66, 0.01]} />
-          <meshStandardMaterial {...M(miroir)} />
+          <meshPhysicalMaterial
+            color={miroir.estSelectionne ? '#00e5ff' : '#c8dff5'}
+            roughness={0.03} metalness={0.92}
+            clearcoat={1} clearcoatRoughness={0.01}
+            emissive={miroir.emissif} emissiveIntensity={miroir.intensiteEmissif}
+          />
         </mesh>
       </group>
 
       {/* Tapis — devant vasque */}
       <mesh {...tapis.propsInteraction} position={[4.25, 0.006, 2.5]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
         <planeGeometry args={[0.7, 1.0]} />
-        <meshStandardMaterial {...M(tapis)} />
+        <meshPhysicalMaterial {...M(tapis)} sheen={1} sheenRoughness={0.8} sheenColor={tapis.materiau.couleur} />
       </mesh>
 
       {/* ═══ MUR GAUCHE (x≈2.75) ═══ */}
@@ -196,12 +210,14 @@ export function SalleDeBain({ lumiere, filDefer = false, masquerPlafond = false 
         {/* Paroi vitrée droite */}
         <mesh {...douche.propsInteraction} position={[0.52, 1.1, 0]}>
           <boxGeometry args={[0.02, 2.2, 1.0]} />
-          <meshStandardMaterial {...M(douche)} />
+          <meshPhysicalMaterial color="#d4eaf7" roughness={0.04} metalness={0} transmission={0.75} ior={1.52} thickness={0.02}
+            emissive={douche.emissif} emissiveIntensity={douche.intensiteEmissif} />
         </mesh>
         {/* Paroi vitrée arrière */}
         <mesh {...douche.propsInteraction} position={[0, 1.1, -0.52]}>
           <boxGeometry args={[1.0, 2.2, 0.02]} />
-          <meshStandardMaterial {...M(douche)} />
+          <meshPhysicalMaterial color="#d4eaf7" roughness={0.04} metalness={0} transmission={0.75} ior={1.52} thickness={0.02}
+            emissive={douche.emissif} emissiveIntensity={douche.intensiteEmissif} />
         </mesh>
         {/* Pommeau de douche */}
         <mesh {...douche.propsInteraction} position={[0, 2.15, 0.42]}>
@@ -321,6 +337,14 @@ export function SalleDeBain({ lumiere, filDefer = false, masquerPlafond = false 
           </mesh>
         ))}
       </group>
+
+      {/* Interrupteur — cloison gauche (x≈2.625), près de la porte */}
+      <Interrupteur3D
+        position={[2.64, 1.2, 2.8]}
+        rotation={[0, 0, 0]}
+        idPiece="salleDeBain"
+        lumiere={lumiere}
+      />
 
       {/* Grille ventilation — mur avant haut */}
       <mesh {...ventil.propsInteraction} position={[4.25, 2.55, 1.64]}>

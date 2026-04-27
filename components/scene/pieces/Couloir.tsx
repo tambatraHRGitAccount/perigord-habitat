@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import { Sol } from '../structure/Sol';
+import { Interrupteur3D } from '../structure/Interrupteur3D';
 import { useElementSelectionnable } from '@/hooks/useElementSelectionnable';
 
 /**
@@ -47,7 +48,12 @@ export function Couloir({ lumiere, filDefer = false, masquerPlafond = false }: P
       )}
 
       {/* Lumière */}
-      {lumiere && <pointLight position={[1.625, 2.5, 3.25]} intensity={22} distance={5} color="#fff5e0" />}
+      {lumiere && (
+        <rectAreaLight
+          position={[1.625, 2.76, 3.25]} rotation={[-Math.PI / 2, 0, 0]}
+          width={0.8} height={0.8} intensity={2.5} color="#fff5e0"
+        />
+      )}
       <mesh position={[1.625, 2.72, 3.25]}>
         <cylinderGeometry args={[0.08, 0.1, 0.05, 12]} />
         <meshStandardMaterial color={lumiere ? '#fffde7' : '#d0d0d0'} emissive={lumiere ? '#fff5e0' : '#000'} emissiveIntensity={lumiere ? 1.2 : 0} />
@@ -95,6 +101,14 @@ export function Couloir({ lumiere, filDefer = false, masquerPlafond = false }: P
           </mesh>
         ))}
       </group>
+
+      {/* Interrupteur — mur gauche (x≈0.875), à l'entrée */}
+      <Interrupteur3D
+        position={[0.89, 1.2, 2.4]}
+        rotation={[0, 0, 0]}
+        idPiece="couloir"
+        lumiere={lumiere}
+      />
 
       {/* ── Sonnette / interphone — mur gauche, près de la porte d'entrée cuisine ── */}
       <group {...sonnette.propsInteraction} position={[0.86, 1.4, 1.85]}>

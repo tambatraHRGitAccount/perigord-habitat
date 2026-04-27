@@ -15,6 +15,7 @@ import { useScene } from '@/hooks/useSceneStore';
 import { PREREGLAGES_CAMERA, getClePrereglage } from '@/hooks/useCamera';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { useDroneControls } from '@/hooks/useDroneControls';
+import { PostEffets } from './PostEffets';
 
 export function SceneMaison() {
   const { modeCamera, pieceActive, modeJourNuit, lumieres, afficherFilDefer, sensibiliteCamera, setPieceActive } = useScene();
@@ -143,12 +144,13 @@ export function SceneMaison() {
 
   return (
     <>
+      <PostEffets />
       <EclairagePrincipal modeJourNuit={modeJourNuit} />
       {modeJourNuit === 'jour'
         ? <Sky sunPosition={[100, 80, 50]} turbidity={4} rayleigh={0.5} />
         : <Stars radius={80} depth={50} count={3000} factor={4} />
       }
-      <Environment preset="apartment" />
+      <Environment preset={modeJourNuit === 'nuit' ? 'night' : 'apartment'} />
 
       {/* OrbitControls désactivé en mode visite dans une pièce (contrôles drone actifs) */}
       {!droneActif && (

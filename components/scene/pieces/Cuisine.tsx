@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import { Sol } from '../structure/Sol';
+import { Interrupteur3D } from '../structure/Interrupteur3D';
 import { useElementSelectionnable } from '@/hooks/useElementSelectionnable';
 
 interface Props { lumiere: boolean; filDefer?: boolean; masquerPlafond?: boolean }
@@ -112,7 +113,7 @@ export function Cuisine({ lumiere, filDefer = false, masquerPlafond = false }: P
       <Sol x={3.5} z={-1.5} largeur={4.5} profondeur={5.0}
         couleur={sol.materiau.couleur} rugosite={sol.materiau.rugosite}
         propsInteraction={sol.propsInteraction} emissif={sol.emissif} intensiteEmissif={sol.intensiteEmissif}
-        filDefer={filDefer} />
+        filDefer={filDefer} clearcoat={0.45} clearcoatRoughness={0.08} />
 
       {!masquerPlafond && (
         <mesh position={[3.5, 2.8, -1.5]} rotation={[-Math.PI/2, 0, 0]}>
@@ -121,7 +122,12 @@ export function Cuisine({ lumiere, filDefer = false, masquerPlafond = false }: P
         </mesh>
       )}
 
-      {lumiere && <pointLight position={[3.5, 2.5, -1.5]} intensity={50} distance={8} color="#fff5e0" castShadow shadow-mapSize={[256, 256]} />}
+      {lumiere && (
+        <rectAreaLight
+          position={[3.5, 2.76, -1.5]} rotation={[-Math.PI / 2, 0, 0]}
+          width={1.8} height={1.8} intensity={5} color="#fff5e0"
+        />
+      )}
       <group position={[3.5, 2.72, -1.5]}>
         <mesh><cylinderGeometry args={[0.18, 0.14, 0.06, 20]} /><meshStandardMaterial color={lumiere ? '#fffde7' : '#d0d0d0'} emissive={lumiere ? '#fff5e0' : '#000'} emissiveIntensity={lumiere ? 1.8 : 0} /></mesh>
       </group>
@@ -147,7 +153,7 @@ export function Cuisine({ lumiere, filDefer = false, masquerPlafond = false }: P
       {/* Plan de travail */}
       <mesh {...planTravail.propsInteraction} position={[3.65, 0.92, -3.65]} castShadow>
         <boxGeometry args={[3.7, 0.045, 0.66]} />
-        <meshStandardMaterial {...M(planTravail)} />
+        <meshPhysicalMaterial {...M(planTravail)} clearcoat={0.7} clearcoatRoughness={0.08} />
       </mesh>
 
       {/* Meubles hauts */}
@@ -270,6 +276,14 @@ export function Cuisine({ lumiere, filDefer = false, masquerPlafond = false }: P
           <meshStandardMaterial {...M(serrure)} />
         </mesh>
       </group>
+
+      {/* Interrupteur — cloison gauche (x≈0.875), près de l'entrée couloir */}
+      <Interrupteur3D
+        position={[0.89, 1.2, 0.5]}
+        rotation={[0, 0, 0]}
+        idPiece="cuisine"
+        lumiere={lumiere}
+      />
 
       {/* Interphone */}
       <group position={[1.2, 1.5, 1.52]}>
