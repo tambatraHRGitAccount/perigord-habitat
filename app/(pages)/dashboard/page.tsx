@@ -1,153 +1,133 @@
 "use client";
 
-import { AlertTriangle, CheckCircle, Package, MessageSquare, Wrench, Building2, FileText } from "lucide-react";
+import { Home, Users, Package, AlertTriangle, Wrench, FileText } from "lucide-react";
 import { StatsCard } from "@/components/tableau_de_bord/StatsCard";
-import { RecentActivity } from "@/components/tableau_de_bord/RecentActivity";
 import { QuickActions } from "@/components/tableau_de_bord/QuickActions";
 import { DashboardLayout } from "@/components/tableau_de_bord/DashboardLayout";
-import { useDashboardData } from "@/hooks/tableau_de_bord/useDashboardData";
 
 export default function Dashboard() {
-  const { stats, loading } = useDashboardData();
+  // Statistiques pour le bailleur
+  const stats = {
+    totalLogements: 12,
+    totalLocataires: 15,
+    totalEquipements: 48,
+    incidentsEnCours: 3
+  };
 
-  // Données d'activité récente
-  const recentActivities = [
-    {
-      id: "1",
-      title: "Incident résolu",
-      description: "Fuite d'eau dans la salle de bain - Réparation terminée",
-      time: "Il y a 2 heures",
-      status: "success" as const
-    },
-    {
-      id: "2",
-      title: "Nouvel incident signalé",
-      description: "Problème électrique dans la cuisine",
-      time: "Il y a 5 heures",
-      status: "warning" as const
-    },
-    {
-      id: "3",
-      title: "Équipement ajouté",
-      description: "Nouveau lave-vaisselle installé",
-      time: "Hier",
-      status: "success" as const
-    },
-    {
-      id: "4",
-      title: "En attente de validation",
-      description: "Demande de réparation du chauffage",
-      time: "Il y a 2 jours",
-      status: "pending" as const
-    }
-  ];
-
-  // Actions rapides
+  // Actions rapides pour le bailleur
   const quickActions = [
     {
-      title: "Signaler un incident",
-      description: "Déclarer un nouveau problème",
-      icon: AlertTriangle,
-      href: "/client/incidents",
-      color: "orange" as const
-    },
-    {
-      title: "Assistant IA",
-      description: "Poser une question",
-      icon: MessageSquare,
-      href: "/client/chat",
+      title: "Gérer les équipements",
+      description: "Voir tous les équipements",
+      icon: Package,
+      href: "/equipment",
       color: "blue" as const
     },
     {
-      title: "Mes équipements",
-      description: "Gérer les équipements",
-      icon: Package,
-      href: "/equipment",
-      color: "green" as const
+      title: "Voir les incidents",
+      description: "Incidents en cours",
+      icon: AlertTriangle,
+      href: "/admin/dashboard/incidents",
+      color: "orange" as const
     },
     {
-      title: "Visite 3D",
-      description: "Explorer mon logement",
-      icon: Building2,
-      href: "/maison",
+      title: "Interventions",
+      description: "Planifier une intervention",
+      icon: Wrench,
+      href: "/admin/dashboard/interventions",
       color: "purple" as const
+    },
+    {
+      title: "Rapports",
+      description: "Générer un rapport",
+      icon: FileText,
+      href: "/admin/dashboard/rapports",
+      color: "green" as const
     }
   ];
 
-  if (loading) {
-    return (
-      <DashboardLayout title="Tableau de bord" description="Vue d'ensemble de votre logement">
-        <div className="flex items-center justify-center h-96">
-          <div className="text-center">
-            <div className="w-16 h-16 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-gray-600 font-medium">Chargement des données...</p>
-          </div>
-        </div>
-      </DashboardLayout>
-    );
-  }
-
   return (
-    <DashboardLayout title="Tableau de bord" description="Vue d'ensemble de votre logement">
-      <div className="max-w-7xl mx-auto space-y-8">
+    <DashboardLayout title="Tableau de bord" description="Vue d'ensemble de la gestion">
+      <div className="w-full space-y-8">
         
-        {/* Statistiques */}
+        {/* Statistiques principales */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <StatsCard
-            title="Total incidents"
-            value={stats.totalIncidents}
-            icon={AlertTriangle}
+            title="Logements"
+            value={stats.totalLogements}
+            icon={Home}
             color="blue"
-            trend={{ value: 12, isPositive: false }}
           />
           <StatsCard
-            title="Incidents résolus"
-            value={stats.resolvedIncidents}
-            icon={CheckCircle}
+            title="Locataires"
+            value={stats.totalLocataires}
+            icon={Users}
             color="green"
-            trend={{ value: 8, isPositive: true }}
-          />
-          <StatsCard
-            title="En attente"
-            value={stats.pendingIncidents}
-            icon={Wrench}
-            color="orange"
           />
           <StatsCard
             title="Équipements"
-            value={stats.totalEquipments}
+            value={stats.totalEquipements}
             icon={Package}
             color="purple"
-            trend={{ value: 5, isPositive: true }}
+          />
+          <StatsCard
+            title="Incidents en cours"
+            value={stats.incidentsEnCours}
+            icon={AlertTriangle}
+            color="orange"
           />
         </div>
 
-        {/* Actions rapides et Activité récente */}
-        <div className="grid lg:grid-cols-2 gap-8">
-          <QuickActions actions={quickActions} />
-          <RecentActivity activities={recentActivities} />
-        </div>
+        {/* Actions rapides */}
+        <QuickActions actions={quickActions} />
 
         {/* Section informative */}
-        <div className="bg-white rounded-2xl p-8 shadow-lg">
-          <div className="flex items-start gap-4">
-            <div className="w-14 h-14 rounded-xl bg-blue-100 flex items-center justify-center shrink-0">
-              <FileText className="text-blue-600" size={28} />
+        <div className="grid md:grid-cols-2 gap-6">
+          {/* Gestion des équipements */}
+          <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all">
+            <div className="flex items-start gap-4">
+              <div className="w-14 h-14 rounded-xl bg-blue-100 flex items-center justify-center shrink-0">
+                <Package className="text-blue-600" size={28} />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-xl font-black text-gray-900 mb-2">Équipements</h3>
+                <p className="text-gray-600 mb-4 text-sm leading-relaxed">
+                  Gérez tous les équipements de vos logements : ajout, modification, suivi de maintenance.
+                </p>
+                <a 
+                  href="/equipment" 
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all"
+                >
+                  Gérer les équipements
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
+              </div>
             </div>
-            <div className="flex-1">
-              <h2 className="text-2xl font-black text-gray-900 mb-3">Besoin d'aide ?</h2>
-              <p className="text-gray-600 mb-4 leading-relaxed">
-                Consultez notre guide "Qui fait quoi ?" pour savoir qui est responsable des réparations dans votre logement.
-              </p>
-              <a 
-                href="/client/qui-fait-quoi" 
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
-              >
-                Consulter le guide
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </a>
+          </div>
+
+          {/* Incidents */}
+          <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all">
+            <div className="flex items-start gap-4">
+              <div className="w-14 h-14 rounded-xl bg-orange-100 flex items-center justify-center shrink-0">
+                <AlertTriangle className="text-orange-600" size={28} />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-xl font-black text-gray-900 mb-2">Incidents</h3>
+                <p className="text-gray-600 mb-4 text-sm leading-relaxed">
+                  Suivez et gérez tous les incidents signalés par vos locataires en temps réel.
+                </p>
+                <a 
+                  href="/admin/dashboard/incidents" 
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-600 hover:bg-orange-700 text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all"
+                >
+                  Voir les incidents
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
+              </div>
             </div>
           </div>
         </div>

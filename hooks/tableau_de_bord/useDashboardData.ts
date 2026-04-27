@@ -3,34 +3,33 @@
 import { useState, useEffect } from "react";
 
 export interface DashboardStats {
-  totalIncidents: number;
-  resolvedIncidents: number;
-  pendingIncidents: number;
-  totalEquipments: number;
+  totalLogements: number;
+  totalLocataires: number;
+  totalEquipements: number;
+  incidentsEnCours: number;
 }
 
 export function useDashboardData() {
   const [stats, setStats] = useState<DashboardStats>({
-    totalIncidents: 0,
-    resolvedIncidents: 0,
-    pendingIncidents: 0,
-    totalEquipments: 0
+    totalLogements: 0,
+    totalLocataires: 0,
+    totalEquipements: 0,
+    incidentsEnCours: 0
   });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Simuler le chargement des données
-    // TODO: Remplacer par un vrai appel API
+    // TODO: Remplacer par un vrai appel API pour le bailleur
     const fetchData = async () => {
       try {
-        // Simulation de données
         await new Promise(resolve => setTimeout(resolve, 500));
         
         setStats({
-          totalIncidents: 24,
-          resolvedIncidents: 18,
-          pendingIncidents: 6,
-          totalEquipments: 42
+          totalLogements: 12,
+          totalLocataires: 15,
+          totalEquipements: 48,
+          incidentsEnCours: 3
         });
       } catch (error) {
         console.error("Erreur lors du chargement des données:", error);

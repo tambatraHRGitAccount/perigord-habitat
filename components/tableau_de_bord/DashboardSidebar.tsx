@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Package, LayoutDashboard, ChevronLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { Home, Package, LayoutDashboard } from "lucide-react";
 import Image from "next/image";
 
 const menuItems = [
@@ -21,21 +20,18 @@ const menuItems = [
 
 export function DashboardSidebar() {
   const pathname = usePathname();
-  const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
     <>
       {/* Sidebar Desktop */}
-      <aside className={`hidden lg:flex flex-col bg-white border-r border-gray-200 transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`}>
+      <aside className="hidden lg:flex flex-col bg-white border-r border-gray-200 w-64">
         {/* Logo */}
         <div className="p-6 border-b border-gray-200">
           <Link href="/" className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center shrink-0">
               <Image src="/logo-default.png" alt="Logo" width={24} height={24} className="rounded" />
             </div>
-            {!isCollapsed && (
-              <span className="font-bold text-lg text-gray-900">Qui fait quoi ?</span>
-            )}
+            <span className="font-bold text-lg text-gray-900">Qui fait quoi ?</span>
           </Link>
         </div>
 
@@ -54,12 +50,9 @@ export function DashboardSidebar() {
                     ? 'bg-indigo-600 text-white shadow-lg'
                     : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                 }`}
-                title={isCollapsed ? item.label : undefined}
               >
                 <Icon size={20} className="shrink-0" />
-                {!isCollapsed && (
-                  <span className="font-medium">{item.label}</span>
-                )}
+                <span className="font-medium">{item.label}</span>
               </Link>
             );
           })}
@@ -70,12 +63,9 @@ export function DashboardSidebar() {
           <Link
             href="/"
             className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200"
-            title={isCollapsed ? "Retour à l'accueil" : undefined}
           >
             <Home size={20} className="shrink-0" />
-            {!isCollapsed && (
-              <span className="font-medium">Landing page</span>
-            )}
+            <span className="font-medium">Retour à l&apos;accueil</span>
           </Link>
         </div>
       </aside>
