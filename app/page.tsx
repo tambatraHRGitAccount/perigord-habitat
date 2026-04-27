@@ -4,7 +4,7 @@ import { HeroSection } from "@/components/landing/HeroSection";
 import { ObjectivesSection } from "@/components/landing/ObjectivesSection";
 import { RulesSection } from "@/components/landing/RulesSection";
 import { HowItWorksSection } from "@/components/landing/HowItWorksSection";
-import { ExampleSection } from "@/components/landing/ExampleSection";
+// import { ExampleSection } from "@/components/landing/ExampleSection";
 
 export default function LandingPage() {
   return (
@@ -14,7 +14,7 @@ export default function LandingPage() {
       <HowItWorksSection />
       <ObjectivesSection />
       <RulesSection />
-      <ExampleSection />
+      {/* <ExampleSection /> */}
       <FooterApp />
     </div>
   );
