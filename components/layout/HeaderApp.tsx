@@ -21,11 +21,11 @@ import { useAuth } from "@/hooks/useAuth";
 
 const NAV_MAIN = [
   { href: "/",                     icon: Home,          title: "Accueil" },
-  { href: "/client/chat",          icon: Bot,   title: "Diagnostiquer un problème" },
-  { href: "/maison",               icon: Building2,     title: "Mon logement" },
-  { href: "/client/tutos",         icon: BookOpen,      title: "Tutos & conseils" },
+  { href: "/client/chat",          icon: Bot,           title: "Assistant" },
+  { href: "/maison",               icon: Building2,     title: "Logement" },
+  { href: "/client/tutos",         icon: BookOpen,      title: "Conseils" },
   { href: "/client/qui-fait-quoi", icon: HelpCircle,    title: "Qui fait quoi ?" },
-  { href: "/client/contacts",      icon: Phone,         title: "Contacts utiles" },
+  { href: "/client/contacts",      icon: Phone,         title: "Contacts" },
 ];
 
 const MOBILE_NAV = [

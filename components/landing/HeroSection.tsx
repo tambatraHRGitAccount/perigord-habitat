@@ -51,7 +51,7 @@ export function HeroSection() {
                 Visiter mon logement en 3D
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="gap-3 rounded-xl px-8 py-6 text-base font-bold bg-white/95 hover:bg-white border-2 border-white shadow-2xl hover:scale-105 transition-all backdrop-blur-sm">
+            <Button asChild size="lg" variant="outline" className="gap-3 rounded-xl px-8 py-6 text-base font-bold bg-white text-gray-900 hover:text-gray-900 border-2 border-white shadow-2xl hover:scale-105 hover:bg-gray-50 transition-all backdrop-blur-sm">
               <Link href="#comment-ca-marche">
                 En savoir plus
                 <ArrowRight size={20} />

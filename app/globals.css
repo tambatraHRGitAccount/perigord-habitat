@@ -17,6 +17,11 @@ main {
   scroll-behavior: smooth;
 }
 
+/* Offset pour le scroll avec header sticky */
+section[id] {
+  scroll-margin-top: 80px;
+}
+
 /* Animations personnalisées pour la landing page */
 @keyframes fade-in-up {
   from {
