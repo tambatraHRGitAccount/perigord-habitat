@@ -28,8 +28,8 @@ export default function EquipmentPage() {
 
       const role = user.user_metadata?.role ?? user.app_metadata?.role;
       
-      // Seuls admin et bailleur peuvent accéder aux équipements
-      if (role !== "admin" && role !== "bailleur") {
+      // Seul le bailleur peut accéder aux équipements
+      if (role !== "bailleur") {
         router.push("/client/logement");
         return;
       }

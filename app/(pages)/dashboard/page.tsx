@@ -24,8 +24,8 @@ export default function Dashboard() {
 
       const role = user.user_metadata?.role ?? user.app_metadata?.role;
       
-      // Seuls admin et bailleur peuvent accéder au dashboard
-      if (role !== "admin" && role !== "bailleur") {
+      // Seul le bailleur peut accéder au dashboard
+      if (role !== "bailleur") {
         router.push("/client/logement");
         return;
       }
@@ -54,25 +54,25 @@ export default function Dashboard() {
       color: "blue" as const
     },
     {
+      title: "Voir les locataires",
+      description: "Gérer les locataires",
+      icon: Users,
+      href: "/client/logement",
+      color: "green" as const
+    },
+    {
       title: "Voir les incidents",
       description: "Incidents en cours",
       icon: AlertTriangle,
-      href: "/admin/dashboard/incidents",
+      href: "/client/incidents",
       color: "orange" as const
     },
     {
       title: "Interventions",
       description: "Planifier une intervention",
       icon: Wrench,
-      href: "/admin/dashboard/interventions",
+      href: "/client/interventions",
       color: "purple" as const
-    },
-    {
-      title: "Rapports",
-      description: "Générer un rapport",
-      icon: FileText,
-      href: "/admin/dashboard/rapports",
-      color: "green" as const
     }
   ];
 
@@ -157,7 +157,7 @@ export default function Dashboard() {
                   Suivez et gérez tous les incidents signalés par vos locataires en temps réel.
                 </p>
                 <a 
-                  href="/admin/dashboard/incidents" 
+                  href="/client/incidents" 
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-600 hover:bg-orange-700 text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all"
                 >
                   Voir les incidents

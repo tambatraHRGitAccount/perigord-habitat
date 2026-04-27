@@ -1,4 +1,4 @@
-export type UserRole = "locataire" | "bailleur" | "admin";
+export type UserRole = "locataire" | "bailleur";
 
 export interface Profile {
   id: string;

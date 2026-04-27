@@ -7,7 +7,7 @@ import { useAuthContext } from "@/providers/AuthProvider";
 import type { UserRole } from "@/types/user";
 
 const REDIRECT_BY_ROLE: Record<UserRole, string> = {
-  locataire: "/client/chat",
+  locataire: "/client/logement",
   bailleur: "/dashboard",
 };
 
