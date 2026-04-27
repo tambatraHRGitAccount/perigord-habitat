@@ -1,11 +1,41 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 import { Home, Users, Package, AlertTriangle, Wrench, FileText } from "lucide-react";
 import { StatsCard } from "@/components/tableau_de_bord/StatsCard";
 import { QuickActions } from "@/components/tableau_de_bord/QuickActions";
 import { DashboardLayout } from "@/components/tableau_de_bord/DashboardLayout";
 
 export default function Dashboard() {
+  const router = useRouter();
+  const [isAuthorized, setIsAuthorized] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        router.push("/login");
+        return;
+      }
+
+      const role = user.user_metadata?.role ?? user.app_metadata?.role;
+      
+      // Seuls admin et bailleur peuvent accéder au dashboard
+      if (role !== "admin" && role !== "bailleur") {
+        router.push("/client/logement");
+        return;
+      }
+
+      setIsAuthorized(true);
+    };
+
+    checkAuth();
+  }, [router]);
+
   // Statistiques pour le bailleur
   const stats = {
     totalLogements: 12,
@@ -45,6 +75,14 @@ export default function Dashboard() {
       color: "green" as const
     }
   ];
+
+  if (!isAuthorized) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
 
   return (
     <DashboardLayout title="Tableau de bord" description="Vue d'ensemble de la gestion">

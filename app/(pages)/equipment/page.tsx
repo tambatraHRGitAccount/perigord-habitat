@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 import { Package } from "lucide-react";
 import { DashboardLayout } from "@/components/tableau_de_bord/DashboardLayout";
 import { EquipmentCard } from "@/components/equipment/EquipmentCard";
@@ -10,7 +12,33 @@ import { useEquipmentData } from "@/hooks/equipment/useEquipmentData";
 import type { Equipment } from "@/types/equipment";
 
 export default function EquipmentPage() {
+  const router = useRouter();
+  const [isAuthorized, setIsAuthorized] = useState(false);
   const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        router.push("/login");
+        return;
+      }
+
+      const role = user.user_metadata?.role ?? user.app_metadata?.role;
+      
+      // Seuls admin et bailleur peuvent accéder aux équipements
+      if (role !== "admin" && role !== "bailleur") {
+        router.push("/client/logement");
+        return;
+      }
+
+      setIsAuthorized(true);
+    };
+
+    checkAuth();
+  }, [router]);
 
   const {
     equipments,
@@ -21,6 +49,14 @@ export default function EquipmentPage() {
     selectedPiece,
     setSelectedPiece,
   } = useEquipmentData();
+
+  if (!isAuthorized) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
 
   return (
     <DashboardLayout title="Équipements" description="Gérer les équipements des logements">
