@@ -14,7 +14,7 @@ export default function LandingPage() {
       <HowItWorksSection />
       <ObjectivesSection />
       <RulesSection />
-      {/* <ExampleSection /> */}
+      <ExampleSection />
       <FooterApp />
     </div>
   );

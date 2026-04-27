@@ -1,0 +1,1 @@
+avez vous etudier le fait de boutton avec En savoir plus car avec hover le couleur de texte change en blanc alors que le background couleur de ce boutton reste blanc ainsi en cliquant de ce boutton c'est vrai qu'il se defile vers le bas mais le cmportement de rendu il se superpose avec le header

@@ -50,17 +50,18 @@ export function RulesSection() {
   ];
 
   return (
-    <section className="w-full py-16 sm:py-20 bg-gray-50 border-b border-gray-100">
-      <div className="w-full px-4 sm:px-6 lg:px-8">
+    <section className="w-full py-20 sm:py-24 bg-white">
+      <div className="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         {/* Titre */}
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
-            <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-indigo-100 mb-4 mr-4">
-              <Scale className="text-indigo-600" size={28} />
-            </div>
+        <div className="mb-16 text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-100 text-indigo-700 text-sm font-semibold mb-4">
+            <Scale size={16} />
+            Base légale
+          </div>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
             Sur quelles règles repose ce site ?
           </h2>
-          <p className="text-base text-gray-600">
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Une base légale solide pour des réponses fiables et conformes à la réglementation française
           </p>
         </div>
@@ -177,16 +178,16 @@ export function RulesSection() {
         </div>
 
         {/* Principe clé - Design amélioré avec code couleur */}
-        <div className="bg-gradient-to-r from-blue-50 to-orange-50 rounded-xl p-8 border-2 border-gray-200 shadow-lg">
-          <div className="flex items-start gap-4">
-            <div className="w-14 h-14 rounded-xl bg-white flex items-center justify-center shrink-0 shadow-md">
-              <Scale className="text-gray-700" size={28} />
+        <div className="bg-gradient-to-r from-blue-50 via-white to-orange-50 rounded-2xl p-8 sm:p-10 border-2 border-gray-200 shadow-xl hover:shadow-2xl transition-all duration-300">
+          <div className="flex flex-col sm:flex-row items-start gap-6">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-orange-500 flex items-center justify-center shrink-0 shadow-lg">
+              <Scale className="text-white" size={32} />
             </div>
-            <div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-3">Le principe est simple</h3>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                Le <span className="font-bold text-blue-600 bg-blue-100 px-2 py-1 rounded">locataire</span> entretient, 
-                le <span className="font-bold text-orange-600 bg-orange-100 px-2 py-1 rounded">bailleur</span> répare les éléments importants, 
+            <div className="flex-1">
+              <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Le principe est simple</h3>
+              <p className="text-lg sm:text-xl text-gray-700 leading-relaxed">
+                Le <span className="font-bold text-blue-600 bg-blue-100 px-3 py-1.5 rounded-lg">locataire</span> entretient, 
+                le <span className="font-bold text-orange-600 bg-orange-100 px-3 py-1.5 rounded-lg">bailleur</span> répare les éléments importants, 
                 sauf cas particuliers définis par la loi.
               </p>
             </div>
