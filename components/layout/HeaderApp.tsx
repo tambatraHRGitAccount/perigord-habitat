@@ -59,7 +59,7 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
       </Link>
 
       {/* ── Desktop ── */}
-      <div className="hidden lg:flex items-center gap-0.5">
+      <div className="hidden lg:flex items-center gap-1">
         {!loading && (
           user ? (
             <>
@@ -70,14 +70,14 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
                     key={href}
                     href={href}
                     title={title}
-                    className={`relative group p-2.5 rounded-lg transition-colors ${
+                    className={`flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-colors ${
                       isActive
                         ? "bg-primary/10 text-primary"
                         : "text-gray-500 hover:text-primary hover:bg-primary/10"
                     }`}
                   >
                     <Icon size={18} />
-                    <span className="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 py-1 rounded bg-gray-800 text-white text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-50">
+                    <span className="text-[10px] font-medium whitespace-nowrap">
                       {title}
                     </span>
                   </Link>
@@ -88,7 +88,7 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
               <Link
                 href="/client/notifications"
                 title="Alertes"
-                className={`relative group p-2.5 rounded-lg transition-colors ${
+                className={`flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-colors ${
                   pathname === "/client/notifications"
                     ? "bg-primary/10 text-primary"
                     : "text-gray-500 hover:text-primary hover:bg-primary/10"
@@ -98,7 +98,7 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
                   <Bell size={18} />
                   <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-red-500" />
                 </span>
-                <span className="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 py-1 rounded bg-gray-800 text-white text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-50">
+                <span className="text-[10px] font-medium whitespace-nowrap">
                   Alertes
                 </span>
               </Link>
@@ -106,13 +106,13 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
               {/* Mon compte dropdown */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="group relative ml-1 p-2 rounded-lg text-gray-500 hover:text-primary hover:bg-primary/10 transition-colors focus:outline-none">
+                  <button className="flex flex-col items-center gap-1 px-3 py-2 rounded-lg text-gray-500 hover:text-primary hover:bg-primary/10 transition-colors focus:outline-none">
                     <Avatar className="h-6 w-6">
                       <AvatarFallback className="bg-primary/10 text-primary text-[9px] font-semibold">
                         {initials}
                       </AvatarFallback>
                     </Avatar>
-                    <span className="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 py-1 rounded bg-gray-800 text-white text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-50">
+                    <span className="text-[10px] font-medium whitespace-nowrap">
                       Mon compte
                     </span>
                   </button>

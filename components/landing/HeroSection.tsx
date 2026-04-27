@@ -31,8 +31,8 @@ export function HeroSection() {
           </h1>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-8 leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]">
-            Comprendre, diagnostiquer et résoudre<br />
-            les problèmes de votre logement
+            Savoir qui répare quoi<br />
+            dans votre logement
           </h2>
 
           {/* Description */}
@@ -52,6 +52,11 @@ export function HeroSection() {
             <Button asChild size="lg" variant="outline" className="gap-3 rounded-xl px-10 py-7 text-lg font-bold bg-white hover:bg-slate-50 border-2 border-white shadow-2xl hover:scale-105 transition-all">
               <Link href="#objectifs">
                 En savoir plus
+              </Link>
+            </Button>
+            <Button asChild size="lg" className="gap-3 rounded-xl px-10 py-7 text-lg font-bold shadow-2xl hover:shadow-orange-500/50 hover:scale-105 transition-all bg-orange-500 hover:bg-orange-600 text-white">
+              <Link href="/maison">
+                🏠 Visiter mon logement en 3D
               </Link>
             </Button>
           </div>

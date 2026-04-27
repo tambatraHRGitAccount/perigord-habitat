@@ -39,7 +39,7 @@ export function RulesSection() {
     {
       icon: Shield,
       titre: "Bailleur",
-      color: "indigo",
+      color: "orange",
       items: [
         "Réparations importantes",
         "Remplacement des équipements vétustes",
@@ -117,10 +117,10 @@ export function RulesSection() {
           <div className="grid md:grid-cols-2 gap-8">
             {responsabilites.map((resp, index) => {
               const Icon = resp.icon;
-              const mainColor = resp.color === "blue" ? "blue" : "indigo";
-              const bgPattern = resp.color === "blue" ? "bg-blue-500" : "bg-indigo-500";
-              const borderPattern = resp.color === "blue" ? "border-blue-500" : "border-indigo-500";
-              const dotColor = resp.color === "blue" ? "bg-blue-400" : "bg-indigo-400";
+              const mainColor = resp.color === "blue" ? "blue" : "orange";
+              const bgPattern = resp.color === "blue" ? "bg-blue-500" : "bg-orange-500";
+              const borderPattern = resp.color === "blue" ? "border-blue-500" : "border-orange-500";
+              const dotColor = resp.color === "blue" ? "bg-blue-400" : "bg-orange-400";
               
               return (
                 <div key={index} className="relative group">
@@ -176,17 +176,17 @@ export function RulesSection() {
           </div>
         </div>
 
-        {/* Principe clé - Design amélioré */}
-        <div className="bg-white rounded-xl p-8 border-2 border-indigo-300 shadow-lg">
+        {/* Principe clé - Design amélioré avec code couleur */}
+        <div className="bg-gradient-to-r from-blue-50 to-orange-50 rounded-xl p-8 border-2 border-gray-200 shadow-lg">
           <div className="flex items-start gap-4">
-            <div className="w-14 h-14 rounded-xl bg-indigo-100 flex items-center justify-center shrink-0">
-              <Scale className="text-indigo-600" size={28} />
+            <div className="w-14 h-14 rounded-xl bg-white flex items-center justify-center shrink-0 shadow-md">
+              <Scale className="text-gray-700" size={28} />
             </div>
             <div>
               <h3 className="text-2xl font-bold text-gray-900 mb-3">Le principe est simple</h3>
               <p className="text-lg text-gray-700 leading-relaxed">
-                Le locataire <span className="font-bold text-blue-600">entretient</span>, 
-                le bailleur <span className="font-bold text-indigo-600">répare</span> les éléments importants, 
+                Le <span className="font-bold text-blue-600 bg-blue-100 px-2 py-1 rounded">locataire</span> entretient, 
+                le <span className="font-bold text-orange-600 bg-orange-100 px-2 py-1 rounded">bailleur</span> répare les éléments importants, 
                 sauf cas particuliers définis par la loi.
               </p>
             </div>
