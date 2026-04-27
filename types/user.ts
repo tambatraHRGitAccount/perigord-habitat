@@ -1,3 +1,14 @@
+export type UserRole = "locataire" | "bailleur";
+
+export interface Profile {
+  id: string;
+  role: UserRole;
+  full_name: string | null;
+  organisation: string | null;
+  telephone: string | null;
+  created_at: string;
+}
+
 export interface Locataire {
   id: number;
   user_id: string;

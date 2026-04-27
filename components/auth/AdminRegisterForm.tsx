@@ -7,15 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/useAuth";
-import type { UserRole } from "@/types/user";
 
-interface RegisterFormProps {
-  role: UserRole;
-  onChangeRole?: () => void;
-}
-
-export function RegisterForm({ role, onChangeRole }: RegisterFormProps) {
+export function AdminRegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const [organisation, setOrganisation] = useState("");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,7 +26,7 @@ export function RegisterForm({ role, onChangeRole }: RegisterFormProps) {
       return;
     }
     setConfirmError(null);
-    const result = await register(email, password, fullName, role);
+    const result = await register(email, password, fullName, "bailleur", { organisation });
     if (result === "confirm") setRegistered(true);
   };
 
@@ -46,7 +41,7 @@ export function RegisterForm({ role, onChangeRole }: RegisterFormProps) {
           <p className="text-sm text-gray-500 mt-1 max-w-xs">
             Un e-mail de confirmation a été envoyé à{" "}
             <span className="font-medium text-gray-700">{email}</span>.
-            Cliquez sur le lien pour activer votre compte.
+            Cliquez sur le lien pour activer votre compte administrateur.
           </p>
         </div>
         <Link href="/login" className="text-xs text-indigo-600 hover:underline font-medium">
@@ -65,24 +60,36 @@ export function RegisterForm({ role, onChangeRole }: RegisterFormProps) {
       )}
 
       <div className="flex flex-col gap-1.5">
+        <Label htmlFor="organisation">Organisation / Société</Label>
+        <Input
+          id="organisation"
+          type="text"
+          placeholder="Périgord Habitat"
+          required
+          autoFocus
+          value={organisation}
+          onChange={(e) => setOrganisation(e.target.value)}
+        />
+      </div>
+
+      <div className="flex flex-col gap-1.5">
         <Label htmlFor="name">Nom complet</Label>
         <Input
           id="name"
           type="text"
           placeholder="Jean Dupont"
           required
-          autoFocus
           value={fullName}
           onChange={(e) => setFullName(e.target.value)}
         />
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <Label htmlFor="email">Adresse e-mail</Label>
+        <Label htmlFor="email">Adresse e-mail professionnelle</Label>
         <Input
           id="email"
           type="email"
-          placeholder="vous@exemple.com"
+          placeholder="admin@organisation.com"
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -126,18 +133,8 @@ export function RegisterForm({ role, onChangeRole }: RegisterFormProps) {
       </div>
 
       <Button type="submit" className="w-full mt-1" disabled={pending}>
-        {pending ? "Création du compte..." : "Créer mon compte"}
+        {pending ? "Création du compte..." : "Créer le compte administrateur"}
       </Button>
-
-      {onChangeRole && (
-        <button
-          type="button"
-          onClick={onChangeRole}
-          className="text-center text-sm text-gray-500 hover:text-gray-700"
-        >
-          ← Changer de profil
-        </button>
-      )}
 
       <p className="text-center text-sm text-gray-500">
         Déjà un compte ?{" "}

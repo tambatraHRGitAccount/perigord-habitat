@@ -1,13 +1,5 @@
-import { AuthCard } from "@/components/auth/AuthCard";
-import { RegisterForm } from "@/components/auth/RegisterForm";
+import { redirect } from "next/navigation";
 
-export default function RegisterPage() {
-  return (
-    <AuthCard
-      title="Créer un compte"
-      description="Rejoignez la plateforme Qui fait quoi"
-    >
-      <RegisterForm />
-    </AuthCard>
-  );
+export default function OldClientRegisterPage() {
+  redirect("/register");
 }
