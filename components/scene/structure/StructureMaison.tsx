@@ -13,8 +13,8 @@ interface Props {
 }
 
 // ── Couleurs façade maison familiale ─────────────────────────────────────────
-const EXT        = '#f0ebe0';   // enduit crème chaud
-const EXT_PIERRE = '#c8b89a';   // soubassement pierre
+const EXT        = '#f8f8f8';   // blanc cassé
+const EXT_PIERRE = '#d8cfc4';   // soubassement pierre clair
 const INT        = '#d4cfc8';   // cloisons intérieures
 const C_VOLET    = '#5c7a3e';   // volets bois vert forêt
 

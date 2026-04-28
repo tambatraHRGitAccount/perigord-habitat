@@ -43,8 +43,8 @@ const CZ           = -(PROFONDEUR_MAISON / 2) - EP / 2 + EP / 2 + PG / 2;
 // Z de la face EXTÉRIEURE du mur avant (dans le repère local)
 const Z_FACADE_EXT = -PG / 2 - EP / 2;   // -2.875
 
-const C_MUR     = '#ddd8d0';
-const C_SOUBAS  = '#c4bdb5';
+const C_MUR     = '#f8f8f8';   // blanc
+const C_SOUBAS  = '#e0d8d0';   // soubassement blanc légèrement grisé
 const C_TOIT_G  = '#c8c8c8';
 const C_ACROT   = '#d0d0d0';
 const C_SOL_I   = '#a0a0a0';
@@ -72,8 +72,10 @@ export function Garage({ filDefer = false }: Props) {
     if (enCours) return;
     setEnCours(true);
     const next = !ouvert;
-    // rotation.x = -PI/2 : les lames (Y-) basculent vers Z- = EXTÉRIEUR ✅
-    cibleAngle.current = next ? -Math.PI / 2 : 0;
+    // Pivot ancré en haut (Y+), lames vers Y-
+    // rotation.x = +PI/2 → Y- bascule vers Z- (EXTÉRIEUR, devant la façade) ✅
+    // rotation.x = -PI/2 → Y- bascule vers Z+ (intérieur) ❌
+    cibleAngle.current = next ? Math.PI / 2 : 0;
     setOuvert(next);
     setTimeout(() => setEnCours(false), 900);
   };
@@ -104,6 +106,17 @@ export function Garage({ filDefer = false }: Props) {
       </mesh>
 
       {/* ══ MURS ═════════════════════════════════════════════════════════ */}
+
+      {/* Mur gauche (côté maison) */}
+      <mesh position={[-lm - EP/2, HG/2, 0]} castShadow receiveShadow>
+        <boxGeometry args={[EP, HG, PG + EP*2]} />
+        <meshStandardMaterial {...M(C_MUR, 0.85)} />
+      </mesh>
+      <mesh position={[-lm - EP/2, 0.3, 0]}>
+        <boxGeometry args={[EP + 0.002, 0.6, PG + EP*2 + 0.002]} />
+        <meshStandardMaterial {...M(C_SOUBAS, 0.9)} />
+      </mesh>
+
       {/* Mur droit */}
       <mesh position={[lm + EP/2, HG/2, 0]} castShadow receiveShadow>
         <boxGeometry args={[EP, HG, PG + EP*2]} />
@@ -116,33 +129,40 @@ export function Garage({ filDefer = false }: Props) {
 
       {/* Mur arrière */}
       <mesh position={[0, HG/2, pm + EP/2]} castShadow receiveShadow>
-        <boxGeometry args={[LG + EP, HG, EP]} />
+        <boxGeometry args={[LG + EP*2, HG, EP]} />
         <meshStandardMaterial {...M(C_MUR, 0.85)} />
       </mesh>
       <mesh position={[0, 0.3, pm + EP/2]}>
-        <boxGeometry args={[LG + EP + 0.002, 0.6, EP + 0.002]} />
+        <boxGeometry args={[LG + EP*2 + 0.002, 0.6, EP + 0.002]} />
         <meshStandardMaterial {...M(C_SOUBAS, 0.9)} />
       </mesh>
 
-      {/* Façade avant — linteau */}
+      {/* Façade avant — linteau uniquement (au-dessus de la porte) */}
       <mesh position={[0, HG - HL_LINTEAU/2, Z_FACADE_EXT]} castShadow receiveShadow>
-        <boxGeometry args={[LG + EP, HL_LINTEAU, EP]} />
+        <boxGeometry args={[LG + EP*2, HL_LINTEAU, EP]} />
         <meshStandardMaterial {...M(C_MUR, 0.85)} />
       </mesh>
-      {/* Montants latéraux */}
+      {/* Montant gauche (toute la hauteur, largeur EP/2) */}
       <mesh position={[-lm - EP/4, HG/2, Z_FACADE_EXT]} castShadow>
         <boxGeometry args={[EP/2, HG, EP]} />
         <meshStandardMaterial {...M(C_MUR, 0.85)} />
       </mesh>
+      {/* Soubassement montant gauche uniquement */}
+      <mesh position={[-lm - EP/4, 0.3, Z_FACADE_EXT]}>
+        <boxGeometry args={[EP/2 + 0.002, 0.6, EP + 0.002]} />
+        <meshStandardMaterial {...M(C_SOUBAS, 0.9)} />
+      </mesh>
+      {/* Montant droit (toute la hauteur, largeur EP/2) */}
       <mesh position={[lm + EP/4, HG/2, Z_FACADE_EXT]} castShadow>
         <boxGeometry args={[EP/2, HG, EP]} />
         <meshStandardMaterial {...M(C_MUR, 0.85)} />
       </mesh>
-      {/* Soubassement façade */}
-      <mesh position={[0, 0.3, Z_FACADE_EXT]}>
-        <boxGeometry args={[LG + EP + 0.002, 0.6, EP + 0.002]} />
+      {/* Soubassement montant droit uniquement */}
+      <mesh position={[lm + EP/4, 0.3, Z_FACADE_EXT]}>
+        <boxGeometry args={[EP/2 + 0.002, 0.6, EP + 0.002]} />
         <meshStandardMaterial {...M(C_SOUBAS, 0.9)} />
       </mesh>
+      {/* PAS de soubassement sur la zone de la porte — la porte touche le sol */}
 
       {/* ══ TOIT PLAT ════════════════════════════════════════════════════ */}
       <mesh position={[0.15, HG + 0.12, 0]} castShadow receiveShadow>
@@ -211,14 +231,14 @@ export function Garage({ filDefer = false }: Props) {
       </mesh>
 
       {/* ══ PORTE BASCULANTE ═════════════════════════════════════════════
-          Pivot : face EXTÉRIEURE du mur, en haut de la porte
-          position = [0, H_PORTE, Z_FACADE_EXT]
-          Les lames descendent vers Y- depuis ce pivot.
-          rotation.x = -PI/2 → bascule vers Z- (extérieur) ✅
+          Pivot sur la face EXTÉRIEURE du mur, en haut.
+          Z_FACADE_EXT - 0.03 = légèrement en avant du mur pour que
+          la porte bascule clairement vers l'extérieur (Z-).
+          rotation.x = +PI/2 → lames (Y-) vers Z- (extérieur) ✅
       ══════════════════════════════════════════════════════════════════ */}
       <group
         ref={porteRef}
-        position={[0, H_PORTE, Z_FACADE_EXT]}
+        position={[0, H_PORTE, Z_FACADE_EXT - 0.03]}
       >
         {Array.from({ length: NB }, (_, i) => {
           const yLocal = -(i * HL + HL / 2);
