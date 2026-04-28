@@ -463,8 +463,8 @@ export function Cuisine({ lumiere, filDefer = false, masquerPlafond = false }: P
           />
         </mesh>
         {/* Hublot */}
-        <mesh {...laveLinge.propsInteraction} position={[0, 0.15, 0.32]}>
-          <cylinderGeometry args={[0.18, 0.18, 0.02, 24]} rotation={[Math.PI/2, 0, 0]} />
+        <mesh {...laveLinge.propsInteraction} position={[0, 0.15, 0.32]} rotation={[Math.PI/2, 0, 0]}>
+          <cylinderGeometry args={[0.18, 0.18, 0.02, 24]} />
           <meshPhysicalMaterial 
             color={laveLinge.estSelectionne ? '#00e5ff' : '#1f2937'}
             roughness={0.1}
