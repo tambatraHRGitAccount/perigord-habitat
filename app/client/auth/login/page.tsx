@@ -1,13 +1,5 @@
-import { AuthCard } from "@/components/auth/AuthCard";
-import { LoginForm } from "@/components/auth/LoginForm";
+import { redirect } from "next/navigation";
 
-export default function LoginPage() {
-  return (
-    <AuthCard
-      title="Bon retour"
-      description="Connectez-vous à votre espace"
-    >
-      <LoginForm />
-    </AuthCard>
-  );
+export default function OldClientLoginPage() {
+  redirect("/login");
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Home, Sparkles } from "lucide-react";
+import { ArrowRight, Home, Sparkles, Building2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function HeroSection() {
@@ -13,48 +13,58 @@ export function HeroSection() {
         style={{ backgroundImage: "url('/landing_page/hero-section.jpeg')" }}
       >
         {/* Overlay pour la lisibilité */}
-        <div className="absolute inset-0 bg-slate-900/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/50 via-slate-900/40 to-slate-900/60" />
       </div>
 
       {/* Contenu */}
       <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl border-2 border-white bg-white backdrop-blur-sm text-indigo-700 text-base font-bold mb-8 shadow-2xl">
+        <div className="max-w-4xl mx-auto lg:mx-0">
+          {/* Badge avec animation */}
+          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl border-2 border-white bg-white/95 backdrop-blur-sm text-indigo-700 text-base font-bold mb-8 shadow-2xl animate-fade-in-up">
             <Home size={20} className="shrink-0" />
             Cher Locataire, Bienvenue
           </div>
 
-          {/* Titre principal */}
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white mb-8 leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] hidden">
-            Qui fait quoi ?
+          {/* Titre principal avec animation */}
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] animate-fade-in-up animation-delay-100">
+            Savoir qui répare quoi<br />
+            dans votre logement
           </h1>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-8 leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]">
-            Comprendre, diagnostiquer et résoudre<br />
-            les problèmes de votre logement
-          </h2>
-
-          {/* Description */}
-          <p className="text-xl sm:text-2xl text-white mb-12 leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] max-w-3xl">
-            Cette plateforme a été conçue pour vous accompagner au quotidien dans l'entretien et les réparations de votre logement.
+          {/* Description avec animation */}
+          <p className="text-lg sm:text-xl text-white/95 mb-10 leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] max-w-2xl animate-fade-in-up animation-delay-200">
+            Cette plateforme a été conçue pour vous accompagner au quotidien dans l&apos;entretien et les réparations de votre logement.
           </p>
 
-          {/* CTA */}
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Button asChild size="lg" className="gap-3 rounded-xl px-10 py-7 text-lg font-bold shadow-2xl hover:shadow-indigo-500/50 hover:scale-105 transition-all bg-indigo-600 hover:bg-indigo-700">
+          {/* CTA avec animations */}
+          <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up animation-delay-300">
+            <Button asChild size="lg" className="gap-3 rounded-xl px-8 py-6 text-base font-bold shadow-2xl hover:shadow-indigo-500/50 hover:scale-105 transition-all bg-indigo-600 hover:bg-indigo-700">
               <Link href="/client/chat">
-                <Sparkles size={22} />
+                <Sparkles size={20} />
                 Commencer maintenant
-                <ArrowRight size={22} />
+                <ArrowRight size={20} />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="gap-3 rounded-xl px-10 py-7 text-lg font-bold bg-white hover:bg-slate-50 border-2 border-white shadow-2xl hover:scale-105 transition-all">
-              <Link href="#objectifs">
+            <Button asChild size="lg" className="gap-3 rounded-xl px-8 py-6 text-base font-bold shadow-2xl hover:shadow-orange-500/50 hover:scale-105 transition-all bg-orange-500 hover:bg-orange-600 text-white">
+              <Link href="/maison">
+                <Building2 size={20} />
+                Visiter mon logement en 3D
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="gap-3 rounded-xl px-8 py-6 text-base font-bold bg-white text-gray-900 hover:text-gray-900 border-2 border-white shadow-2xl hover:scale-105 hover:bg-gray-50 transition-all backdrop-blur-sm">
+              <Link href="#comment-ca-marche">
                 En savoir plus
+                <ArrowRight size={20} />
               </Link>
             </Button>
           </div>
+        </div>
+      </div>
+
+      {/* Indicateur de scroll */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <div className="w-6 h-10 rounded-full border-2 border-white/50 flex items-start justify-center p-2">
+          <div className="w-1.5 h-3 bg-white/70 rounded-full"></div>
         </div>
       </div>
     </section>

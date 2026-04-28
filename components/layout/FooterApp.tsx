@@ -13,10 +13,10 @@ export function FooterApp() {
   ];
 
   return (
-    <footer className="w-full bg-slate-900 text-white border-t-4 border-indigo-600 relative overflow-hidden">
+    <footer className="w-full bg-gray-100 text-gray-900 relative overflow-hidden">
       {/* Motif décoratif en arrière-plan */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-600 opacity-5 rounded-full transform translate-x-1/2 -translate-y-1/2"></div>
-      <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-600 opacity-5 rounded-full transform -translate-x-1/2 translate-y-1/2"></div>
+      <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-100 opacity-30 rounded-full transform translate-x-1/2 -translate-y-1/2"></div>
+      <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-100 opacity-30 rounded-full transform -translate-x-1/2 translate-y-1/2"></div>
       
       <div className="relative w-full px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
@@ -28,27 +28,27 @@ export function FooterApp() {
                 <div className="w-12 h-12 rounded-2xl bg-indigo-600 flex items-center justify-center group-hover:bg-indigo-500 transition-colors shadow-lg">
                   <Image src="/logo-default.png" alt="Qui fait quoi" width={28} height={28} className="rounded" />
                 </div>
-                <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-green-500 border-2 border-slate-900"></div>
+                <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-green-500 border-2 border-gray-50"></div>
               </div>
-              <span className="font-bold text-2xl">Qui fait quoi ?</span>
+              <span className="font-bold text-2xl text-gray-900">Qui fait quoi ?</span>
             </Link>
-            <p className="text-slate-400 leading-relaxed mb-6 text-base max-w-md">
+            <p className="text-gray-600 leading-relaxed mb-6 text-base max-w-md">
               Votre assistant pour comprendre, diagnostiquer et résoudre les problèmes de votre logement en toute simplicité.
             </p>
             
             {/* Infos avec design en cartes */}
             <div className="flex flex-col gap-3">
-              <div className="flex items-center gap-3 p-3 bg-slate-800 rounded-lg border border-slate-700">
+              <div className="flex items-center gap-3 p-3 rounded-lg">
                 <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center">
                   <MapPin size={16} className="text-white" />
                 </div>
-                <span className="text-slate-300 text-sm">France</span>
+                <span className="text-gray-700 text-sm font-medium">France</span>
               </div>
-              <div className="flex items-center gap-3 p-3 bg-slate-800 rounded-lg border border-slate-700">
+              <div className="flex items-center gap-3 p-3 rounded-lg">
                 <div className="w-8 h-8 rounded-lg bg-green-600 flex items-center justify-center">
                   <Clock size={16} className="text-white" />
                 </div>
-                <span className="text-slate-300 text-sm">Disponible 24/7</span>
+                <span className="text-gray-700 text-sm font-medium">Disponible 24/7</span>
               </div>
             </div>
           </div>
@@ -57,7 +57,7 @@ export function FooterApp() {
           <div>
             <div className="flex items-center gap-2 mb-6">
               <div className="h-1 w-8 bg-indigo-600 rounded-full"></div>
-              <h3 className="font-bold text-lg text-white">Navigation</h3>
+              <h3 className="font-bold text-lg text-gray-900">Navigation</h3>
             </div>
             <ul className="space-y-3">
               {navigation.map((item) => {
@@ -66,13 +66,13 @@ export function FooterApp() {
                   <li key={item.href}>
                     <Link 
                       href={item.href} 
-                      className="text-slate-400 hover:text-white transition-colors flex items-center gap-3 group p-2 rounded-lg hover:bg-slate-800"
+                      className="text-gray-600 hover:text-indigo-600 transition-colors flex items-center gap-3 group p-2 rounded-lg hover:bg-white"
                     >
-                      <div className="w-8 h-8 rounded-lg bg-slate-800 group-hover:bg-indigo-600 flex items-center justify-center transition-colors">
-                        <Icon size={16} className="text-indigo-400 group-hover:text-white transition-colors" />
+                      <div className="w-8 h-8 rounded-lg bg-gray-100 group-hover:bg-indigo-600 flex items-center justify-center transition-colors">
+                        <Icon size={16} className="text-indigo-600 group-hover:text-white transition-colors" />
                       </div>
-                      <span className="flex-1">{item.label}</span>
-                      <ArrowRight size={16} className="text-slate-600 group-hover:text-indigo-400 transition-colors" />
+                      <span className="flex-1 font-medium">{item.label}</span>
+                      <ArrowRight size={16} className="text-gray-400 group-hover:text-indigo-600 transition-colors" />
                     </Link>
                   </li>
                 );
@@ -84,29 +84,29 @@ export function FooterApp() {
           <div>
             <div className="flex items-center gap-2 mb-6">
               <div className="h-1 w-8 bg-indigo-600 rounded-full"></div>
-              <h3 className="font-bold text-lg text-white">Contact</h3>
+              <h3 className="font-bold text-lg text-gray-900">Contact</h3>
             </div>
             <ul className="space-y-3">
               <li>
                 <a 
                   href="mailto:contact@quifaitquoi.fr" 
-                  className="text-slate-400 hover:text-white transition-colors flex items-start gap-3 group p-2 rounded-lg hover:bg-slate-800"
+                  className="text-gray-600 hover:text-indigo-600 transition-colors flex items-center gap-3 group p-2 rounded-lg hover:bg-white"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-slate-800 group-hover:bg-indigo-600 flex items-center justify-center transition-colors shrink-0">
-                    <Mail size={16} className="text-indigo-400 group-hover:text-white transition-colors" />
+                  <div className="w-8 h-8 rounded-lg bg-gray-100 group-hover:bg-indigo-600 flex items-center justify-center transition-colors">
+                    <Mail size={16} className="text-indigo-600 group-hover:text-white transition-colors" />
                   </div>
-                  <span className="text-sm break-all">contact@quifaitquoi.fr</span>
+                  <span className="text-sm break-all font-medium">contact@quifaitquoi.fr</span>
                 </a>
               </li>
               <li>
                 <a 
                   href="tel:+33123456789" 
-                  className="text-slate-400 hover:text-white transition-colors flex items-center gap-3 group p-2 rounded-lg hover:bg-slate-800"
+                  className="text-gray-600 hover:text-indigo-600 transition-colors flex items-center gap-3 group p-2 rounded-lg hover:bg-white"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-slate-800 group-hover:bg-indigo-600 flex items-center justify-center transition-colors">
-                    <Phone size={16} className="text-indigo-400 group-hover:text-white transition-colors" />
+                  <div className="w-8 h-8 rounded-lg bg-gray-100 group-hover:bg-indigo-600 flex items-center justify-center transition-colors">
+                    <Phone size={16} className="text-indigo-600 group-hover:text-white transition-colors" />
                   </div>
-                  <span className="text-sm">01 23 45 67 89</span>
+                  <span className="text-sm font-medium">01 23 45 67 89</span>
                 </a>
               </li>
             </ul>
@@ -117,10 +117,10 @@ export function FooterApp() {
         {/* Séparateur avec design */}
         <div className="relative my-8">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-slate-800"></div>
+            <div className="w-full border-t border-gray-200"></div>
           </div>
           <div className="relative flex justify-center">
-            <div className="px-4 bg-slate-900">
+            <div className="px-4 bg-gray-100">
               <div className="flex gap-1">
                 <div className="w-2 h-2 rounded-full bg-indigo-600"></div>
                 <div className="w-2 h-2 rounded-full bg-blue-600"></div>
@@ -132,25 +132,25 @@ export function FooterApp() {
 
         {/* Bas du footer */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-slate-500">
-            © 2024 Qui fait quoi. Tous droits réservés.
+          <p className="text-sm text-gray-500 font-medium">
+            © 2026 Qui fait quoi. Tous droits réservés.
           </p>
           <div className="flex gap-4">
             <Link 
               href="/mentions-legales" 
-              className="text-sm text-slate-500 hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-slate-800"
+              className="text-sm text-gray-500 hover:text-indigo-600 transition-colors px-3 py-1.5 rounded-lg hover:bg-white font-medium"
             >
               Mentions légales
             </Link>
             <Link 
               href="/confidentialite" 
-              className="text-sm text-slate-500 hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-slate-800"
+              className="text-sm text-gray-500 hover:text-indigo-600 transition-colors px-3 py-1.5 rounded-lg hover:bg-white font-medium"
             >
               Confidentialité
             </Link>
             <Link 
               href="/cgu" 
-              className="text-sm text-slate-500 hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-slate-800"
+              className="text-sm text-gray-500 hover:text-indigo-600 transition-colors px-3 py-1.5 rounded-lg hover:bg-white font-medium"
             >
               CGU
             </Link>
