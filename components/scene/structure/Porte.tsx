@@ -44,8 +44,8 @@ export function Porte({
     );
   });
 
-  const couleurCadre   = exterieure ? '#5c3d2e' : '#7a6248';
-  const couleurPanneau = exterieure ? '#6b4c2a' : '#8b7355';
+  const couleurCadre   = '#f5f5f5'; // Blanc PVC luxe
+  const couleurPanneau = '#ffffff'; // Blanc pur PVC
 
   // Profondeur du cadre = épaisseur du mur exacte pour ne pas déborder
   const profCadre = 0.25;
@@ -58,17 +58,17 @@ export function Porte({
       {/* Linteau */}
       <mesh position={[0, hauteur + 0.05, 0]} castShadow>
         <boxGeometry args={[largeur + 0.16, 0.1, profCadre]} />
-        <meshStandardMaterial color={couleurCadre} roughness={0.5} />
+        <meshStandardMaterial color={couleurCadre} roughness={0.3} metalness={0.1} />
       </mesh>
       {/* Montant gauche */}
       <mesh position={[-(largeur / 2 + 0.04), hauteur / 2, 0]} castShadow>
         <boxGeometry args={[0.08, hauteur, profCadre]} />
-        <meshStandardMaterial color={couleurCadre} roughness={0.5} />
+        <meshStandardMaterial color={couleurCadre} roughness={0.3} metalness={0.1} />
       </mesh>
       {/* Montant droit */}
       <mesh position={[largeur / 2 + 0.04, hauteur / 2, 0]} castShadow>
         <boxGeometry args={[0.08, hauteur, profCadre]} />
-        <meshStandardMaterial color={couleurCadre} roughness={0.5} />
+        <meshStandardMaterial color={couleurCadre} roughness={0.3} metalness={0.1} />
       </mesh>
 
       {/* ── Panneau pivotant ── */}
@@ -82,19 +82,19 @@ export function Porte({
           castShadow
         >
           <boxGeometry args={[largeur, hauteur, epPanneau]} />
-          <meshStandardMaterial color={couleurPanneau} roughness={0.5} />
+          <meshStandardMaterial color={couleurPanneau} roughness={0.25} metalness={0.15} />
         </mesh>
 
-        {/* Moulures décoratives */}
+        {/* Moulures décoratives PVC */}
         {[hauteur * 0.68, hauteur * 0.28].map((y, i) => (
           <group key={i} position={[largeur / 2, y, epPanneau / 2 + 0.004]}>
             <mesh>
               <boxGeometry args={[largeur * 0.78, hauteur * 0.28, 0.01]} />
-              <meshStandardMaterial color="#5c3d2e" roughness={0.5} />
+              <meshStandardMaterial color="#e8e8e8" roughness={0.3} metalness={0.1} />
             </mesh>
             <mesh position={[0, 0, 0.007]}>
               <boxGeometry args={[largeur * 0.72, hauteur * 0.22, 0.007]} />
-              <meshStandardMaterial color={couleurPanneau} roughness={0.4} />
+              <meshStandardMaterial color={couleurPanneau} roughness={0.25} metalness={0.15} />
             </mesh>
           </group>
         ))}

@@ -7,14 +7,16 @@ interface Props {
   rotation?: [number, number, number];
   idPiece: IdPiece | 'exterieur';
   idElement?: string;
+  equipementId?: string;
 }
 
-export function RobinetThermostatique({ position, rotation = [0, 0, 0], idPiece, idElement = 'robinetThermo' }: Props) {
+export function RobinetThermostatique({ position, rotation = [0, 0, 0], idPiece, idElement = 'robinetThermo', equipementId }: Props) {
   // Élément sélectionnable
   const robinet = useElementSelectionnable({
     idPiece,
     idElement,
-    libelle: 'Robinet thermostatique de radiateur',
+    equipementId: equipementId,
+    libelle: equipementId ? undefined : 'Robinet thermostatique de radiateur',
     defaut: { couleur: '#e5e7eb', rugosite: 0.3, metalique: 0.4 }
   });
 
