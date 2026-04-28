@@ -9,6 +9,7 @@ export function FournisseurScene({ children }: { children: React.ReactNode }) {
   const [modeJourNuit,        setModeJourNuitEtat] = useState<'jour' | 'nuit'>('jour');
   const [afficherFilDefer,    setAfficherFil]      = useState(false);
   const [sensibiliteCamera,   setSensibiliteCameraEtat] = useState(1.5); // Sensibilité par défaut augmentée
+  const [tooltip,             setTooltip]          = useState<string | null>(null);
   const [lumieres,            setLumieres]         = useState<EtatLumieres>({
     sejour: true, cuisine: true, chambre: true, salleDeBain: true, couloir: true,
   });
@@ -53,12 +54,12 @@ export function FournisseurScene({ children }: { children: React.ReactNode }) {
 
   const store = useMemo<StoreScene>(() => ({
     modeCamera, pieceActive, modeJourNuit, afficherFilDefer, sensibiliteCamera,
-    lumieres, objetSelectionne, surchargesMateriaux,
+    lumieres, objetSelectionne, surchargesMateriaux, tooltip,
     setModeCamera, setPieceActive, setModeJourNuit, toggleFilDefer, setSensibiliteCamera,
-    toggleLumiere, selectionnerObjet, modifierMateriau, getMateriau,
+    toggleLumiere, selectionnerObjet, modifierMateriau, getMateriau, setTooltip,
   }), [
     modeCamera, pieceActive, modeJourNuit, afficherFilDefer, sensibiliteCamera,
-    lumieres, objetSelectionne, surchargesMateriaux,
+    lumieres, objetSelectionne, surchargesMateriaux, tooltip,
     setModeCamera, setPieceActive, setModeJourNuit, toggleFilDefer, setSensibiliteCamera,
     toggleLumiere, selectionnerObjet, modifierMateriau, getMateriau,
   ]);

@@ -11,7 +11,7 @@ interface Options {
 }
 
 export function useElementSelectionnable(opts: Options) {
-  const { selectionnerObjet, getMateriau, objetSelectionne } = useScene();
+  const { selectionnerObjet, getMateriau, objetSelectionne, setTooltip } = useScene();
   const [survole, setSurvole] = useState(false);
 
   const materiau = getMateriau(opts.idPiece, opts.idElement, opts.defaut);
@@ -25,12 +25,17 @@ export function useElementSelectionnable(opts: Options) {
   }, [opts.idPiece, opts.idElement, opts.libelle, materiau, selectionnerObjet]);
 
   const onPointerOver = useCallback((e: { stopPropagation: () => void }) => {
-    e.stopPropagation(); setSurvole(true); document.body.style.cursor = 'pointer';
-  }, []);
+    e.stopPropagation(); 
+    setSurvole(true); 
+    setTooltip(opts.libelle);
+    document.body.style.cursor = 'pointer';
+  }, [opts.libelle, setTooltip]);
 
   const onPointerOut = useCallback(() => {
-    setSurvole(false); document.body.style.cursor = 'auto';
-  }, []);
+    setSurvole(false); 
+    setTooltip(null);
+    document.body.style.cursor = 'auto';
+  }, [setTooltip]);
 
   return {
     materiau,

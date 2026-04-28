@@ -18,9 +18,14 @@ export function CanvasMaison() {
   return (
     <div className="w-full h-full">
       <Canvas
-        shadows={{ type: THREE.PCFSoftShadowMap }}
+        shadows
         camera={{ fov: 60, near: 0.1, far: 150, position: [20, 16, 20] }}
-        gl={{ antialias: false, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 0.7 }}
+        gl={{
+          antialias: false,
+          alpha: false,
+          toneMapping: THREE.ACESFilmicToneMapping,
+          toneMappingExposure: 0.7,
+        }}
         dpr={[1, 1.5]}
       >
         <Suspense fallback={<Chargement />}>

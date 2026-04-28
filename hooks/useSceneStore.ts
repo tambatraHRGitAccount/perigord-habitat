@@ -12,6 +12,8 @@ export interface StoreScene extends EtatScene {
   modifierMateriau:  (cle: string, patch: Partial<Materiau>) => void;
   getMateriau:       (idPiece: IdPiece | 'exterieur' | 'interieur', idElement: string, defaut: Materiau) => Materiau;
   setSensibiliteCamera: (sensibilite: number) => void;
+  setTooltip:        (libelle: string | null) => void;
+  tooltip:           string | null;
 }
 
 export const ContexteScene = createContext<StoreScene | null>(null);

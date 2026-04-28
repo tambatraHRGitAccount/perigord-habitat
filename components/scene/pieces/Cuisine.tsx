@@ -2,6 +2,8 @@
 import React from 'react';
 import { Sol } from '../structure/Sol';
 import { Interrupteur3D } from '../structure/Interrupteur3D';
+import { PriseElectrique } from '../structure/PriseElectrique';
+import { RobinetThermostatique } from '../structure/RobinetThermostatique';
 import { useElementSelectionnable } from '@/hooks/useElementSelectionnable';
 
 interface Props { lumiere: boolean; filDefer?: boolean; masquerPlafond?: boolean }
@@ -47,17 +49,129 @@ function Four({ propsInteraction, M }: { propsInteraction: Record<string,unknown
   );
 }
 
-// ─── Évier ────────────────────────────────────────────────────────────────────
-function Evier({ propsInteraction, M }: { propsInteraction: Record<string,unknown>; M: Record<string,unknown> }) {
+// ─── Évier (cuve uniquement) ──────────────────────────────────────────────────
+function CuveEvier({ propsInteraction, M }: { propsInteraction: Record<string,unknown>; M: Record<string,unknown> }) {
   return (
     <group position={[4.0, 0.94, -3.66]}>
-      <mesh {...propsInteraction} castShadow><boxGeometry args={[0.62, 0.06, 0.52]} /><meshStandardMaterial {...M} /></mesh>
-      <mesh {...propsInteraction} position={[0, -0.04, 0]}><boxGeometry args={[0.54, 0.04, 0.44]} /><meshStandardMaterial {...M} /></mesh>
-      <mesh {...propsInteraction} position={[0, 0.18, -0.18]}><cylinderGeometry args={[0.022, 0.022, 0.22, 8]} /><meshStandardMaterial {...M} /></mesh>
-      <mesh {...propsInteraction} position={[0, 0.28, -0.06]} rotation={[Math.PI/4, 0, 0]}><cylinderGeometry args={[0.018, 0.018, 0.18, 8]} /><meshStandardMaterial {...M} /></mesh>
-      {[-0.12, 0.12].map((x, i) => (
-        <mesh {...propsInteraction} key={i} position={[x, 0.14, -0.2]}><cylinderGeometry args={[0.025, 0.025, 0.06, 8]} /><meshStandardMaterial {...M} /></mesh>
-      ))}
+      {/* Rebord de l'évier */}
+      <mesh {...propsInteraction} castShadow>
+        <boxGeometry args={[0.62, 0.06, 0.52]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
+      {/* Cuve intérieure */}
+      <mesh {...propsInteraction} position={[0, -0.04, 0]}>
+        <boxGeometry args={[0.54, 0.04, 0.44]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
+      {/* Bonde d'évacuation */}
+      <mesh {...propsInteraction} position={[0, -0.06, 0]}>
+        <cylinderGeometry args={[0.035, 0.035, 0.01, 16]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
+    </group>
+  );
+}
+
+// ─── Robinetterie cuisine ─────────────────────────────────────────────────────
+function RobinetterieCuisine({ propsInteraction, M }: { propsInteraction: Record<string,unknown>; M: Record<string,unknown> }) {
+  return (
+    <group position={[4.0, 0.94, -3.84]}>
+      {/* Base du robinet */}
+      <mesh {...propsInteraction} position={[0, 0.04, 0]}>
+        <cylinderGeometry args={[0.04, 0.035, 0.08, 16]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
+      {/* Corps vertical */}
+      <mesh {...propsInteraction} position={[0, 0.18, 0]}>
+        <cylinderGeometry args={[0.022, 0.022, 0.22, 12]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
+      {/* Coude supérieur */}
+      <mesh {...propsInteraction} position={[0, 0.28, 0.04]} rotation={[Math.PI/3, 0, 0]}>
+        <cylinderGeometry args={[0.018, 0.018, 0.12, 12]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
+      {/* Bec verseur */}
+      <mesh {...propsInteraction} position={[0, 0.28, 0.12]} rotation={[Math.PI/2.2, 0, 0]}>
+        <cylinderGeometry args={[0.016, 0.014, 0.08, 12]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
+      {/* Poignée de commande (levier) */}
+      <mesh {...propsInteraction} position={[-0.06, 0.22, -0.02]} rotation={[0, 0, -Math.PI/6]}>
+        <boxGeometry args={[0.08, 0.015, 0.025]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
+    </group>
+  );
+}
+
+// ─── Douchette / mitigeur évier ───────────────────────────────────────────────
+function DouchetteMitigeur({ propsInteraction, M }: { propsInteraction: Record<string,unknown>; M: Record<string,unknown> }) {
+  return (
+    <group position={[4.15, 0.94, -3.84]}>
+      {/* Support mural de la douchette */}
+      <mesh {...propsInteraction} position={[0, 0.12, 0]}>
+        <cylinderGeometry args={[0.018, 0.018, 0.06, 12]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
+      {/* Crochet de support */}
+      <mesh {...propsInteraction} position={[0, 0.15, 0.02]} rotation={[Math.PI/4, 0, 0]}>
+        <cylinderGeometry args={[0.012, 0.012, 0.04, 8]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
+      {/* Tête de douchette */}
+      <mesh {...propsInteraction} position={[0, 0.08, 0.02]}>
+        <cylinderGeometry args={[0.025, 0.022, 0.08, 12]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
+      {/* Bouton de commande */}
+      <mesh {...propsInteraction} position={[0, 0.12, 0.025]}>
+        <cylinderGeometry args={[0.012, 0.012, 0.015, 12]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
+    </group>
+  );
+}
+
+// ─── Siphon et bonde d'évier ──────────────────────────────────────────────────
+function SiphonBonde({ propsInteraction, M }: { propsInteraction: Record<string,unknown>; M: Record<string,unknown> }) {
+  return (
+    <group position={[4.0, 0.88, -3.66]}>
+      {/* Bonde (partie visible dans l'évier) */}
+      <mesh {...propsInteraction} position={[0, 0, 0]}>
+        <cylinderGeometry args={[0.035, 0.03, 0.02, 16]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
+      {/* Grille de la bonde */}
+      <mesh {...propsInteraction} position={[0, 0.012, 0]}>
+        <cylinderGeometry args={[0.032, 0.032, 0.002, 16]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
+      {/* Tuyau de descente vertical */}
+      <mesh {...propsInteraction} position={[0, -0.08, 0]}>
+        <cylinderGeometry args={[0.022, 0.022, 0.14, 12]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
+      {/* Corps du siphon (partie courbée) */}
+      <mesh {...propsInteraction} position={[0, -0.18, 0]} rotation={[0, 0, Math.PI/2]}>
+        <torusGeometry args={[0.04, 0.02, 12, 16, Math.PI]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
+      {/* Culot du siphon (partie basse démontable) */}
+      <mesh {...propsInteraction} position={[0, -0.22, 0]}>
+        <cylinderGeometry args={[0.028, 0.025, 0.06, 12]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
+      {/* Tuyau d'évacuation horizontal */}
+      <mesh {...propsInteraction} position={[0.08, -0.18, 0]} rotation={[0, 0, Math.PI/2]}>
+        <cylinderGeometry args={[0.018, 0.018, 0.12, 12]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
+      {/* Raccord mural */}
+      <mesh {...propsInteraction} position={[0.15, -0.18, 0]} rotation={[0, Math.PI/2, 0]}>
+        <cylinderGeometry args={[0.022, 0.022, 0.03, 12]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
     </group>
   );
 }
@@ -87,7 +201,10 @@ export function Cuisine({ lumiere, filDefer = false, masquerPlafond = false }: P
   const planTravail= useElementSelectionnable({ idPiece: 'cuisine', idElement: 'planDeTravail', libelle: 'Plan de travail',  defaut: { couleur: '#9ca3af', rugosite: 0.2,  metalique: 0.3 } });
   const meubles    = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'meublesHauts',  libelle: 'Meubles',          defaut: { couleur: '#f3f4f6', rugosite: 0.5,  metalique: 0 } });
   const refrigo    = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'refrigerateur', libelle: 'Réfrigérateur',    defaut: { couleur: '#f0f0f0', rugosite: 0.25, metalique: 0.15 } });
-  const evier      = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'evier',         libelle: 'Évier',            defaut: { couleur: '#d1d5db', rugosite: 0.15, metalique: 0.6 } });
+  const evier      = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'evier',         libelle: 'Évier (acier inoxydable ou résine)', defaut: { couleur: '#d1d5db', rugosite: 0.15, metalique: 0.6 } });
+  const robinetterie = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'robinetterie', libelle: 'Robinetterie cuisine', defaut: { couleur: '#c0c0c0', rugosite: 0.1, metalique: 0.8 } });
+  const douchette  = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'douchette',     libelle: 'Douchette / mitigeur évier', defaut: { couleur: '#b8b8b8', rugosite: 0.12, metalique: 0.75 } });
+  const siphon     = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'siphon',        libelle: 'Siphon et bonde d\'évier', defaut: { couleur: '#a8a8a8', rugosite: 0.2, metalique: 0.7 } });
   const plaque     = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'plaqueCuisson', libelle: 'Plaque de cuisson',defaut: { couleur: '#1f2937', rugosite: 0.2,  metalique: 0.6 } });
   const four       = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'four',          libelle: 'Four',             defaut: { couleur: '#2d2d2d', rugosite: 0.3,  metalique: 0.4 } });
   const hotte      = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'hotteAspirante',libelle: 'Hotte aspirante',  defaut: { couleur: '#9ca3af', rugosite: 0.2,  metalique: 0.6 } });
@@ -95,8 +212,8 @@ export function Cuisine({ lumiere, filDefer = false, masquerPlafond = false }: P
   const chaises    = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'chaises',       libelle: 'Chaises',          defaut: { couleur: '#374151', rugosite: 0.5,  metalique: 0 } });
   const lavVaisselle=useElementSelectionnable({ idPiece: 'cuisine', idElement: 'lavVaisselle',  libelle: 'Lave-vaisselle',   defaut: { couleur: '#e5e7eb', rugosite: 0.3,  metalique: 0.15 } });
   const microOndes = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'microOndes',    libelle: 'Micro-ondes',      defaut: { couleur: '#1f2937', rugosite: 0.3,  metalique: 0.3 } });
-  const radiateur  = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'radiateur',     libelle: 'Radiateur',        defaut: { couleur: '#f3f4f6', rugosite: 0.3,  metalique: 0.2 } });
   const poubelle   = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'poubelleTri',   libelle: 'Poubelle de tri',  defaut: { couleur: '#22c55e', rugosite: 0.6,  metalique: 0.1 } });
+  const plafonnier = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'plafonnier',    libelle: 'Luminaire / plafonnier', defaut: { couleur: '#f9fafb', rugosite: 0.3, metalique: 0 } });
   const serrure    = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'serrurePorte',  libelle: 'Serrure de porte', defaut: { couleur: '#d4af37', rugosite: 0.2,  metalique: 0.8 } });
   const interphone = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'interphone',    libelle: 'Interphone',       defaut: { couleur: '#f3f4f6', rugosite: 0.3,  metalique: 0.2 } });
 
@@ -128,8 +245,17 @@ export function Cuisine({ lumiere, filDefer = false, masquerPlafond = false }: P
           width={1.8} height={1.8} intensity={5} color="#fff5e0"
         />
       )}
-      <group position={[3.5, 2.72, -1.5]}>
-        <mesh><cylinderGeometry args={[0.18, 0.14, 0.06, 20]} /><meshStandardMaterial color={lumiere ? '#fffde7' : '#d0d0d0'} emissive={lumiere ? '#fff5e0' : '#000'} emissiveIntensity={lumiere ? 1.8 : 0} /></mesh>
+      <group {...plafonnier.propsInteraction} position={[3.5, 2.72, -1.5]}>
+        <mesh>
+          <cylinderGeometry args={[0.18, 0.14, 0.06, 20]} />
+          <meshStandardMaterial 
+            color={plafonnier.estSelectionne ? '#00e5ff' : (lumiere ? '#fffde7' : plafonnier.materiau.couleur)} 
+            emissive={plafonnier.emissif !== '#000000' ? plafonnier.emissif : (lumiere ? '#fff5e0' : '#000')} 
+            emissiveIntensity={plafonnier.intensiteEmissif > 0 ? plafonnier.intensiteEmissif : (lumiere ? 1.8 : 0)}
+            roughness={plafonnier.materiau.rugosite}
+            metalness={plafonnier.materiau.metalique}
+          />
+        </mesh>
       </group>
 
       {/* Meubles bas */}
@@ -192,8 +318,17 @@ export function Cuisine({ lumiere, filDefer = false, masquerPlafond = false }: P
       {/* Hotte */}
       <Hotte propsInteraction={hotte.propsInteraction} M={M(hotte)} />
 
-      {/* Évier */}
-      <Evier propsInteraction={evier.propsInteraction} M={M(evier)} />
+      {/* Évier (cuve) */}
+      <CuveEvier propsInteraction={evier.propsInteraction} M={M(evier)} />
+
+      {/* Robinetterie cuisine */}
+      <RobinetterieCuisine propsInteraction={robinetterie.propsInteraction} M={M(robinetterie)} />
+
+      {/* Douchette / mitigeur évier */}
+      <DouchetteMitigeur propsInteraction={douchette.propsInteraction} M={M(douchette)} />
+
+      {/* Siphon et bonde d'évier */}
+      <SiphonBonde propsInteraction={siphon.propsInteraction} M={M(siphon)} />
 
       {/* Lave-vaisselle */}
       <group position={[4.7, 0.45, -3.66]}>
@@ -234,17 +369,6 @@ export function Cuisine({ lumiere, filDefer = false, masquerPlafond = false }: P
         />
       ))}
 
-      {/* Radiateur */}
-      <group position={[5.7, 0.38, -1.5]}>
-        <mesh {...radiateur.propsInteraction} castShadow><boxGeometry args={[0.08, 0.52, 1.0]} /><meshStandardMaterial {...M(radiateur)} /></mesh>
-        {Array.from({length: 6}).map((_, i) => (
-          <mesh {...radiateur.propsInteraction} key={i} position={[0.02, 0, -0.42 + i*0.17]}>
-            <boxGeometry args={[0.04, 0.48, 0.06]} />
-            <meshStandardMaterial {...M(radiateur)} />
-          </mesh>
-        ))}
-      </group>
-
       {/* Poubelle de tri */}
       <group position={[1.5, 0, 0.5]}>
         <mesh {...poubelle.propsInteraction} position={[-0.15, 0.25, 0]} castShadow>
@@ -283,6 +407,36 @@ export function Cuisine({ lumiere, filDefer = false, masquerPlafond = false }: P
         rotation={[0, 0, 0]}
         idPiece="cuisine"
         lumiere={lumiere}
+      />
+
+      {/* Prises électriques */}
+      {/* Prise 1 — plan de travail, près de l'évier */}
+      <PriseElectrique
+        position={[4.5, 1.0, -3.86]}
+        rotation={[0, 0, 0]}
+        idPiece="cuisine"
+        idElement="prise1"
+      />
+      {/* Prise 2 — plan de travail, près de la plaque */}
+      <PriseElectrique
+        position={[2.5, 1.0, -3.86]}
+        rotation={[0, 0, 0]}
+        idPiece="cuisine"
+        idElement="prise2"
+      />
+      {/* Prise 3 — mur droit, près du radiateur */}
+      <PriseElectrique
+        position={[5.7, 0.3, -0.5]}
+        rotation={[0, -Math.PI / 2, 0]}
+        idPiece="cuisine"
+        idElement="prise3"
+      />
+      {/* Prise 4 — près de la table */}
+      <PriseElectrique
+        position={[1.5, 0.3, -0.3]}
+        rotation={[0, Math.PI, 0]}
+        idPiece="cuisine"
+        idElement="prise4"
       />
 
       {/* Interphone */}
