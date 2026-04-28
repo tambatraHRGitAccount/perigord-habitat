@@ -4,6 +4,7 @@ import { useThree } from '@react-three/fiber';
 import { OrbitControls, Sky, Stars, Environment } from '@react-three/drei';
 import * as THREE from 'three';
 import { StructureMaison } from './structure/StructureMaison';
+import { SolInterieur } from './structure/SolInterieur';
 import { Sejour } from './pieces/Sejour';
 import { Cuisine } from './pieces/Cuisine';
 import { Chambre } from './pieces/Chambre';
@@ -171,6 +172,7 @@ export function SceneMaison() {
       )}
 
       {!pieceOuverte && <Terrain />}
+      {pieceOuverte && <SolInterieur />}
       <StructureMaison filDefer={filDefer} masquerToit={pieceOuverte} pieceVisible={pieceActive} />
       
       {/* En mode visite, afficher toutes les pièces pour permettre le passage entre elles */}

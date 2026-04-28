@@ -53,7 +53,7 @@ export function SalleDeBain({ lumiere, filDefer = false, masquerPlafond = false 
         couleur={sol.materiau.couleur} rugosite={sol.materiau.rugosite}
         propsInteraction={sol.propsInteraction} emissif={sol.emissif} intensiteEmissif={sol.intensiteEmissif}
         filDefer={filDefer} clearcoat={0.65} clearcoatRoughness={0.04}
-        reflectif={true} mirrorForce={0.65} />
+        reflectif={false} mirrorForce={0.65} />
 
       {/* Plafond */}
       {!masquerPlafond && (
@@ -83,55 +83,180 @@ export function SalleDeBain({ lumiere, filDefer = false, masquerPlafond = false 
 
       {/* ═══ MUR AVANT (z≈1.75) ═══ */}
       
-      {/* Meuble vasque — centré */}
+      {/* Meuble vasque luxe — centré, design moderne hôtel */}
       <group position={[4.25, 0, 1.74]}>
-        {/* Corps du meuble */}
-        <mesh {...vasque.propsInteraction} position={[0, 0.42, 0]} castShadow receiveShadow>
-          <boxGeometry args={[0.7, 0.84, 0.44]} />
-          <meshStandardMaterial {...M(vasque)} />
+        {/* Meuble suspendu moderne (noir mat) */}
+        <mesh {...vasque.propsInteraction} position={[0, 0.55, 0]} castShadow receiveShadow>
+          <boxGeometry args={[1.0, 0.5, 0.48]} />
+          <meshPhysicalMaterial 
+            color={vasque.estSelectionne ? '#00e5ff' : '#1a1a1a'}
+            roughness={0.3}
+            metalness={0.1}
+            emissive={vasque.emissif}
+            emissiveIntensity={vasque.intensiteEmissif}
+            clearcoat={0.4}
+            clearcoatRoughness={0.2}
+          />
         </mesh>
-        {/* Porte */}
-        <mesh {...vasque.propsInteraction} position={[0, 0.42, 0.23]}>
-          <boxGeometry args={[0.66, 0.78, 0.02]} />
-          <meshStandardMaterial {...M(vasque)} />
+        
+        {/* Tiroir supérieur */}
+        <mesh {...vasque.propsInteraction} position={[0, 0.65, 0.25]}>
+          <boxGeometry args={[0.94, 0.18, 0.02]} />
+          <meshPhysicalMaterial 
+            color={vasque.estSelectionne ? '#00e5ff' : '#1a1a1a'}
+            roughness={0.25}
+            metalness={0.15}
+            clearcoat={0.5}
+            clearcoatRoughness={0.15}
+          />
         </mesh>
-        {/* Poignée */}
+        
+        {/* Tiroir inférieur */}
         <mesh {...vasque.propsInteraction} position={[0, 0.42, 0.25]}>
-          <boxGeometry args={[0.16, 0.025, 0.025]} />
-          <meshStandardMaterial {...M(vasque)} />
+          <boxGeometry args={[0.94, 0.22, 0.02]} />
+          <meshPhysicalMaterial 
+            color={vasque.estSelectionne ? '#00e5ff' : '#1a1a1a'}
+            roughness={0.25}
+            metalness={0.15}
+            clearcoat={0.5}
+            clearcoatRoughness={0.15}
+          />
         </mesh>
-        {/* Plan de travail */}
-        <mesh {...vasque.propsInteraction} position={[0, 0.87, 0]} castShadow>
-          <boxGeometry args={[0.7, 0.045, 0.44]} />
-          <meshStandardMaterial {...M(vasque)} />
+        
+        {/* Poignées design minimaliste (chromées) */}
+        <mesh {...vasque.propsInteraction} position={[0, 0.65, 0.27]}>
+          <boxGeometry args={[0.25, 0.012, 0.012]} />
+          <meshPhysicalMaterial 
+            color={vasque.estSelectionne ? '#00e5ff' : '#c0c0c0'}
+            roughness={0.1}
+            metalness={0.9}
+          />
         </mesh>
-        {/* Vasque */}
-        <mesh {...vasque.propsInteraction} position={[0, 0.9, 0]}>
-          <boxGeometry args={[0.45, 0.06, 0.28]} />
-          <meshStandardMaterial {...M(vasque)} />
+        <mesh {...vasque.propsInteraction} position={[0, 0.42, 0.27]}>
+          <boxGeometry args={[0.25, 0.012, 0.012]} />
+          <meshPhysicalMaterial 
+            color={vasque.estSelectionne ? '#00e5ff' : '#c0c0c0'}
+            roughness={0.1}
+            metalness={0.9}
+          />
+        </mesh>
+        
+        {/* Plan de travail en marbre blanc */}
+        <mesh {...vasque.propsInteraction} position={[0, 0.82, 0]} castShadow>
+          <boxGeometry args={[1.05, 0.04, 0.52]} />
+          <meshPhysicalMaterial 
+            color={vasque.estSelectionne ? '#00e5ff' : '#f8f8f8'}
+            roughness={0.15}
+            metalness={0.05}
+            clearcoat={0.8}
+            clearcoatRoughness={0.05}
+          />
+        </mesh>
+        
+        {/* Vasque à poser design (céramique blanche ovale) */}
+        {/* Base de la vasque */}
+        <mesh {...vasque.propsInteraction} position={[0, 0.86, 0]} castShadow>
+          <cylinderGeometry args={[0.28, 0.26, 0.08, 32]} />
+          <meshPhysicalMaterial 
+            color={vasque.estSelectionne ? '#00e5ff' : '#ffffff'}
+            roughness={0.12}
+            metalness={0.02}
+            clearcoat={0.9}
+            clearcoatRoughness={0.03}
+          />
+        </mesh>
+        
+        {/* Intérieur de la vasque (légèrement plus petit) */}
+        <mesh {...vasque.propsInteraction} position={[0, 0.88, 0]}>
+          <cylinderGeometry args={[0.24, 0.22, 0.06, 32]} />
+          <meshPhysicalMaterial 
+            color={vasque.estSelectionne ? '#00e5ff' : '#fafafa'}
+            roughness={0.1}
+            metalness={0.01}
+            clearcoat={0.95}
+            clearcoatRoughness={0.02}
+          />
+        </mesh>
+        
+        {/* Bonde chromée au fond de la vasque */}
+        <mesh {...vasque.propsInteraction} position={[0, 0.85, 0]}>
+          <cylinderGeometry args={[0.025, 0.025, 0.01, 16]} />
+          <meshPhysicalMaterial 
+            color={vasque.estSelectionne ? '#00e5ff' : '#c0c0c0'}
+            roughness={0.08}
+            metalness={0.95}
+          />
         </mesh>
       </group>
       
-      {/* Robinet vasque — élément séparé sélectionnable */}
+      {/* Robinetterie vasque luxe — design cascade moderne */}
       <group position={[4.25, 0, 1.74]}>
-        {/* Robinet — colonne */}
-        <mesh {...robinet.propsInteraction} position={[0, 1.02, -0.16]}>
-          <cylinderGeometry args={[0.018, 0.018, 0.2, 8]} />
-          <meshStandardMaterial {...M(robinet)} />
+        {/* Base du robinet (fixation sur plan de travail) */}
+        <mesh {...robinet.propsInteraction} position={[0, 0.84, -0.18]}>
+          <cylinderGeometry args={[0.035, 0.03, 0.02, 16]} />
+          <meshPhysicalMaterial 
+            color={robinet.estSelectionne ? '#00e5ff' : '#c0c0c0'}
+            roughness={0.08}
+            metalness={0.95}
+            clearcoat={0.8}
+            clearcoatRoughness={0.05}
+          />
         </mesh>
-        {/* Robinet — bec verseur */}
-        <mesh {...robinet.propsInteraction} position={[0, 1.1, -0.1]} rotation={[Math.PI / 4, 0, 0]}>
-          <cylinderGeometry args={[0.014, 0.014, 0.14, 8]} />
-          <meshStandardMaterial {...M(robinet)} />
+        
+        {/* Corps principal du robinet (colonne haute) */}
+        <mesh {...robinet.propsInteraction} position={[0, 0.98, -0.18]}>
+          <cylinderGeometry args={[0.022, 0.022, 0.26, 16]} />
+          <meshPhysicalMaterial 
+            color={robinet.estSelectionne ? '#00e5ff' : '#c0c0c0'}
+            roughness={0.08}
+            metalness={0.95}
+            clearcoat={0.8}
+            clearcoatRoughness={0.05}
+          />
         </mesh>
-        {/* Robinet — poignées (chaud/froid) */}
-        <mesh {...robinet.propsInteraction} position={[-0.08, 1.12, -0.16]}>
-          <cylinderGeometry args={[0.022, 0.022, 0.015, 12]} />
-          <meshStandardMaterial {...M(robinet)} />
+        
+        {/* Bec verseur cascade (large et plat) */}
+        <mesh {...robinet.propsInteraction} position={[0, 1.12, -0.12]} rotation={[Math.PI / 3.5, 0, 0]}>
+          <boxGeometry args={[0.08, 0.16, 0.015]} />
+          <meshPhysicalMaterial 
+            color={robinet.estSelectionne ? '#00e5ff' : '#c0c0c0'}
+            roughness={0.06}
+            metalness={0.96}
+            clearcoat={0.9}
+            clearcoatRoughness={0.03}
+          />
         </mesh>
-        <mesh {...robinet.propsInteraction} position={[0.08, 1.12, -0.16]}>
-          <cylinderGeometry args={[0.022, 0.022, 0.015, 12]} />
-          <meshStandardMaterial {...M(robinet)} />
+        
+        {/* Embout du bec (ouverture cascade) */}
+        <mesh {...robinet.propsInteraction} position={[0, 1.08, -0.04]} rotation={[Math.PI / 3.5, 0, 0]}>
+          <boxGeometry args={[0.075, 0.025, 0.01]} />
+          <meshPhysicalMaterial 
+            color={robinet.estSelectionne ? '#00e5ff' : '#b8b8b8'}
+            roughness={0.1}
+            metalness={0.9}
+          />
+        </mesh>
+        
+        {/* Levier de commande unique (design minimaliste) */}
+        <mesh {...robinet.propsInteraction} position={[0, 1.14, -0.2]} rotation={[-Math.PI / 8, 0, 0]}>
+          <boxGeometry args={[0.12, 0.025, 0.015]} />
+          <meshPhysicalMaterial 
+            color={robinet.estSelectionne ? '#00e5ff' : '#c0c0c0'}
+            roughness={0.08}
+            metalness={0.95}
+            clearcoat={0.8}
+            clearcoatRoughness={0.05}
+          />
+        </mesh>
+        
+        {/* Axe du levier */}
+        <mesh {...robinet.propsInteraction} position={[0, 1.13, -0.2]}>
+          <cylinderGeometry args={[0.015, 0.015, 0.03, 12]} />
+          <meshPhysicalMaterial 
+            color={robinet.estSelectionne ? '#00e5ff' : '#c0c0c0'}
+            roughness={0.08}
+            metalness={0.95}
+          />
         </mesh>
       </group>
 

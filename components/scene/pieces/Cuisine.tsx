@@ -257,8 +257,8 @@ export function Cuisine({ lumiere, filDefer = false, masquerPlafond = false }: P
   const four       = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'four', equipementId: 'cuisine-8', defaut: { couleur: '#2d2d2d', rugosite: 0.3,  metalique: 0.4 } });
   const hotte      = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'hotteAspirante', equipementId: 'cuisine-6', defaut: { couleur: '#9ca3af', rugosite: 0.2,  metalique: 0.6 } });
   const credence   = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'credence', equipementId: 'cuisine-11', defaut: { couleur: '#f8f8f8', rugosite: 0.25, metalique: 0 } });
-  const table      = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'tableCuisine',  libelle: 'Table de cuisine', defaut: { couleur: '#8b6914', rugosite: 0.4,  metalique: 0 } });
-  const chaises    = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'chaises',       libelle: 'Chaises',          defaut: { couleur: '#374151', rugosite: 0.5,  metalique: 0 } });
+  const table      = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'tableCuisine',  libelle: 'Table de cuisine', defaut: { couleur: '#f5f5f5', rugosite: 0.2,  metalique: 0.1 } });
+  const chaises    = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'chaises',       libelle: 'Chaises',          defaut: { couleur: '#2c2c2c', rugosite: 0.3,  metalique: 0.1 } });
   const lavVaisselle=useElementSelectionnable({ idPiece: 'cuisine', idElement: 'lavVaisselle', equipementId: 'cuisine-10', defaut: { couleur: '#e5e7eb', rugosite: 0.3,  metalique: 0.15 } });
   const microOndes = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'microOndes',    libelle: 'Micro-ondes',      defaut: { couleur: '#1f2937', rugosite: 0.3,  metalique: 0.3 } });
   const poubelle   = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'poubelleTri',   libelle: 'Poubelle de tri',  defaut: { couleur: '#22c55e', rugosite: 0.6,  metalique: 0.1 } });
@@ -508,22 +508,22 @@ export function Cuisine({ lumiere, filDefer = false, masquerPlafond = false }: P
         <mesh {...microOndes.propsInteraction} position={[-0.2, 0, 0.2]}><boxGeometry args={[0.06, 0.22, 0.02]} /><meshStandardMaterial {...M(microOndes)} /></mesh>
       </group>
 
-      {/* Table */}
-      <mesh {...table.propsInteraction} position={[2.8, 0.76, -0.8]} castShadow receiveShadow>
+      {/* Table - centrée entre les chaises */}
+      <mesh {...table.propsInteraction} position={[2.8, 0.76, -1.25]} castShadow receiveShadow>
         <boxGeometry args={[1.4, 0.05, 0.9]} />
         <meshStandardMaterial {...M(table)} />
       </mesh>
       {[[-0.55,-0.35],[0.55,-0.35],[-0.55,0.35],[0.55,0.35]].map(([lx,lz],i) => (
-        <mesh {...table.propsInteraction} key={i} position={[2.8+lx, 0.38, -0.8+lz]} castShadow>
+        <mesh {...table.propsInteraction} key={i} position={[2.8+lx, 0.38, -1.25+lz]} castShadow>
           <boxGeometry args={[0.06, 0.76, 0.06]} />
           <meshStandardMaterial {...M(table)} />
         </mesh>
       ))}
 
-      {/* Chaises */}
-      {([[-0.55,-1.05,0,0],[0.55,-1.05,0,0],[-0.55,0.15,0,Math.PI],[0.55,0.15,0,Math.PI]] as [number,number,number,number][]).map(([lx,lz,,ry],i) => (
+      {/* Chaises - bien positionnées autour de la table */}
+      {([[-0.55,-0.6,0,0],[0.55,-0.6,0,0],[-0.55,0.6,0,Math.PI],[0.55,0.6,0,Math.PI]] as [number,number,number,number][]).map(([lx,lz,,ry],i) => (
         <Chaise key={i}
-          position={[2.8+lx, 0, -0.8+lz]}
+          position={[2.8+lx, 0, -1.25+lz]}
           rotation={[0, ry, 0]}
           M={M(chaises)}
           propsInteraction={chaises.propsInteraction}

@@ -30,7 +30,7 @@ export function Fenetre({ position, rotation = [0, 0, 0], largeur = 1.2, hauteur
   const coffreH = 0.14;   // hauteur coffre
   const coffreD = 0.11;   // profondeur coffre (dépasse du mur)
 
-  const [ouvert,  setOuvert]  = useState(false);  // volet fermé par défaut (visible)
+  const [ouvert,  setOuvert]  = useState(true);   // volet ouvert par défaut (invisible)
   const [survole, setSurvole] = useState(false);
   const [storeOuvert, setStoreOuvert] = useState(true); // store ouvert par défaut (invisible)
 

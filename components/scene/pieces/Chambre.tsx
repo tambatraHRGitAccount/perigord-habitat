@@ -208,15 +208,15 @@ function Bureau({ propsInteraction, M, mat }: { propsInteraction: Record<string,
 export function Chambre({ lumiere, filDefer = false, masquerPlafond = false }: Props) {
   const sol     = useElementSelectionnable({ idPiece: 'chambre', idElement: 'sol',       equipementId: 'chambre-1', defaut: { couleur: '#4b5563', rugosite: 0.95, metalique: 0 } });
   const peinture = useElementSelectionnable({ idPiece: 'chambre', idElement: 'peinture', equipementId: 'chambre-2', defaut: { couleur: '#e5e7eb', rugosite: 0.9, metalique: 0 } });
-  const cadre   = useElementSelectionnable({ idPiece: 'chambre', idElement: 'lit',       libelle: 'Cadre de lit',  defaut: { couleur: '#5c3d2e', rugosite: 0.5,  metalique: 0 } });
-  const literie = useElementSelectionnable({ idPiece: 'chambre', idElement: 'literie',   libelle: 'Literie',       defaut: { couleur: '#e5e7eb', rugosite: 0.7,  metalique: 0 } });
-  const tableChevet = useElementSelectionnable({ idPiece: 'chambre', idElement: 'tableChevet', libelle: 'Tables de chevet', defaut: { couleur: '#5c3d2e', rugosite: 0.5, metalique: 0 } });
+  const cadre   = useElementSelectionnable({ idPiece: 'chambre', idElement: 'lit',       libelle: 'Cadre de lit',  defaut: { couleur: '#2c2c2c', rugosite: 0.3,  metalique: 0.1 } });
+  const literie = useElementSelectionnable({ idPiece: 'chambre', idElement: 'literie',   libelle: 'Literie',       defaut: { couleur: '#f8f8f8', rugosite: 0.6,  metalique: 0 } });
+  const tableChevet = useElementSelectionnable({ idPiece: 'chambre', idElement: 'tableChevet', libelle: 'Tables de chevet', defaut: { couleur: '#2c2c2c', rugosite: 0.3, metalique: 0.1 } });
   const lampeChevet = useElementSelectionnable({ idPiece: 'chambre', idElement: 'lampeChevet', libelle: 'Luminaire / plafonnier', defaut: { couleur: '#f5f0e0', rugosite: 0.7, metalique: 0 } });
   const plafonnier = useElementSelectionnable({ idPiece: 'chambre', idElement: 'plafonnier', libelle: 'Luminaire / plafonnier', defaut: { couleur: '#f9fafb', rugosite: 0.3, metalique: 0 } });
-  const armoire = useElementSelectionnable({ idPiece: 'chambre', idElement: 'armoire',   equipementId: 'chambre-11', defaut: { couleur: '#5c3d2e', rugosite: 0.5,  metalique: 0 } });
-  const bureau  = useElementSelectionnable({ idPiece: 'chambre', idElement: 'bureau',    libelle: 'Bureau',        defaut: { couleur: '#8b6914', rugosite: 0.4,  metalique: 0 } });
+  const armoire = useElementSelectionnable({ idPiece: 'chambre', idElement: 'armoire',   equipementId: 'chambre-11', defaut: { couleur: '#1a1a1a', rugosite: 0.25,  metalique: 0.15 } });
+  const bureau  = useElementSelectionnable({ idPiece: 'chambre', idElement: 'bureau',    libelle: 'Bureau',        defaut: { couleur: '#2c2c2c', rugosite: 0.3,  metalique: 0.1 } });
   const miroir  = useElementSelectionnable({ idPiece: 'chambre', idElement: 'miroir',    libelle: 'Miroir',        defaut: { couleur: '#a8d8ea', rugosite: 0.05, metalique: 0.1 } });
-  const rideaux = useElementSelectionnable({ idPiece: 'chambre', idElement: 'rideaux',   libelle: 'Rideaux',       defaut: { couleur: '#dbeafe', rugosite: 0.9,  metalique: 0 } });
+  const rideaux = useElementSelectionnable({ idPiece: 'chambre', idElement: 'rideaux',   libelle: 'Rideaux',       defaut: { couleur: '#f5f5f5', rugosite: 0.8,  metalique: 0 } });
   const radiateur = useElementSelectionnable({ idPiece: 'chambre', idElement: 'radiateur', equipementId: 'chambre-6', defaut: { couleur: '#e5e7eb', rugosite: 0.3, metalique: 0.6 } });
   const vmc = useElementSelectionnable({ idPiece: 'chambre', idElement: 'vmc', equipementId: 'chambre-8', defaut: { couleur: '#f3f4f6', rugosite: 0.5, metalique: 0.2 } });
 

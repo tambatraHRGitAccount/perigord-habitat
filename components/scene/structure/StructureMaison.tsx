@@ -12,7 +12,7 @@ interface Props {
   pieceVisible?: 'exterieur' | 'interieur' | 'sejour' | 'cuisine' | 'chambre' | 'salleDeBain' | 'couloir';
 }
 
-const EXT = '#9ca3af', INT = '#6b7280';
+const EXT = '#f5f5f5', INT = '#e8e8e8';
 const lm  = LARGEUR_MAISON   / 2;   // 6
 const pm  = PROFONDEUR_MAISON / 2;  // 5
 const em2 = EPAISSEUR_MUR    / 2;   // 0.125

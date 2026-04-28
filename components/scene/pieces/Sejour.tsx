@@ -211,29 +211,61 @@ function Fauteuil({ propsInteraction, mat }: { propsInteraction: Record<string,u
   );
 }
 
-// ─── Bibliothèque ─────────────────────────────────────────────────────────────
-// Mur gauche (x≈-5.69), milieu de la pièce en Z
+// ─── Bibliothèque moderne ─────────────────────────────────────────────────────
+// Mur gauche (x≈-5.875 face intérieure), coin arrière-gauche
+// Rotation de 90° (Math.PI/2) pour être parallèle au mur gauche
 function Bibliotheque({ propsInteraction, mat }: { propsInteraction: Record<string,unknown>; mat: MatProps }) {
   return (
-    <group {...propsInteraction} position={[-5.69, 0, -2.8]}>
-      <mesh position={[0, 1.1, 0]} castShadow receiveShadow>
-        <boxGeometry args={[0.38, 2.2, 1.6]} />
-        <meshPhysicalMaterial {...mat} />
+    <group {...propsInteraction} position={[-5.69, 0, -3.8]} rotation={[0, Math.PI/2, 0]}>
+      {/* Structure étagère minimaliste - montants verticaux fins */}
+      <mesh position={[-0.6, 1.2, 0]} castShadow>
+        <boxGeometry args={[0.04, 2.4, 0.04]} />
+        <meshPhysicalMaterial color="#1a1a1a" roughness={0.2} metalness={0.2} />
       </mesh>
-      {[0.3, 0.75, 1.2, 1.65].map((y, i) => (
-        <mesh key={i} position={[0.01, y, 0]}>
-          <boxGeometry args={[0.04, 0.025, 1.52]} />
+      <mesh position={[0.6, 1.2, 0]} castShadow>
+        <boxGeometry args={[0.04, 2.4, 0.04]} />
+        <meshPhysicalMaterial color="#1a1a1a" roughness={0.2} metalness={0.2} />
+      </mesh>
+      
+      {/* Étagères horizontales (5 niveaux) */}
+      {[0.3, 0.75, 1.2, 1.65, 2.1].map((y, i) => (
+        <mesh key={i} position={[0, y, 0]} castShadow receiveShadow>
+          <boxGeometry args={[1.2, 0.03, 0.3]} />
           <meshPhysicalMaterial {...mat} />
         </mesh>
       ))}
-      {[0.42, 0.87, 1.32].map((y, row) =>
-        [-0.6,-0.3,0,0.3,0.6].map((z, col) => (
-          <mesh key={`${row}-${col}`} position={[0.02, y + 0.12, z]}>
-            <boxGeometry args={[0.04, 0.22, 0.13]} />
-            <meshPhysicalMaterial {...mat} />
+      
+      {/* Livres rangés sur les étagères (debout) */}
+      {[0.42, 0.87, 1.32, 1.77].map((y, row) => {
+        const colors = [
+          ['#8b4513', '#2c3e50', '#7f1d1d', '#1e3a8a', '#065f46'],
+          ['#1e3a8a', '#7f1d1d', '#065f46', '#8b4513', '#2c3e50'],
+          ['#2c3e50', '#065f46', '#1e3a8a', '#7f1d1d', '#8b4513'],
+          ['#065f46', '#8b4513', '#2c3e50', '#1e3a8a', '#7f1d1d']
+        ];
+        return [-0.4, -0.2, 0, 0.2, 0.4].map((x, col) => (
+          <mesh key={`${row}-${col}`} position={[x, y + 0.15, 0]} castShadow>
+            <boxGeometry args={[0.05, 0.28, 0.12]} />
+            <meshPhysicalMaterial 
+              color={colors[row][col]} 
+              roughness={0.7} 
+              metalness={0}
+            />
           </mesh>
-        ))
-      )}
+        ));
+      })}
+      
+      {/* Objets déco luxe sur étagère du haut */}
+      {/* Vase moderne */}
+      <mesh position={[-0.35, 2.25, 0]} castShadow>
+        <cylinderGeometry args={[0.06, 0.04, 0.18, 12]} />
+        <meshPhysicalMaterial color="#f5f5f5" roughness={0.1} metalness={0.3} />
+      </mesh>
+      {/* Sculpture abstraite */}
+      <mesh position={[0.35, 2.28, 0]} castShadow>
+        <boxGeometry args={[0.08, 0.22, 0.08]} />
+        <meshPhysicalMaterial color="#c0c0c0" roughness={0.2} metalness={0.8} />
+      </mesh>
     </group>
   );
 }
@@ -312,12 +344,12 @@ export function Sejour({ lumiere, filDefer = false, masquerPlafond = false }: Pr
   const sol       = useElementSelectionnable({ idPiece: 'sejour', idElement: 'sol', equipementId: 'salon-1', defaut: { couleur: '#4b5563', rugosite: 0.7,  metalique: 0 } });
   const tapis     = useElementSelectionnable({ idPiece: 'sejour', idElement: 'tapis',        libelle: 'Tapis de salon',   defaut: { couleur: '#8b7355', rugosite: 0.95, metalique: 0 } });
   const tapisBordure = useElementSelectionnable({ idPiece: 'sejour', idElement: 'tapisBordure', libelle: 'Bordure tapis',  defaut: { couleur: '#6b5a45', rugosite: 0.9, metalique: 0 } });
-  const canape    = useElementSelectionnable({ idPiece: 'sejour', idElement: 'canape',       libelle: 'Canapé',           defaut: { couleur: '#6b7280', rugosite: 0.8,  metalique: 0 } });
-  const tableBasse= useElementSelectionnable({ idPiece: 'sejour', idElement: 'tableBasse',   libelle: 'Table basse',      defaut: { couleur: '#8b6914', rugosite: 0.4,  metalique: 0 } });
+  const canape    = useElementSelectionnable({ idPiece: 'sejour', idElement: 'canape',       libelle: 'Canapé',           defaut: { couleur: '#e8e8e8', rugosite: 0.6,  metalique: 0.05 } });
+  const tableBasse= useElementSelectionnable({ idPiece: 'sejour', idElement: 'tableBasse',   libelle: 'Table basse',      defaut: { couleur: '#f5f5f5', rugosite: 0.2,  metalique: 0.1 } });
   const television= useElementSelectionnable({ idPiece: 'sejour', idElement: 'television',   libelle: 'Télévision',       defaut: { couleur: '#111827', rugosite: 0.1,  metalique: 0.5 } });
   const meubleTV  = useElementSelectionnable({ idPiece: 'sejour', idElement: 'meubleTV',     libelle: 'Meuble TV',        defaut: { couleur: '#1c1c1c', rugosite: 0.4,  metalique: 0.1 } });
-  const fauteuil  = useElementSelectionnable({ idPiece: 'sejour', idElement: 'fauteuil',     libelle: 'Fauteuil',         defaut: { couleur: '#78350f', rugosite: 0.8,  metalique: 0 } });
-  const biblio    = useElementSelectionnable({ idPiece: 'sejour', idElement: 'bibliotheque', libelle: 'Bibliothèque',     defaut: { couleur: '#5c3d2e', rugosite: 0.5,  metalique: 0 } });
+  const fauteuil  = useElementSelectionnable({ idPiece: 'sejour', idElement: 'fauteuil',     libelle: 'Fauteuil',         defaut: { couleur: '#e8e8e8', rugosite: 0.6,  metalique: 0.05 } });
+  const biblio    = useElementSelectionnable({ idPiece: 'sejour', idElement: 'bibliotheque', libelle: 'Bibliothèque',     defaut: { couleur: '#1a1a1a', rugosite: 0.2,  metalique: 0.15 } });
   const plante    = useElementSelectionnable({ idPiece: 'sejour', idElement: 'planteVerte',  libelle: 'Plante verte',     defaut: { couleur: '#2d6a4f', rugosite: 0.9,  metalique: 0 } });
   const radiateur = useElementSelectionnable({ idPiece: 'sejour', idElement: 'radiateur', equipementId: 'salon-7', defaut: { couleur: '#f3f4f6', rugosite: 0.3,  metalique: 0.2 } });
   const peintureMurs = useElementSelectionnable({ idPiece: 'sejour', idElement: 'tableauDeco', equipementId: 'salon-2', defaut: { couleur: '#1e3a5f', rugosite: 0.6,  metalique: 0 } });
@@ -356,7 +388,7 @@ export function Sejour({ lumiere, filDefer = false, masquerPlafond = false }: Pr
         couleur={sol.materiau.couleur} rugosite={sol.materiau.rugosite}
         propsInteraction={sol.propsInteraction} emissif={sol.emissif} intensiteEmissif={sol.intensiteEmissif}
         filDefer={filDefer} clearcoat={0.3} clearcoatRoughness={0.15}
-        reflectif={true} mirrorForce={0.28} />
+        reflectif={false} mirrorForce={0.28} />
 
       {/* Plafond */}
       {!masquerPlafond && (
