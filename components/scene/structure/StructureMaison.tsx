@@ -163,23 +163,73 @@ export function StructureMaison({ filDefer = false, masquerToit = false, pieceVi
       {(afficherTout || pieceVisible === 'sejour') && (
         <>
           {/* Fenêtre avant séjour supprimée (cachait la TV) */}
-          <Fenetre position={[-lm+em2,1.4,-1.5]}  rotation={[0,Math.PI/2,0]}  largeur={1.2} hauteur={1.0} idPiece="sejour" idElement="fenetreSejour" />
+          <Fenetre 
+            position={[-lm+em2,1.4,-1.5]}  
+            rotation={[0,Math.PI/2,0]}  
+            largeur={1.2} 
+            hauteur={1.0} 
+            idPiece="sejour" 
+            idElement="fenetreSejour"
+            equipementId="salon-3"
+            equipementIdVolet="salon-4"
+            equipementIdStore="salon-5"
+          />
         </>
       )}
       {(afficherTout || pieceVisible === 'cuisine') && (
         <>
-          <Fenetre position={[3.5,1.4,-pm+em2]}   largeur={1.4} hauteur={1.1} idPiece="cuisine" idElement="fenetreCuisine1" />
-          <Fenetre position={[lm-em2,1.4,-1.5]}   rotation={[0,-Math.PI/2,0]} largeur={1.2} hauteur={1.0} idPiece="cuisine" idElement="fenetreCuisine2" />
+          <Fenetre 
+            position={[3.5,1.4,-pm+em2]}   
+            largeur={1.4} 
+            hauteur={1.1} 
+            idPiece="cuisine" 
+            idElement="fenetreCuisine1"
+          />
+          <Fenetre 
+            position={[lm-em2,1.4,-1.5]}   
+            rotation={[0,-Math.PI/2,0]} 
+            largeur={1.2} 
+            hauteur={1.0} 
+            idPiece="cuisine" 
+            idElement="fenetreCuisine2"
+          />
         </>
       )}
       {(afficherTout || pieceVisible === 'chambre') && (
         <>
-          <Fenetre position={[-lm+em2,1.4,3.5]}   rotation={[0,Math.PI/2,0]}  largeur={1.0} hauteur={0.9} idPiece="chambre" idElement="fenetreChambre1" />
-          <Fenetre position={[-2.5,1.4,pm-em2]}   rotation={[0,Math.PI,0]}    largeur={1.2} hauteur={1.0} idPiece="chambre" idElement="fenetreChambre2" />
+          <Fenetre 
+            position={[-lm+em2,1.4,3.5]}   
+            rotation={[0,Math.PI/2,0]}  
+            largeur={1.0} 
+            hauteur={0.9} 
+            idPiece="chambre" 
+            idElement="fenetreChambre1"
+            equipementId="chambre-3"
+            equipementIdVolet="chambre-4"
+            equipementIdStore="chambre-5"
+          />
+          <Fenetre 
+            position={[-2.5,1.4,pm-em2]}   
+            rotation={[0,Math.PI,0]}    
+            largeur={1.2} 
+            hauteur={1.0} 
+            idPiece="chambre" 
+            idElement="fenetreChambre2"
+            equipementId="chambre-3"
+            equipementIdVolet="chambre-4"
+            equipementIdStore="chambre-5"
+          />
         </>
       )}
       {(afficherTout || pieceVisible === 'salleDeBain') && (
-        <Fenetre position={[lm-em2,1.4,3.5]}    rotation={[0,-Math.PI/2,0]} largeur={0.8} hauteur={0.8} idPiece="salleDeBain" idElement="fenetreSDB" />
+        <Fenetre 
+          position={[lm-em2,1.4,3.5]}    
+          rotation={[0,-Math.PI/2,0]} 
+          largeur={0.8} 
+          hauteur={0.8} 
+          idPiece="salleDeBain" 
+          idElement="fenetreSDB"
+        />
       )}
 
       {/* ═══ PORTES ═══ */}

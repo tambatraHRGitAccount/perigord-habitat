@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { ControleurCamera } from './ui/ControleurCamera';
 import { SensibiliteCamera } from './ui/SensibiliteCamera';
+import { EquipementDetailModal } from '@/components/modals/EquipementDetailModal';
+import { getEquipementById } from '@/lib/equipements';
 import { useScene } from '@/hooks/useSceneStore';
 import type { IdPiece } from '@/types/maison';
 
@@ -13,10 +15,13 @@ const PIECES: { id: IdPiece; label: string; icon: string }[] = [
 ];
 
 export function InterfaceMaison() {
-  const { pieceActive, setPieceActive, tooltip } = useScene();
+  const { pieceActive, setPieceActive, tooltip, equipementModalId, setEquipementModalId } = useScene();
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   const estExterieur = pieceActive === 'exterieur';
+
+  // Récupérer l'équipement pour la modale
+  const equipementModal = equipementModalId ? getEquipementById(equipementModalId) : null;
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -42,6 +47,16 @@ export function InterfaceMaison() {
           <div className="bg-gray-950/95 backdrop-blur-xl px-4 py-2 rounded-lg border border-white/20 shadow-2xl">
             <span className="text-white text-sm font-medium whitespace-nowrap">{tooltip}</span>
           </div>
+        </div>
+      )}
+
+      {/* ── Modale Équipement ────────────────────────────────────────────── */}
+      {equipementModal && (
+        <div className="pointer-events-auto">
+          <EquipementDetailModal 
+            equipement={equipementModal} 
+            onClose={() => setEquipementModalId(null)} 
+          />
         </div>
       )}
 

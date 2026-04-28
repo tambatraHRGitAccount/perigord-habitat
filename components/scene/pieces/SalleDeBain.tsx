@@ -23,20 +23,20 @@ import { useElementSelectionnable } from '@/hooks/useElementSelectionnable';
 interface Props { lumiere: boolean; filDefer?: boolean; masquerPlafond?: boolean }
 
 export function SalleDeBain({ lumiere, filDefer = false, masquerPlafond = false }: Props) {
-  const sol    = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'sol',             libelle: 'Carrelage sol',    defaut: { couleur: '#4b5563', rugosite: 0.25, metalique: 0 } });
-  const douche = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'douche',           libelle: 'Douche italienne', defaut: { couleur: '#e0f2fe', rugosite: 0.2,  metalique: 0 } });
-  const vasque = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'meubleVasque',     libelle: 'Meuble vasque',    defaut: { couleur: '#78350f', rugosite: 0.4,  metalique: 0 } });
-  const miroir = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'miroir',           libelle: 'Miroir',           defaut: { couleur: '#3b82f6', rugosite: 0.05, metalique: 0.8 } });
-  const wc     = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'wc',               libelle: 'WC',               defaut: { couleur: '#f1f5f9', rugosite: 0.2,  metalique: 0 } });
+  const sol    = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'sol', equipementId: 'sdb-10', defaut: { couleur: '#4b5563', rugosite: 0.25, metalique: 0 } });
+  const douche = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'douche', equipementId: 'sdb-2', defaut: { couleur: '#e0f2fe', rugosite: 0.2,  metalique: 0 } });
+  const vasque = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'meubleVasque', equipementId: 'sdb-6', defaut: { couleur: '#78350f', rugosite: 0.4,  metalique: 0 } });
+  const miroir = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'miroir', equipementId: 'sdb-11', defaut: { couleur: '#3b82f6', rugosite: 0.05, metalique: 0.8 } });
+  const wc     = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'wc', equipementId: 'wc-1', defaut: { couleur: '#f1f5f9', rugosite: 0.2,  metalique: 0 } });
   const machine= useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'machineALaver',    libelle: 'Machine à laver',  defaut: { couleur: '#e5e7eb', rugosite: 0.3,  metalique: 0.2 } });
   const colonne= useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'colonneRangement', libelle: 'Colonne rangement',defaut: { couleur: '#fef3c7', rugosite: 0.4,  metalique: 0 } });
-  const seche  = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'secheServiettes',  libelle: 'Sèche-serviettes', defaut: { couleur: '#a8a29e', rugosite: 0.3,  metalique: 0.7 } });
+  const seche  = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'secheServiettes', equipementId: 'sdb-13', defaut: { couleur: '#a8a29e', rugosite: 0.3,  metalique: 0.7 } });
   const tapis  = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'tapisBain',        libelle: 'Tapis de bain',    defaut: { couleur: '#7dd3fc', rugosite: 0.9,  metalique: 0 } });
-  const cumulus= useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'cumulus',          libelle: 'Cumulus',          defaut: { couleur: '#f3f4f6', rugosite: 0.3,  metalique: 0.3 } });
+  const cumulus= useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'cumulus', equipementId: 'sdb-5', defaut: { couleur: '#f3f4f6', rugosite: 0.3,  metalique: 0.3 } });
   const panier = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'panierLinge',      libelle: 'Panier à linge',   defaut: { couleur: '#d97706', rugosite: 0.8,  metalique: 0 } });
-  const robinet= useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'robinet',          libelle: 'Robinetterie',     defaut: { couleur: '#9ca3af', rugosite: 0.2,  metalique: 0.8 } });
-  const joints = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'joints',           libelle: 'Joints étanchéité',defaut: { couleur: '#6b7280', rugosite: 0.6,  metalique: 0 } });
-  const plafonnier = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'plafonnier',   libelle: 'Luminaire / plafonnier', defaut: { couleur: '#f9fafb', rugosite: 0.3, metalique: 0 } });
+  const robinet= useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'robinet', equipementId: 'sdb-7', defaut: { couleur: '#9ca3af', rugosite: 0.2,  metalique: 0.8 } });
+  const joints = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'joints', equipementId: 'sdb-16', defaut: { couleur: '#6b7280', rugosite: 0.6,  metalique: 0 } });
+  const plafonnier = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'plafonnier', equipementId: 'sdb-14', defaut: { couleur: '#f9fafb', rugosite: 0.3, metalique: 0 } });
 
   const M = (s: typeof sol) => ({
     color: s.estSelectionne ? '#00e5ff' : s.materiau.couleur,
@@ -350,6 +350,7 @@ export function SalleDeBain({ lumiere, filDefer = false, masquerPlafond = false 
         rotation={[0, 0, 0]}
         idPiece="salleDeBain"
         lumiere={lumiere}
+        equipementId="sdb-15"
       />
 
       {/* Panier à linge — entre machine et WC, bien espacé */}

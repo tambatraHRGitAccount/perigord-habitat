@@ -14,6 +14,8 @@ export interface StoreScene extends EtatScene {
   setSensibiliteCamera: (sensibilite: number) => void;
   setTooltip:        (libelle: string | null) => void;
   tooltip:           string | null;
+  equipementModalId: string | null;
+  setEquipementModalId: (id: string | null) => void;
 }
 
 export const ContexteScene = createContext<StoreScene | null>(null);

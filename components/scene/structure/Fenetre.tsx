@@ -20,9 +20,12 @@ interface Props {
   hauteur?: number;
   idPiece?: IdPiece | 'exterieur';
   idElement?: string;
+  equipementId?: string;
+  equipementIdVolet?: string;
+  equipementIdStore?: string;
 }
 
-export function Fenetre({ position, rotation = [0, 0, 0], largeur = 1.2, hauteur = 1.0, idPiece = 'exterieur', idElement = 'fenetre' }: Props) {
+export function Fenetre({ position, rotation = [0, 0, 0], largeur = 1.2, hauteur = 1.0, idPiece = 'exterieur', idElement = 'fenetre', equipementId, equipementIdVolet, equipementIdStore }: Props) {
   const c       = 0.07;   // épaisseur cadre
   const coffreH = 0.14;   // hauteur coffre
   const coffreD = 0.11;   // profondeur coffre (dépasse du mur)
@@ -35,6 +38,7 @@ export function Fenetre({ position, rotation = [0, 0, 0], largeur = 1.2, hauteur
   const fenetre = useElementSelectionnable({ 
     idPiece, 
     idElement, 
+    equipementId,
     libelle: 'Fenêtres (double vitrage, PVC/bois)', 
     defaut: { couleur: '#ffffff', rugosite: 0.3, metalique: 0 } 
   });
@@ -43,6 +47,7 @@ export function Fenetre({ position, rotation = [0, 0, 0], largeur = 1.2, hauteur
   const volet = useElementSelectionnable({ 
     idPiece, 
     idElement: `${idElement}_volet`, 
+    equipementId: equipementIdVolet,
     libelle: 'Volets (intérieurs ou extérieurs)', 
     defaut: { couleur: '#ffffff', rugosite: 0.45, metalique: 0 } 
   });
@@ -51,6 +56,7 @@ export function Fenetre({ position, rotation = [0, 0, 0], largeur = 1.2, hauteur
   const store = useElementSelectionnable({ 
     idPiece, 
     idElement: `${idElement}_store`, 
+    equipementId: equipementIdStore,
     libelle: 'Store (intérieur / banne)', 
     defaut: { couleur: '#f5f5dc', rugosite: 0.7, metalique: 0 } 
   });
@@ -96,17 +102,23 @@ export function Fenetre({ position, rotation = [0, 0, 0], largeur = 1.2, hauteur
   // Gestion des clics : volet ouvre/ferme, mais aussi sélectionne
   const onClickVolet = (e: { stopPropagation: () => void }) => { 
     e.stopPropagation(); 
-    volet.propsInteraction.onClick(e);
+    if (volet.propsInteraction.onClick) {
+      volet.propsInteraction.onClick(e);
+    }
     setOuvert(v => !v); 
   };
   const onOverVolet = (e: { stopPropagation: () => void }) => { 
     e.stopPropagation(); 
-    volet.propsInteraction.onPointerOver(e);
+    if (volet.propsInteraction.onPointerOver) {
+      volet.propsInteraction.onPointerOver(e);
+    }
     setSurvole(true);  
     document.body.style.cursor = 'pointer'; 
   };
   const onOutVolet = () => { 
-    volet.propsInteraction.onPointerOut();
+    if (volet.propsInteraction.onPointerOut) {
+      volet.propsInteraction.onPointerOut();
+    }
     setSurvole(false); 
     document.body.style.cursor = 'auto'; 
   };
@@ -114,15 +126,21 @@ export function Fenetre({ position, rotation = [0, 0, 0], largeur = 1.2, hauteur
   // Gestion du store
   const onClickStore = (e: { stopPropagation: () => void }) => { 
     e.stopPropagation(); 
-    store.propsInteraction.onClick(e);
+    if (store.propsInteraction.onClick) {
+      store.propsInteraction.onClick(e);
+    }
     setStoreOuvert(v => !v); 
   };
   const onOverStore = (e: { stopPropagation: () => void }) => { 
     e.stopPropagation(); 
-    store.propsInteraction.onPointerOver(e);
+    if (store.propsInteraction.onPointerOver) {
+      store.propsInteraction.onPointerOver(e);
+    }
   };
   const onOutStore = () => { 
-    store.propsInteraction.onPointerOut();
+    if (store.propsInteraction.onPointerOut) {
+      store.propsInteraction.onPointerOut();
+    }
   };
 
   return (

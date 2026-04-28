@@ -309,7 +309,7 @@ function TableauDecoratif({ propsInteraction, mat }: { propsInteraction: Record<
 
 // ─── Composant principal ──────────────────────────────────────────────────────
 export function Sejour({ lumiere, filDefer = false, masquerPlafond = false }: Props) {
-  const sol       = useElementSelectionnable({ idPiece: 'sejour', idElement: 'sol',         libelle: 'Revêtement de sol : parquet, moquette, carrelage',     defaut: { couleur: '#4b5563', rugosite: 0.7,  metalique: 0 } });
+  const sol       = useElementSelectionnable({ idPiece: 'sejour', idElement: 'sol', equipementId: 'salon-1', defaut: { couleur: '#4b5563', rugosite: 0.7,  metalique: 0 } });
   const tapis     = useElementSelectionnable({ idPiece: 'sejour', idElement: 'tapis',        libelle: 'Tapis de salon',   defaut: { couleur: '#8b7355', rugosite: 0.95, metalique: 0 } });
   const tapisBordure = useElementSelectionnable({ idPiece: 'sejour', idElement: 'tapisBordure', libelle: 'Bordure tapis',  defaut: { couleur: '#6b5a45', rugosite: 0.9, metalique: 0 } });
   const canape    = useElementSelectionnable({ idPiece: 'sejour', idElement: 'canape',       libelle: 'Canapé',           defaut: { couleur: '#6b7280', rugosite: 0.8,  metalique: 0 } });
@@ -319,12 +319,12 @@ export function Sejour({ lumiere, filDefer = false, masquerPlafond = false }: Pr
   const fauteuil  = useElementSelectionnable({ idPiece: 'sejour', idElement: 'fauteuil',     libelle: 'Fauteuil',         defaut: { couleur: '#78350f', rugosite: 0.8,  metalique: 0 } });
   const biblio    = useElementSelectionnable({ idPiece: 'sejour', idElement: 'bibliotheque', libelle: 'Bibliothèque',     defaut: { couleur: '#5c3d2e', rugosite: 0.5,  metalique: 0 } });
   const plante    = useElementSelectionnable({ idPiece: 'sejour', idElement: 'planteVerte',  libelle: 'Plante verte',     defaut: { couleur: '#2d6a4f', rugosite: 0.9,  metalique: 0 } });
-  const radiateur = useElementSelectionnable({ idPiece: 'sejour', idElement: 'radiateur',    libelle: 'Radiateur (chauffage collectif ou individuel)',        defaut: { couleur: '#f3f4f6', rugosite: 0.3,  metalique: 0.2 } });
-  const peintureMurs = useElementSelectionnable({ idPiece: 'sejour', idElement: 'tableauDeco',  libelle: 'Peintures et enduits muraux', defaut: { couleur: '#1e3a5f', rugosite: 0.6,  metalique: 0 } });
-  const plafonnier = useElementSelectionnable({ idPiece: 'sejour', idElement: 'plafonnier',    libelle: 'Luminaire / plafonnier',  defaut: { couleur: '#f9fafb', rugosite: 0.3,  metalique: 0 } });
+  const radiateur = useElementSelectionnable({ idPiece: 'sejour', idElement: 'radiateur', equipementId: 'salon-7', defaut: { couleur: '#f3f4f6', rugosite: 0.3,  metalique: 0.2 } });
+  const peintureMurs = useElementSelectionnable({ idPiece: 'sejour', idElement: 'tableauDeco', equipementId: 'salon-2', defaut: { couleur: '#1e3a5f', rugosite: 0.6,  metalique: 0 } });
+  const plafonnier = useElementSelectionnable({ idPiece: 'sejour', idElement: 'plafonnier', equipementId: 'salon-10', defaut: { couleur: '#f9fafb', rugosite: 0.3,  metalique: 0 } });
   const thermostat= useElementSelectionnable({ idPiece: 'sejour', idElement: 'thermostat',   libelle: 'Thermostat',       defaut: { couleur: '#e5e7eb', rugosite: 0.3,  metalique: 0 } });
-  const ventilation = useElementSelectionnable({ idPiece: 'sejour', idElement: 'ventilation', libelle: 'VMC / grille ventilation', defaut: { couleur: '#9ca3af', rugosite: 0.4, metalique: 0.3 } });
-  const tableauElec = useElementSelectionnable({ idPiece: 'sejour', idElement: 'tableauElectrique', libelle: 'Tableau électrique (si dans pièce)', defaut: { couleur: '#f3f4f6', rugosite: 0.3, metalique: 0.1 } });
+  const ventilation = useElementSelectionnable({ idPiece: 'sejour', idElement: 'ventilation', equipementId: 'salon-9', defaut: { couleur: '#9ca3af', rugosite: 0.4, metalique: 0.3 } });
+  const tableauElec = useElementSelectionnable({ idPiece: 'sejour', idElement: 'tableauElectrique', equipementId: 'salon-11', defaut: { couleur: '#f3f4f6', rugosite: 0.3, metalique: 0.1 } });
 
   const mat = (s: ReturnType<typeof useElementSelectionnable>): MatProps => ({
     color: s.estSelectionne ? '#00e5ff' : s.materiau.couleur,
@@ -409,6 +409,7 @@ export function Sejour({ lumiere, filDefer = false, masquerPlafond = false }: Pr
         rotation={[0, 0, 0]}
         idPiece="sejour"
         idElement="robinetThermoRadiateur"
+        equipementId="salon-8"
       />
 
       <TableauDecoratif propsInteraction={peintureMurs.propsInteraction} mat={mat(peintureMurs)} />
@@ -433,6 +434,7 @@ export function Sejour({ lumiere, filDefer = false, masquerPlafond = false }: Pr
         rotation={[0, -Math.PI / 2, 0]}
         idPiece="sejour"
         lumiere={lumiere}
+        equipementId="salon-6"
       />
 
       {/* Prises électriques */}
@@ -442,6 +444,7 @@ export function Sejour({ lumiere, filDefer = false, masquerPlafond = false }: Pr
         rotation={[0, 0, 0]}
         idPiece="sejour"
         idElement="prise1"
+        equipementId="salon-6"
       />
       {/* Prise 2 — mur arrière, à droite du radiateur */}
       <PriseElectrique
@@ -449,6 +452,7 @@ export function Sejour({ lumiere, filDefer = false, masquerPlafond = false }: Pr
         rotation={[0, 0, 0]}
         idPiece="sejour"
         idElement="prise2"
+        equipementId="salon-6"
       />
       {/* Prise 3 — mur gauche, près du fauteuil */}
       <PriseElectrique
@@ -456,6 +460,7 @@ export function Sejour({ lumiere, filDefer = false, masquerPlafond = false }: Pr
         rotation={[0, Math.PI / 2, 0]}
         idPiece="sejour"
         idElement="prise3"
+        equipementId="salon-6"
       />
       {/* Prise 4 — cloison droite, près de la porte */}
       <PriseElectrique
@@ -463,6 +468,7 @@ export function Sejour({ lumiere, filDefer = false, masquerPlafond = false }: Pr
         rotation={[0, -Math.PI / 2, 0]}
         idPiece="sejour"
         idElement="prise4"
+        equipementId="salon-6"
       />
 
       {/* Thermostat — mur gauche, h=1.5m */}
