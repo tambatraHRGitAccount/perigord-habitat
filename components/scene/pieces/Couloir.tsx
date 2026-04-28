@@ -18,10 +18,12 @@ import { useElementSelectionnable } from '@/hooks/useElementSelectionnable';
 interface Props { lumiere: boolean; filDefer?: boolean; masquerPlafond?: boolean }
 
 export function Couloir({ lumiere, filDefer = false, masquerPlafond = false }: Props) {
-  const sol       = useElementSelectionnable({ idPiece: 'couloir', idElement: 'sol',        libelle: 'Sol couloir',  defaut: { couleur: '#4b5563', rugosite: 0.6,  metalique: 0 } });
+  const sol       = useElementSelectionnable({ idPiece: 'couloir', idElement: 'sol',        equipementId: 'entree-4', defaut: { couleur: '#4b5563', rugosite: 0.6,  metalique: 0 } });
+  const peinture  = useElementSelectionnable({ idPiece: 'couloir', idElement: 'peinture',   equipementId: 'entree-5', defaut: { couleur: '#e5e7eb', rugosite: 0.9,  metalique: 0 } });
   const etagere   = useElementSelectionnable({ idPiece: 'couloir', idElement: 'etagere',    libelle: 'Étagère',      defaut: { couleur: '#5c3d2e', rugosite: 0.6,  metalique: 0 } });
-  const sonnette  = useElementSelectionnable({ idPiece: 'couloir', idElement: 'sonnette',   libelle: 'Sonnette',     defaut: { couleur: '#374151', rugosite: 0.3,  metalique: 0.3 } });
-  const interrupteur = useElementSelectionnable({ idPiece: 'couloir', idElement: 'interrupteur', libelle: 'Interrupteur', defaut: { couleur: '#f3f4f6', rugosite: 0.3, metalique: 0 } });
+  const sonnette  = useElementSelectionnable({ idPiece: 'couloir', idElement: 'sonnette',   equipementId: 'entree-8', defaut: { couleur: '#374151', rugosite: 0.3,  metalique: 0.3 } });
+  const plafonnier = useElementSelectionnable({ idPiece: 'couloir', idElement: 'plafonnier', equipementId: 'entree-6', defaut: { couleur: '#f9fafb', rugosite: 0.3, metalique: 0 } });
+  const interrupteur = useElementSelectionnable({ idPiece: 'couloir', idElement: 'interrupteur', equipementId: 'entree-6', defaut: { couleur: '#f3f4f6', rugosite: 0.3, metalique: 0 } });
 
   const M = (s: typeof sol) => ({
     color: s.estSelectionne ? '#00e5ff' : s.materiau.couleur,
@@ -54,9 +56,15 @@ export function Couloir({ lumiere, filDefer = false, masquerPlafond = false }: P
           width={0.8} height={0.8} intensity={2.5} color="#fff5e0"
         />
       )}
-      <mesh position={[1.625, 2.72, 3.25]}>
+      <mesh {...plafonnier.propsInteraction} position={[1.625, 2.72, 3.25]}>
         <cylinderGeometry args={[0.08, 0.1, 0.05, 12]} />
-        <meshStandardMaterial color={lumiere ? '#fffde7' : '#d0d0d0'} emissive={lumiere ? '#fff5e0' : '#000'} emissiveIntensity={lumiere ? 1.2 : 0} />
+        <meshStandardMaterial 
+          color={plafonnier.estSelectionne ? '#00e5ff' : (lumiere ? '#fffde7' : plafonnier.materiau.couleur)} 
+          emissive={plafonnier.emissif !== '#000000' ? plafonnier.emissif : (lumiere ? '#fff5e0' : '#000')} 
+          emissiveIntensity={plafonnier.intensiteEmissif > 0 ? plafonnier.intensiteEmissif : (lumiere ? 1.2 : 0)}
+          roughness={plafonnier.materiau.rugosite}
+          metalness={plafonnier.materiau.metalique}
+        />
       </mesh>
 
       {/* ── Patères — mur gauche (x ≈ 0.875), à hauteur 1.6m ── */}

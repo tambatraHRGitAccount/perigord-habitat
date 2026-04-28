@@ -17,6 +17,115 @@ main {
   scroll-behavior: smooth;
 }
 
+/* Offset pour le scroll avec header sticky */
+section[id] {
+  scroll-margin-top: 80px;
+}
+
+/* Animations personnalisées pour la landing page */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-left {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-right {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* État initial - éléments cachés avant animation */
+.scroll-animate {
+  opacity: 0;
+}
+
+/* Quand l'élément devient visible - déclenche l'animation */
+.scroll-animate.is-visible.animate-fade-up {
+  animation: fade-up 0.8s ease-out forwards;
+}
+
+.scroll-animate.is-visible.animate-fade-left {
+  animation: fade-left 0.8s ease-out forwards;
+}
+
+.scroll-animate.is-visible.animate-fade-right {
+  animation: fade-right 0.8s ease-out forwards;
+}
+
+.scroll-animate.is-visible.animate-scale-in {
+  animation: scale-in 0.7s ease-out forwards;
+}
+
+/* Fallback si JavaScript ne charge pas */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-animate {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+}
+
+/* Animations pour le hero (chargement immédiat) */
+.animate-fade-in-up {
+  animation: fade-up 0.8s ease-out forwards;
+}
+
+.animation-delay-100 {
+  animation-delay: 0.1s;
+}
+
+.animation-delay-200 {
+  animation-delay: 0.2s;
+}
+
+.animation-delay-300 {
+  animation-delay: 0.3s;
+}
+
+.animation-delay-400 {
+  animation-delay: 0.4s;
+}
+
+.animation-delay-500 {
+  animation-delay: 0.5s;
+}
+
+.animation-delay-600 {
+  animation-delay: 0.6s;
+}
+
 @theme {
   
   --shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);

@@ -23,20 +23,20 @@ import { useElementSelectionnable } from '@/hooks/useElementSelectionnable';
 interface Props { lumiere: boolean; filDefer?: boolean; masquerPlafond?: boolean }
 
 export function SalleDeBain({ lumiere, filDefer = false, masquerPlafond = false }: Props) {
-  const sol    = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'sol',             libelle: 'Carrelage sol',    defaut: { couleur: '#4b5563', rugosite: 0.25, metalique: 0 } });
-  const douche = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'douche',           libelle: 'Douche italienne', defaut: { couleur: '#e0f2fe', rugosite: 0.2,  metalique: 0 } });
-  const vasque = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'meubleVasque',     libelle: 'Meuble vasque',    defaut: { couleur: '#78350f', rugosite: 0.4,  metalique: 0 } });
-  const miroir = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'miroir',           libelle: 'Miroir',           defaut: { couleur: '#3b82f6', rugosite: 0.05, metalique: 0.8 } });
-  const wc     = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'wc',               libelle: 'WC',               defaut: { couleur: '#f1f5f9', rugosite: 0.2,  metalique: 0 } });
+  const sol    = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'sol', equipementId: 'sdb-10', defaut: { couleur: '#4b5563', rugosite: 0.25, metalique: 0 } });
+  const douche = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'douche', equipementId: 'sdb-2', defaut: { couleur: '#e0f2fe', rugosite: 0.2,  metalique: 0 } });
+  const vasque = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'meubleVasque', equipementId: 'sdb-6', defaut: { couleur: '#78350f', rugosite: 0.4,  metalique: 0 } });
+  const miroir = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'miroir', equipementId: 'sdb-11', defaut: { couleur: '#3b82f6', rugosite: 0.05, metalique: 0.8 } });
+  const wc     = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'wc', equipementId: 'wc-1', defaut: { couleur: '#f1f5f9', rugosite: 0.2,  metalique: 0 } });
   const machine= useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'machineALaver',    libelle: 'Machine à laver',  defaut: { couleur: '#e5e7eb', rugosite: 0.3,  metalique: 0.2 } });
   const colonne= useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'colonneRangement', libelle: 'Colonne rangement',defaut: { couleur: '#fef3c7', rugosite: 0.4,  metalique: 0 } });
-  const seche  = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'secheServiettes',  libelle: 'Sèche-serviettes', defaut: { couleur: '#a8a29e', rugosite: 0.3,  metalique: 0.7 } });
+  const seche  = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'secheServiettes', equipementId: 'sdb-13', defaut: { couleur: '#a8a29e', rugosite: 0.3,  metalique: 0.7 } });
   const tapis  = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'tapisBain',        libelle: 'Tapis de bain',    defaut: { couleur: '#7dd3fc', rugosite: 0.9,  metalique: 0 } });
-  const cumulus= useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'cumulus',          libelle: 'Cumulus',          defaut: { couleur: '#f3f4f6', rugosite: 0.3,  metalique: 0.3 } });
+  const cumulus= useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'cumulus', equipementId: 'sdb-5', defaut: { couleur: '#f3f4f6', rugosite: 0.3,  metalique: 0.3 } });
   const panier = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'panierLinge',      libelle: 'Panier à linge',   defaut: { couleur: '#d97706', rugosite: 0.8,  metalique: 0 } });
-  const robinet= useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'robinet',          libelle: 'Robinetterie',     defaut: { couleur: '#9ca3af', rugosite: 0.2,  metalique: 0.8 } });
-  const joints = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'joints',           libelle: 'Joints étanchéité',defaut: { couleur: '#6b7280', rugosite: 0.6,  metalique: 0 } });
-  const ventil = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'ventilation',      libelle: 'Grille ventilation',defaut: { couleur: '#9ca3af', rugosite: 0.4,  metalique: 0.3 } });
+  const robinet= useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'robinet', equipementId: 'sdb-7', defaut: { couleur: '#9ca3af', rugosite: 0.2,  metalique: 0.8 } });
+  const joints = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'joints', equipementId: 'sdb-16', defaut: { couleur: '#6b7280', rugosite: 0.6,  metalique: 0 } });
+  const plafonnier = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'plafonnier', equipementId: 'sdb-14', defaut: { couleur: '#f9fafb', rugosite: 0.3, metalique: 0 } });
 
   const M = (s: typeof sol) => ({
     color: s.estSelectionne ? '#00e5ff' : s.materiau.couleur,
@@ -53,7 +53,7 @@ export function SalleDeBain({ lumiere, filDefer = false, masquerPlafond = false 
         couleur={sol.materiau.couleur} rugosite={sol.materiau.rugosite}
         propsInteraction={sol.propsInteraction} emissif={sol.emissif} intensiteEmissif={sol.intensiteEmissif}
         filDefer={filDefer} clearcoat={0.65} clearcoatRoughness={0.04}
-        reflectif={true} mirrorForce={0.65} />
+        reflectif={false} mirrorForce={0.65} />
 
       {/* Plafond */}
       {!masquerPlafond && (
@@ -70,62 +70,193 @@ export function SalleDeBain({ lumiere, filDefer = false, masquerPlafond = false 
           width={1.2} height={1.2} intensity={4} color="#e8f4fd"
         />
       )}
-      <mesh position={[4.25, 2.72, 3.25]}>
+      <mesh {...plafonnier.propsInteraction} position={[4.25, 2.72, 3.25]}>
         <cylinderGeometry args={[0.1, 0.12, 0.05, 12]} />
-        <meshStandardMaterial color={lumiere ? '#e8f4fd' : '#d0d0d0'} emissive={lumiere ? '#e8f4fd' : '#000'} emissiveIntensity={lumiere ? 1.5 : 0} />
+        <meshStandardMaterial 
+          color={plafonnier.estSelectionne ? '#00e5ff' : (lumiere ? '#e8f4fd' : plafonnier.materiau.couleur)} 
+          emissive={plafonnier.emissif !== '#000000' ? plafonnier.emissif : (lumiere ? '#e8f4fd' : '#000')} 
+          emissiveIntensity={plafonnier.intensiteEmissif > 0 ? plafonnier.intensiteEmissif : (lumiere ? 1.5 : 0)}
+          roughness={plafonnier.materiau.rugosite}
+          metalness={plafonnier.materiau.metalique}
+        />
       </mesh>
 
       {/* ═══ MUR AVANT (z≈1.75) ═══ */}
       
-      {/* Meuble vasque — centré */}
+      {/* Meuble vasque luxe — centré, design moderne hôtel */}
       <group position={[4.25, 0, 1.74]}>
-        {/* Corps du meuble */}
-        <mesh {...vasque.propsInteraction} position={[0, 0.42, 0]} castShadow receiveShadow>
-          <boxGeometry args={[0.7, 0.84, 0.44]} />
-          <meshStandardMaterial {...M(vasque)} />
+        {/* Meuble suspendu moderne (noir mat) */}
+        <mesh {...vasque.propsInteraction} position={[0, 0.55, 0]} castShadow receiveShadow>
+          <boxGeometry args={[1.0, 0.5, 0.48]} />
+          <meshPhysicalMaterial 
+            color={vasque.estSelectionne ? '#00e5ff' : '#1a1a1a'}
+            roughness={0.3}
+            metalness={0.1}
+            emissive={vasque.emissif}
+            emissiveIntensity={vasque.intensiteEmissif}
+            clearcoat={0.4}
+            clearcoatRoughness={0.2}
+          />
         </mesh>
-        {/* Porte */}
-        <mesh {...vasque.propsInteraction} position={[0, 0.42, 0.23]}>
-          <boxGeometry args={[0.66, 0.78, 0.02]} />
-          <meshStandardMaterial {...M(vasque)} />
+        
+        {/* Tiroir supérieur */}
+        <mesh {...vasque.propsInteraction} position={[0, 0.65, 0.25]}>
+          <boxGeometry args={[0.94, 0.18, 0.02]} />
+          <meshPhysicalMaterial 
+            color={vasque.estSelectionne ? '#00e5ff' : '#1a1a1a'}
+            roughness={0.25}
+            metalness={0.15}
+            clearcoat={0.5}
+            clearcoatRoughness={0.15}
+          />
         </mesh>
-        {/* Poignée */}
+        
+        {/* Tiroir inférieur */}
         <mesh {...vasque.propsInteraction} position={[0, 0.42, 0.25]}>
-          <boxGeometry args={[0.16, 0.025, 0.025]} />
-          <meshStandardMaterial {...M(vasque)} />
+          <boxGeometry args={[0.94, 0.22, 0.02]} />
+          <meshPhysicalMaterial 
+            color={vasque.estSelectionne ? '#00e5ff' : '#1a1a1a'}
+            roughness={0.25}
+            metalness={0.15}
+            clearcoat={0.5}
+            clearcoatRoughness={0.15}
+          />
         </mesh>
-        {/* Plan de travail */}
-        <mesh {...vasque.propsInteraction} position={[0, 0.87, 0]} castShadow>
-          <boxGeometry args={[0.7, 0.045, 0.44]} />
-          <meshStandardMaterial {...M(vasque)} />
+        
+        {/* Poignées design minimaliste (chromées) */}
+        <mesh {...vasque.propsInteraction} position={[0, 0.65, 0.27]}>
+          <boxGeometry args={[0.25, 0.012, 0.012]} />
+          <meshPhysicalMaterial 
+            color={vasque.estSelectionne ? '#00e5ff' : '#c0c0c0'}
+            roughness={0.1}
+            metalness={0.9}
+          />
         </mesh>
-        {/* Vasque */}
-        <mesh {...vasque.propsInteraction} position={[0, 0.9, 0]}>
-          <boxGeometry args={[0.45, 0.06, 0.28]} />
-          <meshStandardMaterial {...M(vasque)} />
+        <mesh {...vasque.propsInteraction} position={[0, 0.42, 0.27]}>
+          <boxGeometry args={[0.25, 0.012, 0.012]} />
+          <meshPhysicalMaterial 
+            color={vasque.estSelectionne ? '#00e5ff' : '#c0c0c0'}
+            roughness={0.1}
+            metalness={0.9}
+          />
+        </mesh>
+        
+        {/* Plan de travail en marbre blanc */}
+        <mesh {...vasque.propsInteraction} position={[0, 0.82, 0]} castShadow>
+          <boxGeometry args={[1.05, 0.04, 0.52]} />
+          <meshPhysicalMaterial 
+            color={vasque.estSelectionne ? '#00e5ff' : '#f8f8f8'}
+            roughness={0.15}
+            metalness={0.05}
+            clearcoat={0.8}
+            clearcoatRoughness={0.05}
+          />
+        </mesh>
+        
+        {/* Vasque à poser design (céramique blanche ovale) */}
+        {/* Base de la vasque */}
+        <mesh {...vasque.propsInteraction} position={[0, 0.86, 0]} castShadow>
+          <cylinderGeometry args={[0.28, 0.26, 0.08, 32]} />
+          <meshPhysicalMaterial 
+            color={vasque.estSelectionne ? '#00e5ff' : '#ffffff'}
+            roughness={0.12}
+            metalness={0.02}
+            clearcoat={0.9}
+            clearcoatRoughness={0.03}
+          />
+        </mesh>
+        
+        {/* Intérieur de la vasque (légèrement plus petit) */}
+        <mesh {...vasque.propsInteraction} position={[0, 0.88, 0]}>
+          <cylinderGeometry args={[0.24, 0.22, 0.06, 32]} />
+          <meshPhysicalMaterial 
+            color={vasque.estSelectionne ? '#00e5ff' : '#fafafa'}
+            roughness={0.1}
+            metalness={0.01}
+            clearcoat={0.95}
+            clearcoatRoughness={0.02}
+          />
+        </mesh>
+        
+        {/* Bonde chromée au fond de la vasque */}
+        <mesh {...vasque.propsInteraction} position={[0, 0.85, 0]}>
+          <cylinderGeometry args={[0.025, 0.025, 0.01, 16]} />
+          <meshPhysicalMaterial 
+            color={vasque.estSelectionne ? '#00e5ff' : '#c0c0c0'}
+            roughness={0.08}
+            metalness={0.95}
+          />
         </mesh>
       </group>
       
-      {/* Robinet vasque — élément séparé sélectionnable */}
+      {/* Robinetterie vasque luxe — design cascade moderne */}
       <group position={[4.25, 0, 1.74]}>
-        {/* Robinet — colonne */}
-        <mesh {...robinet.propsInteraction} position={[0, 1.02, -0.16]}>
-          <cylinderGeometry args={[0.018, 0.018, 0.2, 8]} />
-          <meshStandardMaterial {...M(robinet)} />
+        {/* Base du robinet (fixation sur plan de travail) */}
+        <mesh {...robinet.propsInteraction} position={[0, 0.84, -0.18]}>
+          <cylinderGeometry args={[0.035, 0.03, 0.02, 16]} />
+          <meshPhysicalMaterial 
+            color={robinet.estSelectionne ? '#00e5ff' : '#c0c0c0'}
+            roughness={0.08}
+            metalness={0.95}
+            clearcoat={0.8}
+            clearcoatRoughness={0.05}
+          />
         </mesh>
-        {/* Robinet — bec verseur */}
-        <mesh {...robinet.propsInteraction} position={[0, 1.1, -0.1]} rotation={[Math.PI / 4, 0, 0]}>
-          <cylinderGeometry args={[0.014, 0.014, 0.14, 8]} />
-          <meshStandardMaterial {...M(robinet)} />
+        
+        {/* Corps principal du robinet (colonne haute) */}
+        <mesh {...robinet.propsInteraction} position={[0, 0.98, -0.18]}>
+          <cylinderGeometry args={[0.022, 0.022, 0.26, 16]} />
+          <meshPhysicalMaterial 
+            color={robinet.estSelectionne ? '#00e5ff' : '#c0c0c0'}
+            roughness={0.08}
+            metalness={0.95}
+            clearcoat={0.8}
+            clearcoatRoughness={0.05}
+          />
         </mesh>
-        {/* Robinet — poignées (chaud/froid) */}
-        <mesh {...robinet.propsInteraction} position={[-0.08, 1.12, -0.16]}>
-          <cylinderGeometry args={[0.022, 0.022, 0.015, 12]} />
-          <meshStandardMaterial {...M(robinet)} />
+        
+        {/* Bec verseur cascade (large et plat) */}
+        <mesh {...robinet.propsInteraction} position={[0, 1.12, -0.12]} rotation={[Math.PI / 3.5, 0, 0]}>
+          <boxGeometry args={[0.08, 0.16, 0.015]} />
+          <meshPhysicalMaterial 
+            color={robinet.estSelectionne ? '#00e5ff' : '#c0c0c0'}
+            roughness={0.06}
+            metalness={0.96}
+            clearcoat={0.9}
+            clearcoatRoughness={0.03}
+          />
         </mesh>
-        <mesh {...robinet.propsInteraction} position={[0.08, 1.12, -0.16]}>
-          <cylinderGeometry args={[0.022, 0.022, 0.015, 12]} />
-          <meshStandardMaterial {...M(robinet)} />
+        
+        {/* Embout du bec (ouverture cascade) */}
+        <mesh {...robinet.propsInteraction} position={[0, 1.08, -0.04]} rotation={[Math.PI / 3.5, 0, 0]}>
+          <boxGeometry args={[0.075, 0.025, 0.01]} />
+          <meshPhysicalMaterial 
+            color={robinet.estSelectionne ? '#00e5ff' : '#b8b8b8'}
+            roughness={0.1}
+            metalness={0.9}
+          />
+        </mesh>
+        
+        {/* Levier de commande unique (design minimaliste) */}
+        <mesh {...robinet.propsInteraction} position={[0, 1.14, -0.2]} rotation={[-Math.PI / 8, 0, 0]}>
+          <boxGeometry args={[0.12, 0.025, 0.015]} />
+          <meshPhysicalMaterial 
+            color={robinet.estSelectionne ? '#00e5ff' : '#c0c0c0'}
+            roughness={0.08}
+            metalness={0.95}
+            clearcoat={0.8}
+            clearcoatRoughness={0.05}
+          />
+        </mesh>
+        
+        {/* Axe du levier */}
+        <mesh {...robinet.propsInteraction} position={[0, 1.13, -0.2]}>
+          <cylinderGeometry args={[0.015, 0.015, 0.03, 12]} />
+          <meshPhysicalMaterial 
+            color={robinet.estSelectionne ? '#00e5ff' : '#c0c0c0'}
+            roughness={0.08}
+            metalness={0.95}
+          />
         </mesh>
       </group>
 
@@ -344,13 +475,8 @@ export function SalleDeBain({ lumiere, filDefer = false, masquerPlafond = false 
         rotation={[0, 0, 0]}
         idPiece="salleDeBain"
         lumiere={lumiere}
+        equipementId="sdb-15"
       />
-
-      {/* Grille ventilation — mur avant haut */}
-      <mesh {...ventil.propsInteraction} position={[4.25, 2.55, 1.64]}>
-        <boxGeometry args={[0.22, 0.12, 0.02]} />
-        <meshStandardMaterial {...M(ventil)} />
-      </mesh>
 
       {/* Panier à linge — entre machine et WC, bien espacé */}
       <group position={[4.2, 0, 4.0]}>

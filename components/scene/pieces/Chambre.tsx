@@ -2,6 +2,8 @@
 import React from 'react';
 import { Sol } from '../structure/Sol';
 import { Interrupteur3D } from '../structure/Interrupteur3D';
+import { PriseElectrique } from '../structure/PriseElectrique';
+import { RobinetThermostatique } from '../structure/RobinetThermostatique';
 import { useElementSelectionnable } from '@/hooks/useElementSelectionnable';
 
 /**
@@ -204,15 +206,19 @@ function Bureau({ propsInteraction, M, mat }: { propsInteraction: Record<string,
 }
 
 export function Chambre({ lumiere, filDefer = false, masquerPlafond = false }: Props) {
-  const sol     = useElementSelectionnable({ idPiece: 'chambre', idElement: 'sol',       libelle: 'Moquette',      defaut: { couleur: '#4b5563', rugosite: 0.95, metalique: 0 } });
-  const cadre   = useElementSelectionnable({ idPiece: 'chambre', idElement: 'lit',       libelle: 'Cadre de lit',  defaut: { couleur: '#5c3d2e', rugosite: 0.5,  metalique: 0 } });
-  const literie = useElementSelectionnable({ idPiece: 'chambre', idElement: 'literie',   libelle: 'Literie',       defaut: { couleur: '#e5e7eb', rugosite: 0.7,  metalique: 0 } });
-  const tableChevet = useElementSelectionnable({ idPiece: 'chambre', idElement: 'tableChevet', libelle: 'Tables de chevet', defaut: { couleur: '#5c3d2e', rugosite: 0.5, metalique: 0 } });
-  const armoire = useElementSelectionnable({ idPiece: 'chambre', idElement: 'armoire',   libelle: 'Armoire',       defaut: { couleur: '#5c3d2e', rugosite: 0.5,  metalique: 0 } });
-  const bureau  = useElementSelectionnable({ idPiece: 'chambre', idElement: 'bureau',    libelle: 'Bureau',        defaut: { couleur: '#8b6914', rugosite: 0.4,  metalique: 0 } });
+  const sol     = useElementSelectionnable({ idPiece: 'chambre', idElement: 'sol',       equipementId: 'chambre-1', defaut: { couleur: '#4b5563', rugosite: 0.95, metalique: 0 } });
+  const peinture = useElementSelectionnable({ idPiece: 'chambre', idElement: 'peinture', equipementId: 'chambre-2', defaut: { couleur: '#e5e7eb', rugosite: 0.9, metalique: 0 } });
+  const cadre   = useElementSelectionnable({ idPiece: 'chambre', idElement: 'lit',       libelle: 'Cadre de lit',  defaut: { couleur: '#2c2c2c', rugosite: 0.3,  metalique: 0.1 } });
+  const literie = useElementSelectionnable({ idPiece: 'chambre', idElement: 'literie',   libelle: 'Literie',       defaut: { couleur: '#f8f8f8', rugosite: 0.6,  metalique: 0 } });
+  const tableChevet = useElementSelectionnable({ idPiece: 'chambre', idElement: 'tableChevet', libelle: 'Tables de chevet', defaut: { couleur: '#2c2c2c', rugosite: 0.3, metalique: 0.1 } });
+  const lampeChevet = useElementSelectionnable({ idPiece: 'chambre', idElement: 'lampeChevet', libelle: 'Luminaire / plafonnier', defaut: { couleur: '#f5f0e0', rugosite: 0.7, metalique: 0 } });
+  const plafonnier = useElementSelectionnable({ idPiece: 'chambre', idElement: 'plafonnier', libelle: 'Luminaire / plafonnier', defaut: { couleur: '#f9fafb', rugosite: 0.3, metalique: 0 } });
+  const armoire = useElementSelectionnable({ idPiece: 'chambre', idElement: 'armoire',   equipementId: 'chambre-11', defaut: { couleur: '#1a1a1a', rugosite: 0.25,  metalique: 0.15 } });
+  const bureau  = useElementSelectionnable({ idPiece: 'chambre', idElement: 'bureau',    libelle: 'Bureau',        defaut: { couleur: '#2c2c2c', rugosite: 0.3,  metalique: 0.1 } });
   const miroir  = useElementSelectionnable({ idPiece: 'chambre', idElement: 'miroir',    libelle: 'Miroir',        defaut: { couleur: '#a8d8ea', rugosite: 0.05, metalique: 0.1 } });
-  const rideaux = useElementSelectionnable({ idPiece: 'chambre', idElement: 'rideaux',   libelle: 'Rideaux',       defaut: { couleur: '#dbeafe', rugosite: 0.9,  metalique: 0 } });
-  const radiateur=useElementSelectionnable({ idPiece: 'chambre', idElement: 'radiateur', libelle: 'Radiateur',     defaut: { couleur: '#f3f4f6', rugosite: 0.3,  metalique: 0.2 } });
+  const rideaux = useElementSelectionnable({ idPiece: 'chambre', idElement: 'rideaux',   libelle: 'Rideaux',       defaut: { couleur: '#f5f5f5', rugosite: 0.8,  metalique: 0 } });
+  const radiateur = useElementSelectionnable({ idPiece: 'chambre', idElement: 'radiateur', equipementId: 'chambre-6', defaut: { couleur: '#e5e7eb', rugosite: 0.3, metalique: 0.6 } });
+  const vmc = useElementSelectionnable({ idPiece: 'chambre', idElement: 'vmc', equipementId: 'chambre-8', defaut: { couleur: '#f3f4f6', rugosite: 0.5, metalique: 0.2 } });
 
   const M = (s: typeof sol) => ({
     color: s.estSelectionne ? '#00e5ff' : s.materiau.couleur,
@@ -245,10 +251,16 @@ export function Chambre({ lumiere, filDefer = false, masquerPlafond = false }: P
           width={1.6} height={1.6} intensity={3.5} color="#ffcc80"
         />
       )}
-      <group position={[-2.625, 2.72, 3.25]}>
+      <group {...plafonnier.propsInteraction} position={[-2.625, 2.72, 3.25]}>
         <mesh>
           <cylinderGeometry args={[0.16, 0.12, 0.06, 20]} />
-          <meshStandardMaterial color={lumiere ? '#fffde7' : '#d0d0d0'} emissive={lumiere ? '#ffcc80' : '#000'} emissiveIntensity={lumiere ? 1.5 : 0} />
+          <meshStandardMaterial 
+            color={plafonnier.estSelectionne ? '#00e5ff' : (lumiere ? '#fffde7' : plafonnier.materiau.couleur)} 
+            emissive={plafonnier.emissif !== '#000000' ? plafonnier.emissif : (lumiere ? '#ffcc80' : '#000')} 
+            emissiveIntensity={plafonnier.intensiteEmissif > 0 ? plafonnier.intensiteEmissif : (lumiere ? 1.5 : 0)}
+            roughness={plafonnier.materiau.rugosite}
+            metalness={plafonnier.materiau.metalique}
+          />
         </mesh>
       </group>
 
@@ -278,23 +290,23 @@ export function Chambre({ lumiere, filDefer = false, masquerPlafond = false }: P
             <meshStandardMaterial {...M(tableChevet)} />
           </mesh>
           {/* Lampe de chevet */}
-          <group position={[0, 0.58, 0]}>
+          <group {...lampeChevet.propsInteraction} position={[0, 0.58, 0]}>
             <mesh castShadow>
               <cylinderGeometry args={[0.06, 0.08, 0.06, 12]} />
-              <meshStandardMaterial {...M(tableChevet)} />
+              <meshStandardMaterial {...M(lampeChevet)} />
             </mesh>
             <mesh position={[0, 0.14, 0]} castShadow>
               <cylinderGeometry args={[0.02, 0.02, 0.22, 8]} />
-              <meshStandardMaterial {...M(tableChevet)} />
+              <meshStandardMaterial {...M(lampeChevet)} />
             </mesh>
             <mesh position={[0, 0.28, 0]} castShadow>
               <cylinderGeometry args={[0.12, 0.08, 0.2, 12, 1, true]} />
               <meshStandardMaterial 
-                color={M(tableChevet).color}
-                roughness={M(tableChevet).roughness}
-                metalness={M(tableChevet).metalness}
-                emissive={M(tableChevet).emissive !== '#000000' ? M(tableChevet).emissive : (lumiere ? '#ffcc80' : '#000000')}
-                emissiveIntensity={M(tableChevet).emissiveIntensity > 0 ? M(tableChevet).emissiveIntensity : (lumiere ? 0.5 : 0)}
+                color={M(lampeChevet).color}
+                roughness={M(lampeChevet).roughness}
+                metalness={M(lampeChevet).metalness}
+                emissive={M(lampeChevet).emissive !== '#000000' ? M(lampeChevet).emissive : (lumiere ? '#ffcc80' : '#000000')}
+                emissiveIntensity={M(lampeChevet).emissiveIntensity > 0 ? M(lampeChevet).emissiveIntensity : (lumiere ? 0.5 : 0)}
               />
             </mesh>
           </group>
@@ -355,18 +367,78 @@ export function Chambre({ lumiere, filDefer = false, masquerPlafond = false }: P
         rotation={[0, -Math.PI / 2, 0]}
         idPiece="chambre"
         lumiere={lumiere}
+        equipementId="chambre-9"
       />
 
-      {/* ── Radiateur — mur arrière, sous la fenêtre ── */}
-      <group {...radiateur.propsInteraction} position={[-2.5, 0.38, 4.78]}>
-        <mesh castShadow>
-          <boxGeometry args={[1.0, 0.52, 0.08]} />
+      {/* Prises électriques */}
+      {/* Prise 1 — mur gauche, près du lit */}
+      <PriseElectrique
+        position={[-5.86, 0.3, 3.0]}
+        rotation={[0, Math.PI / 2, 0]}
+        idPiece="chambre"
+        idElement="prise1"
+        equipementId="chambre-9"
+      />
+      {/* Prise 2 — mur arrière, à gauche de la fenêtre */}
+      <PriseElectrique
+        position={[-3.5, 0.3, 4.86]}
+        rotation={[0, Math.PI, 0]}
+        idPiece="chambre"
+        idElement="prise2"
+        equipementId="chambre-9"
+      />
+      {/* Prise 3 — cloison droite, près de l'armoire */}
+      <PriseElectrique
+        position={[0.62, 0.3, 3.5]}
+        rotation={[0, -Math.PI / 2, 0]}
+        idPiece="chambre"
+        idElement="prise3"
+        equipementId="chambre-9"
+      />
+      {/* Prise 4 — près de la porte couloir */}
+      <PriseElectrique
+        position={[-1.0, 0.3, 1.64]}
+        rotation={[0, -Math.PI / 2, 0]}
+        idPiece="chambre"
+        idElement="prise4"
+        equipementId="chambre-9"
+      />
+
+      {/* Radiateur — mur arrière, à droite de la fenêtre */}
+      <group {...radiateur.propsInteraction} position={[-1.5, 0.5, 4.84]}>
+        <mesh castShadow receiveShadow>
+          <boxGeometry args={[0.8, 0.6, 0.12]} />
           <meshStandardMaterial {...M(radiateur)} />
         </mesh>
-        {Array.from({length: 6}).map((_, i) => (
-          <mesh key={i} position={[-0.38 + i*0.15, 0, -0.02]}>
-            <boxGeometry args={[0.06, 0.48, 0.04]} />
-            <meshStandardMaterial {...M(radiateur)} />
+        {/* Grille radiateur */}
+        {Array.from({ length: 8 }).map((_, i) => (
+          <mesh key={i} position={[-0.35 + i * 0.1, 0, 0.065]}>
+            <boxGeometry args={[0.08, 0.55, 0.01]} />
+            <meshStandardMaterial color="#d1d5db" roughness={0.4} metalness={0.5} />
+          </mesh>
+        ))}
+        {/* Robinet thermostatique */}
+        <RobinetThermostatique
+          position={[0.5, -0.15, 0.1]}
+          rotation={[0, 0, 0]}
+          idPiece="chambre"
+          idElement="robinet-radiateur"
+          equipementId="chambre-7"
+        />
+      </group>
+
+      {/* VMC / Grille ventilation — plafond, coin avant-gauche */}
+      <group {...vmc.propsInteraction} position={[-4.5, 2.75, 2.0]}>
+        {/* Grille VMC */}
+        <mesh castShadow>
+          <boxGeometry args={[0.25, 0.04, 0.25]} />
+          <meshStandardMaterial {...M(vmc)} />
+        </mesh>
+        {/* Fentes de ventilation */}
+        {Array.from({ length: 5 }).map((_, i) => (
+          <mesh key={i} position={[0, -0.025, -0.1 + i * 0.05]}>
+            <boxGeometry args={[0.22, 0.005, 0.03]} />
+            <meshStandardMaterial color="#9ca3af" roughness={0.6} />
           </mesh>
         ))}
       </group>

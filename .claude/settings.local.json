@@ -7,7 +7,8 @@
       "Bash(npm install:*)",
       "Bash(npm run:*)",
       "Bash(node -e \"console.log\\(require\\(''./node_modules/next/package.json''\\).version\\)\")",
-      "Bash(npm list *)"
+      "Bash(npm list *)",
+      "Bash(node -e \"const data = require\\('./data/equipements.json'\\); const pieces = [...new Set\\(data.equipements.map\\(e => e.piece\\)\\)]; console.log\\('Total items:', data.equipements.length\\); console.log\\('Sections:', pieces\\); const dup = data.equipements.filter\\(\\(e,i,a\\) => a.findIndex\\(x => x.id === e.id\\) !== i\\); console.log\\('Duplicate IDs:', dup.length\\);\")"
     ]
   }
 }

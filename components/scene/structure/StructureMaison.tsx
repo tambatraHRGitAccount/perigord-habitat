@@ -4,7 +4,7 @@ import { Mur } from './Mur';
 import { Fenetre } from './Fenetre';
 import { Porte } from './Porte';
 import { Toit } from './Toit';
-import { LARGEUR_MAISON, PROFONDEUR_MAISON, EPAISSEUR_MUR, HAUTEUR_MUR } from '@/lib/three/constantes';
+import { LARGEUR_MAISON, PROFONDEUR_MAISON, EPAISSEUR_MUR, HAUTEUR_MUR } from '@/lib/three/constantes';   
 
 interface Props {
   filDefer?: boolean;
@@ -12,14 +12,14 @@ interface Props {
   pieceVisible?: 'exterieur' | 'interieur' | 'sejour' | 'cuisine' | 'chambre' | 'salleDeBain' | 'couloir';
 }
 
-const EXT = '#9ca3af', INT = '#6b7280';
+const EXT = '#f5f5f5', INT = '#e8e8e8';
 const lm  = LARGEUR_MAISON   / 2;   // 6
 const pm  = PROFONDEUR_MAISON / 2;  // 5
 const em2 = EPAISSEUR_MUR    / 2;   // 0.125
 
 // ── Ouvertures de chaque fenêtre dans le mur (y_centre = 1.4 m) ─────────────
 type Ouverture = { centre: number; largeur: number; yBot: number; yTop: number };
-const F_SEJOUR_AVANT:    Ouverture = { centre: -3.5, largeur: 1.4, yBot: 0.85, yTop: 1.95 };
+// F_SEJOUR_AVANT supprimée (cachait la télé)
 const F_CUISINE_AVANT:   Ouverture = { centre:  3.5, largeur: 1.4, yBot: 0.85, yTop: 1.95 };
 const F_SEJOUR_GAUCHE:   Ouverture = { centre: -1.5, largeur: 1.2, yBot: 0.90, yTop: 1.90 };
 const F_CUISINE_DROITE:  Ouverture = { centre: -1.5, largeur: 1.2, yBot: 0.90, yTop: 1.90 };
@@ -27,7 +27,12 @@ const F_CHAMBRE_GAUCHE:  Ouverture = { centre:  3.5, largeur: 1.0, yBot: 0.95, y
 const F_CHAMBRE_ARRIERE: Ouverture = { centre: -2.5, largeur: 1.2, yBot: 0.90, yTop: 1.90 };
 const F_SDB_DROITE:      Ouverture = { centre:  3.5, largeur: 0.8, yBot: 1.00, yTop: 1.80 };
 
-// ── Mur avec trous pour fenêtres ─────────────────────────────────────────────
+// ── Ouvertures portes (yBot=0 = ras du sol, yTop = hauteur de la porte) ──────
+const P_ENTREE:       Ouverture = { centre: -1.05,  largeur: 0.9,  yBot: 0, yTop: 2.1  };
+const P_SEJ_CHAMBRE:  Ouverture = { centre: -2.625, largeur: 0.85, yBot: 0, yTop: 2.05 };
+const P_CUI_COULOIR:  Ouverture = { centre:  1.5,   largeur: 0.85, yBot: 0, yTop: 2.05 };
+const P_CHAM_COULOIR: Ouverture = { centre:  3.25,  largeur: 0.85, yBot: 0, yTop: 2.05 };
+const P_COULOIR_SDB:  Ouverture = { centre:  3.2,   largeur: 0.8,  yBot: 0, yTop: 2.05 };
 function MurPerce({ debut, fin, ouvertures = [], couleur = EXT, filDefer = false }: {
   debut: [number, number]; fin: [number, number];
   ouvertures?: Ouverture[]; couleur?: string; filDefer?: boolean;
@@ -48,7 +53,7 @@ function MurPerce({ debut, fin, ouvertures = [], couleur = EXT, filDefer = false
     const L = o.centre - o.largeur / 2;
     const R = o.centre + o.largeur / 2;
     if (cur < L)
-      segs.push(<Mur key={k++} debut={D(cur)} fin={D(L)} couleur={couleur} filDefer={filDefer} />);
+      segs.push(<Mur key={k++} debut={D(cur)} fin={D(L)} couleur={couleur} filDefer={filDefer} />);       
     if (o.yBot > 0)
       segs.push(<Mur key={k++} debut={D(L)} fin={D(R)} hauteur={o.yBot}                       couleur={couleur} filDefer={filDefer} />);
     if (o.yTop < HAUTEUR_MUR)
@@ -56,7 +61,7 @@ function MurPerce({ debut, fin, ouvertures = [], couleur = EXT, filDefer = false
     cur = R;
   }
   if (cur < end)
-    segs.push(<Mur key={k++} debut={D(cur)} fin={D(end)} couleur={couleur} filDefer={filDefer} />);
+    segs.push(<Mur key={k++} debut={D(cur)} fin={D(end)} couleur={couleur} filDefer={filDefer} />);       
 
   return <>{segs}</>;
 }
@@ -65,19 +70,14 @@ function MurPerce({ debut, fin, ouvertures = [], couleur = EXT, filDefer = false
 
 export function StructureMaison({ filDefer = false, masquerToit = false, pieceVisible = 'exterieur' }: Props) {
   const afficherTout        = pieceVisible === 'exterieur' || pieceVisible === 'interieur';
-  const afficherSejour      = afficherTout || pieceVisible === 'sejour';
-  const afficherCuisine     = afficherTout || pieceVisible === 'cuisine';
-  const afficherChambre     = afficherTout || pieceVisible === 'chambre';
-  const afficherSalleDeBain = afficherTout || pieceVisible === 'salleDeBain';
-  const afficherCouloir     = afficherTout || pieceVisible === 'couloir';
 
   return (
     <group>
       {/* ═══ VUE COMPLÈTE (extérieur / intérieur) ═══ */}
       {afficherTout && (
         <>
-          {/* Mur avant gauche — fenêtre séjour */}
-          <MurPerce debut={[-lm,-pm]} fin={[-1.5,-pm]} ouvertures={[F_SEJOUR_AVANT]}   couleur={EXT} filDefer={filDefer} />
+          {/* Mur avant gauche — avec porte d'entrée à X=-1.05 */}
+          <MurPerce debut={[-lm,-pm]} fin={[-1.5,-pm]} ouvertures={[P_ENTREE]} couleur={EXT} filDefer={filDefer} />
           {/* Mur avant droit — fenêtre cuisine */}
           <MurPerce debut={[-0.6,-pm]} fin={[lm,-pm]}  ouvertures={[F_CUISINE_AVANT]}  couleur={EXT} filDefer={filDefer} />
           {/* Mur arrière — fenêtre chambre */}
@@ -87,23 +87,26 @@ export function StructureMaison({ filDefer = false, masquerToit = false, pieceVi
           {/* Mur droit — fenêtres cuisine + SDB */}
           <MurPerce debut={[lm,-pm]}  fin={[lm,pm]}    ouvertures={[F_CUISINE_DROITE, F_SDB_DROITE]}    couleur={EXT} filDefer={filDefer} />
 
-          {/* Toutes les cloisons intérieures */}
+          {/* Toutes les cloisons intérieures — avec ouvertures de portes */}
+          {/* X=0.75 de Z=-pm à Z=1.5 : pas de porte */}
           <Mur debut={[0.75,-pm]}   fin={[0.75,1.5]}   couleur={INT} filDefer={filDefer} />
-          <Mur debut={[0.75,1.5]}   fin={[0.75,2.825]} couleur={INT} filDefer={filDefer} />
-          <Mur debut={[0.75,3.675]} fin={[0.75,pm]}    couleur={INT} filDefer={filDefer} />
-          <Mur debut={[-lm,1.5]}    fin={[-3.05,1.5]}  couleur={INT} filDefer={filDefer} />
-          <Mur debut={[-2.2,1.5]}   fin={[0.75,1.5]}   couleur={INT} filDefer={filDefer} />
-          <Mur debut={[0.75,1.5]}   fin={[1.075,1.5]}  couleur={INT} filDefer={filDefer} />
-          <Mur debut={[1.925,1.5]}  fin={[lm,1.5]}     couleur={INT} filDefer={filDefer} />
-          <Mur debut={[2.5,1.5]}    fin={[2.5,2.8]}    couleur={INT} filDefer={filDefer} />
-          <Mur debut={[2.5,3.6]}    fin={[2.5,pm]}     couleur={INT} filDefer={filDefer} />
+          {/* X=0.75 de Z=1.5 à Z=pm : porte chambre/couloir à Z=3.25 */}
+          <MurPerce debut={[0.75,1.5]} fin={[0.75,pm]} ouvertures={[P_CHAM_COULOIR]} couleur={INT} filDefer={filDefer} />
+          {/* Z=1.5 côté gauche (X=-6 à X=0.75) : porte séjour/chambre à X=-2.625 */}
+          <MurPerce debut={[-lm,1.5]} fin={[0.75,1.5]} ouvertures={[P_SEJ_CHAMBRE]} couleur={INT} filDefer={filDefer} />
+          {/* Z=1.5 côté droit (X=0.75 à X=2.5) : porte cuisine/couloir à X=1.5 */}
+          <MurPerce debut={[0.75,1.5]} fin={[2.5,1.5]} ouvertures={[P_CUI_COULOIR]} couleur={INT} filDefer={filDefer} />
+          {/* Z=1.5 extrémité droite (X=2.5 à X=lm) : cloison cuisine/SDB — pas de porte */}
+          <Mur debut={[2.5,1.5]}    fin={[lm,1.5]}     couleur={INT} filDefer={filDefer} />
+          {/* X=2.5 : porte couloir/SDB à Z=3.2 */}
+          <MurPerce debut={[2.5,1.5]} fin={[2.5,pm]}   ouvertures={[P_COULOIR_SDB]} couleur={INT} filDefer={filDefer} />
         </>
       )}
 
       {/* ═══ SÉJOUR ═══ */}
       {pieceVisible === 'sejour' && (
         <>
-          <MurPerce debut={[-lm,-pm]}   fin={[-1.5,-pm]}  ouvertures={[F_SEJOUR_AVANT]}  couleur={EXT} filDefer={filDefer} />
+          <Mur      debut={[-lm,-pm]}   fin={[-1.5,-pm]}  couleur={EXT} filDefer={filDefer} />
           <Mur      debut={[-0.6,-pm]}  fin={[0.75,-pm]}  couleur={EXT} filDefer={filDefer} />
           <MurPerce debut={[-lm,-pm]}   fin={[-lm,1.5]}   ouvertures={[F_SEJOUR_GAUCHE]} couleur={EXT} filDefer={filDefer} />
           <Mur debut={[0.75,-pm]}  fin={[0.75,1.5]}   couleur={INT} filDefer={filDefer} />
@@ -162,24 +165,74 @@ export function StructureMaison({ filDefer = false, masquerToit = false, pieceVi
       {/* ═══ FENÊTRES ═══ */}
       {(afficherTout || pieceVisible === 'sejour') && (
         <>
-          <Fenetre position={[-3.5,1.4,-pm+em2]}  largeur={1.4} hauteur={1.1} />
-          <Fenetre position={[-lm+em2,1.4,-1.5]}  rotation={[0,Math.PI/2,0]}  largeur={1.2} hauteur={1.0} />
+          {/* Fenêtre avant séjour supprimée (cachait la TV) */}
+          <Fenetre
+            position={[-lm+em2,1.4,-1.5]}
+            rotation={[0,Math.PI/2,0]}
+            largeur={1.2}
+            hauteur={1.0}
+            idPiece="sejour"
+            idElement="fenetreSejour"
+            equipementId="salon-3"
+            equipementIdVolet="salon-4"
+            equipementIdStore="salon-5"
+          />
         </>
       )}
       {(afficherTout || pieceVisible === 'cuisine') && (
         <>
-          <Fenetre position={[3.5,1.4,-pm+em2]}   largeur={1.4} hauteur={1.1} />
-          <Fenetre position={[lm-em2,1.4,-1.5]}   rotation={[0,-Math.PI/2,0]} largeur={1.2} hauteur={1.0} />
+          <Fenetre
+            position={[3.5,1.4,-pm+em2]}
+            largeur={1.4}
+            hauteur={1.1}
+            idPiece="cuisine"
+            idElement="fenetreCuisine1"
+          />
+          <Fenetre
+            position={[lm-em2,1.4,-1.5]}
+            rotation={[0,-Math.PI/2,0]}
+            largeur={1.2}
+            hauteur={1.0}
+            idPiece="cuisine"
+            idElement="fenetreCuisine2"
+          />
         </>
       )}
       {(afficherTout || pieceVisible === 'chambre') && (
         <>
-          <Fenetre position={[-lm+em2,1.4,3.5]}   rotation={[0,Math.PI/2,0]}  largeur={1.0} hauteur={0.9} />
-          <Fenetre position={[-2.5,1.4,pm-em2]}   rotation={[0,Math.PI,0]}    largeur={1.2} hauteur={1.0} />
+          <Fenetre
+            position={[-lm+em2,1.4,3.5]}
+            rotation={[0,Math.PI/2,0]}
+            largeur={1.0}
+            hauteur={0.9}
+            idPiece="chambre"
+            idElement="fenetreChambre1"
+            equipementId="chambre-3"
+            equipementIdVolet="chambre-4"
+            equipementIdStore="chambre-5"
+          />
+          <Fenetre
+            position={[-2.5,1.4,pm-em2]}
+            rotation={[0,Math.PI,0]}
+            largeur={1.2}
+            hauteur={1.0}
+            idPiece="chambre"
+            idElement="fenetreChambre2"
+            equipementId="chambre-3"
+            equipementIdVolet="chambre-4"
+            equipementIdStore="chambre-5"
+          />
         </>
       )}
       {(afficherTout || pieceVisible === 'salleDeBain') && (
-        <Fenetre position={[lm-em2,1.4,3.5]}    rotation={[0,-Math.PI/2,0]} largeur={0.8} hauteur={0.8} />
+        <Fenetre
+          position={[lm-em2,1.4,3.5]}
+          rotation={[0,-Math.PI/2,0]}
+          largeur={0.8}
+          hauteur={0.8}
+          idPiece="salleDeBain"
+          idElement="fenetreSDB"
+        />
       )}
 
       {/* ═══ PORTES ═══ */}
@@ -193,10 +246,10 @@ export function StructureMaison({ filDefer = false, masquerToit = false, pieceVi
         <Porte position={[1.5,0,1.5]}   largeur={0.85} hauteur={2.05} />
       )}
       {(afficherTout || pieceVisible === 'chambre' || pieceVisible === 'couloir') && (
-        <Porte position={[0.75,0,3.25]}  rotation={[0,Math.PI/2,0]} largeur={0.85} hauteur={2.05} />
+        <Porte position={[0.75,0,3.25]}  rotation={[0,Math.PI/2,0]} largeur={0.85} hauteur={2.05} />      
       )}
       {(afficherTout || pieceVisible === 'couloir' || pieceVisible === 'salleDeBain') && (
-        <Porte position={[2.5,0,3.2]}   rotation={[0,Math.PI/2,0]} largeur={0.8}  hauteur={2.05} />
+        <Porte position={[2.5,0,3.2]}   rotation={[0,Math.PI/2,0]} largeur={0.8}  hauteur={2.05} />       
       )}
 
       {/* ═══ TOIT ═══ */}

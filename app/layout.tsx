@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Manrope } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import '@/lib/fontawesome'
 import { config } from '@fortawesome/fontawesome-svg-core'
@@ -9,7 +9,7 @@ import { AuthProvider } from '@/providers/AuthProvider'
 
 config.autoAddCss = false
 
-const manrope = Manrope({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Qui fait quoi",
@@ -29,7 +29,7 @@ export default function RootLayout({
       <head>
         <link rel='icon' href='/logo-default.png' type='image/png' />
       </head>
-      <body className={manrope.className}>
+      <body className={inter.className}>
         <ThemeProvider
           attribute='class'
           defaultTheme='light'
