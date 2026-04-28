@@ -3,8 +3,8 @@ import { createServerSupabaseClient } from "@/lib/supabase/server";
 import type { UserRole } from "@/types/user";
 
 const REDIRECT_BY_ROLE: Record<UserRole, string> = {
-  locataire: "/client/chat",
-  bailleur: "/dashboard",
+  bailleur:  "/dashboard",
+  locataire: "/",
 };
 
 export async function GET(request: Request) {
@@ -18,7 +18,6 @@ export async function GET(request: Request) {
 
     if (data.user) {
       if (next) return NextResponse.redirect(`${origin}${next}`);
-
       const role = (data.user.user_metadata?.role ?? "locataire") as UserRole;
       return NextResponse.redirect(`${origin}${REDIRECT_BY_ROLE[role]}`);
     }
