@@ -4,8 +4,8 @@ import { AdminRegisterForm } from "@/components/auth/AdminRegisterForm";
 export default function AdminRegisterPage() {
   return (
     <AuthCard
-      title="Espace bailleur"
-      description="Créez votre compte administrateur"
+      title="Espace professionnel"
+      description="Créez votre compte bailleur ou administrateur"
     >
       <AdminRegisterForm />
     </AuthCard>

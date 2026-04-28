@@ -27,10 +27,10 @@ export default function EquipmentPage() {
       }
 
       const role = user.user_metadata?.role ?? user.app_metadata?.role;
-      
+
       // Seul le bailleur peut accéder aux équipements
       if (role !== "bailleur") {
-        router.push("/client/logement");
+        router.push("/not-authorized");
         return;
       }
 

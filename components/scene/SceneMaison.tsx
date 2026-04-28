@@ -4,6 +4,7 @@ import { useThree } from '@react-three/fiber';
 import { OrbitControls, Sky, Stars, Environment } from '@react-three/drei';
 import * as THREE from 'three';
 import { StructureMaison } from './structure/StructureMaison';
+import { Garage } from './structure/Garage';
 import { SolInterieur } from './structure/SolInterieur';
 import { Sejour } from './pieces/Sejour';
 import { Cuisine } from './pieces/Cuisine';
@@ -174,6 +175,11 @@ export function SceneMaison() {
       {!pieceOuverte && <Terrain />}
       {pieceOuverte && <SolInterieur />}
       <StructureMaison filDefer={filDefer} masquerToit={pieceOuverte} pieceVisible={pieceActive} />
+
+      {/* ── Garage accolé à droite de la maison (visible uniquement en vue extérieure) ── */}
+      {!pieceOuverte && (
+        <Garage filDefer={filDefer} />
+      )}
       
       {/* En mode visite, afficher toutes les pièces pour permettre le passage entre elles */}
       {/* Sinon, afficher toutes les pièces en mode intérieur/extérieur, ou seulement la pièce sélectionnée */}

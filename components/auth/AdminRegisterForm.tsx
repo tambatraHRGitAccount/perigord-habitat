@@ -11,13 +11,13 @@ import { useAuth } from "@/hooks/useAuth";
 export function AdminRegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [organisation, setOrganisation] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
+  const [fullName, setFullName]         = useState("");
+  const [email, setEmail]               = useState("");
+  const [password, setPassword]         = useState("");
+  const [confirm, setConfirm]           = useState("");
   const [confirmError, setConfirmError] = useState<string | null>(null);
-  const [registered, setRegistered] = useState(false);
-  const { register, pending, error } = useAuth();
+  const [registered, setRegistered]     = useState(false);
+  const { register, pending, error }    = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,6 +26,7 @@ export function AdminRegisterForm() {
       return;
     }
     setConfirmError(null);
+    // Le bailleur est l'admin — rôle fixé à "bailleur"
     const result = await register(email, password, fullName, "bailleur", { organisation });
     if (result === "confirm") setRegistered(true);
   };
@@ -41,7 +42,7 @@ export function AdminRegisterForm() {
           <p className="text-sm text-gray-500 mt-1 max-w-xs">
             Un e-mail de confirmation a été envoyé à{" "}
             <span className="font-medium text-gray-700">{email}</span>.
-            Cliquez sur le lien pour activer votre compte administrateur.
+            Cliquez sur le lien pour activer votre compte bailleur.
           </p>
         </div>
         <Link href="/login" className="text-xs text-indigo-600 hover:underline font-medium">
@@ -89,7 +90,7 @@ export function AdminRegisterForm() {
         <Input
           id="email"
           type="email"
-          placeholder="admin@organisation.com"
+          placeholder="contact@organisation.com"
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -133,7 +134,7 @@ export function AdminRegisterForm() {
       </div>
 
       <Button type="submit" className="w-full mt-1" disabled={pending}>
-        {pending ? "Création du compte..." : "Créer le compte administrateur"}
+        {pending ? "Création du compte..." : "Créer le compte bailleur"}
       </Button>
 
       <p className="text-center text-sm text-gray-500">

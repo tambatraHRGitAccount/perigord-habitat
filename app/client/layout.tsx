@@ -1,32 +1,22 @@
 "use client";
 
 import { Suspense, useEffect } from "react";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useAuthContext } from "@/providers/AuthProvider";
-
-const AUTH_PATHS = ["/client/auth/login", "/client/auth/register"];
 
 function AuthGuard({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuthContext();
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     if (loading) return;
 
-    const isAuthPage = AUTH_PATHS.includes(pathname);
-
-    if (user && isAuthPage) {
-      const next = searchParams.get("next") ?? "/client/chat";
-      router.replace(next);
-      return;
+    // Non connecté sur une page client protégée → login
+    if (!user) {
+      router.replace(`/login?next=${encodeURIComponent(pathname)}`);
     }
-
-    if (!user && !isAuthPage) {
-      router.replace(`/client/auth/login?next=${encodeURIComponent(pathname)}`);
-    }
-  }, [user, loading, pathname, router, searchParams]);
+  }, [user, loading, pathname, router]);
 
   if (loading) {
     return (

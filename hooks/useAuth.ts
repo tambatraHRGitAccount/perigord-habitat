@@ -6,9 +6,10 @@ import { authService } from "@/services/auth.service";
 import { useAuthContext } from "@/providers/AuthProvider";
 import type { UserRole } from "@/types/user";
 
+// Redirection après connexion selon le rôle
 const REDIRECT_BY_ROLE: Record<UserRole, string> = {
-  locataire: "/client/logement",
-  bailleur: "/dashboard",
+  bailleur:  "/dashboard",
+  locataire: "/",
 };
 
 export function useAuth() {

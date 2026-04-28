@@ -20,14 +20,3 @@ export interface Locataire {
   actif: boolean;
   date_creation: string;
 }
-
-export interface AdminBailleur {
-  id: number;
-  user_id: string;
-  bailleur_id: number;
-  nom: string;
-  prenom: string;
-  role: "admin" | "gestionnaire" | "lecteur";
-  actif: boolean;
-  date_creation: string;
-}
