@@ -30,19 +30,19 @@ export function Interrupteur3D({ position, rotation = [0, 0, 0], idPiece, lumier
 
   const handleClick = (e: any) => {
     e.stopPropagation();
-    interrupteur.propsInteraction.onClick(e);
+    interrupteur.propsInteraction.onClick?.(e);
     toggleLumiere(idPiece);
   };
 
   const handleOver = (e: any) => {
     e.stopPropagation();
-    interrupteur.propsInteraction.onPointerOver(e);
+    interrupteur.propsInteraction.onPointerOver?.(e);
     setSurvole(true);
     document.body.style.cursor = 'pointer';
   };
 
   const handleOut = () => {
-    interrupteur.propsInteraction.onPointerOut();
+    interrupteur.propsInteraction.onPointerOut?.();
     setSurvole(false);
     document.body.style.cursor = 'auto';
   };

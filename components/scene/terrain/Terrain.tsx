@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useElementSelectionnable } from '@/hooks/useElementSelectionnable';
+import { SolInterieur } from '../structure/SolInterieur';
 import { useScene } from '@/hooks/useSceneStore';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -33,16 +34,13 @@ const C_HAIE_C = '#2d5a1e';   // vert foncé centre
 const C_HAIE_B = '#3a7a2a';   // vert clair bord
 
 export function Terrain() {
-  const pelouse = useElementSelectionnable({
-    idPiece: 'exterieur', idElement: 'pelouse', libelle: 'Pelouse',
-    defaut: { couleur: '#5a8a45', rugosite: 0.95, metalique: 0 },
-  });
   const allee = useElementSelectionnable({
     idPiece: 'exterieur', idElement: 'allee', libelle: 'Allée',
     defaut: { couleur: '#b8a888', rugosite: 0.85, metalique: 0 },
   });
 
-  const M = (s: typeof pelouse) => ({
+  type Sel = ReturnType<typeof useElementSelectionnable>;
+  const M = (s: Sel) => ({
     color: s.materiau.couleur, roughness: s.materiau.rugosite,
     metalness: s.materiau.metalique, emissive: s.emissif,
     emissiveIntensity: s.intensiteEmissif,
@@ -51,11 +49,8 @@ export function Terrain() {
   return (
     <group>
 
-      {/* ── Pelouse ────────────────────────────────────────────────────── */}
-      <mesh {...pelouse.propsInteraction} rotation={[-Math.PI/2,0,0]} position={[0,-0.01,0]} receiveShadow>
-        <planeGeometry args={[70,70]} />
-        <meshStandardMaterial {...M(pelouse)} />
-      </mesh>
+      {/* ── Pelouse — même texture gazon que SolInterieur ──────────────── */}
+      <SolInterieur exterieur={true} />
 
       {/* ── Dalle maison ───────────────────────────────────────────────── */}
       <mesh position={[0,-0.06,0]} receiveShadow>

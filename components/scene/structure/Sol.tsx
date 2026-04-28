@@ -1,7 +1,16 @@
 'use client';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { MeshReflectorMaterial } from '@react-three/drei';
 import * as THREE from 'three';
+
+// Générateur pseudo-aléatoire déterministe (seed fixe → texture stable)
+function seededRandom(seed: number) {
+  let s = seed;
+  return () => {
+    s = (s * 1664525 + 1013904223) & 0xffffffff;
+    return (s >>> 0) / 0xffffffff;
+  };
+}
 
 interface Props {
   x: number; z: number; largeur: number; profondeur: number;
@@ -20,57 +29,49 @@ export function Sol({
   clearcoat = 0, clearcoatRoughness = 0.1,
   reflectif = false, mirrorForce = 0.5,
 }: Props) {
-  // Créer une texture de tapis de luxe
   const carpetTexture = useMemo(() => {
+    const rng = seededRandom(99);
     const canvas = document.createElement('canvas');
     canvas.width = 256;
     canvas.height = 256;
     const ctx = canvas.getContext('2d');
     if (!ctx) return null;
 
-    // Convertir la couleur hex en RGB
     const hexToRgb = (hex: string) => {
       const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-      return result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-      } : { r: 200, g: 169, b: 126 };
+      return result
+        ? { r: parseInt(result[1], 16), g: parseInt(result[2], 16), b: parseInt(result[3], 16) }
+        : { r: 200, g: 169, b: 126 };
     };
 
     const baseColor = hexToRgb(couleur);
 
-    // Fond de base avec légère variation
-    for (let y = 0; y < canvas.height; y++) {
-      for (let x = 0; x < canvas.width; x++) {
-        const noise = (Math.random() - 0.5) * 15;
+    for (let py = 0; py < canvas.height; py++) {
+      for (let px = 0; px < canvas.width; px++) {
+        const noise = (rng() - 0.5) * 15;
         const r = Math.max(0, Math.min(255, baseColor.r + noise));
         const g = Math.max(0, Math.min(255, baseColor.g + noise));
         const b = Math.max(0, Math.min(255, baseColor.b + noise));
         ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
-        ctx.fillRect(x, y, 1, 1);
+        ctx.fillRect(px, py, 1, 1);
       }
     }
 
-    // Ajouter des fibres de tapis (lignes fines)
     const numFibers = 3000;
     for (let i = 0; i < numFibers; i++) {
-      const x = Math.random() * canvas.width;
-      const y = Math.random() * canvas.height;
-      const length = 1 + Math.random() * 3;
-      const angle = Math.random() * Math.PI * 2;
-      
-      const brightness = -10 + Math.random() * 20;
+      const fx         = rng() * canvas.width;
+      const fy         = rng() * canvas.height;
+      const length     = 1 + rng() * 3;
+      const angle      = rng() * Math.PI * 2;
+      const brightness = -10 + rng() * 20;
       const r = Math.max(0, Math.min(255, baseColor.r + brightness));
       const g = Math.max(0, Math.min(255, baseColor.g + brightness));
       const b = Math.max(0, Math.min(255, baseColor.b + brightness));
-      
       ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, 0.3)`;
-      ctx.lineWidth = 0.5;
-      
+      ctx.lineWidth   = 0.5;
       ctx.beginPath();
-      ctx.moveTo(x, y);
-      ctx.lineTo(x + Math.cos(angle) * length, y + Math.sin(angle) * length);
+      ctx.moveTo(fx, fy);
+      ctx.lineTo(fx + Math.cos(angle) * length, fy + Math.sin(angle) * length);
       ctx.stroke();
     }
 
