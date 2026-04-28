@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ControleurCamera } from './ui/ControleurCamera';
 import { SensibiliteCamera } from './ui/SensibiliteCamera';
 import { useScene } from '@/hooks/useSceneStore';
@@ -13,12 +13,37 @@ const PIECES: { id: IdPiece; label: string; icon: string }[] = [
 ];
 
 export function InterfaceMaison() {
-  const { pieceActive, setPieceActive } = useScene();
+  const { pieceActive, setPieceActive, tooltip } = useScene();
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   const estExterieur = pieceActive === 'exterieur';
 
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
   return (
     <div className="absolute inset-0 pointer-events-none select-none">
+
+      {/* ── Tooltip ──────────────────────────────────────────────────────── */}
+      {tooltip && (
+        <div 
+          className="absolute pointer-events-none z-50"
+          style={{ 
+            left: `${mousePos.x}px`, 
+            top: `${mousePos.y - 40}px`,
+            transform: 'translateX(-50%)'
+          }}
+        >
+          <div className="bg-gray-950/95 backdrop-blur-xl px-4 py-2 rounded-lg border border-white/20 shadow-2xl">
+            <span className="text-white text-sm font-medium whitespace-nowrap">{tooltip}</span>
+          </div>
+        </div>
+      )}
 
       {/* ── Header ───────────────────────────────────────────────────────── */}
       <div className="absolute top-0 left-0 right-0 pointer-events-auto z-20">

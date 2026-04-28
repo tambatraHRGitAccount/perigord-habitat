@@ -36,7 +36,7 @@ export function SalleDeBain({ lumiere, filDefer = false, masquerPlafond = false 
   const panier = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'panierLinge',      libelle: 'Panier à linge',   defaut: { couleur: '#d97706', rugosite: 0.8,  metalique: 0 } });
   const robinet= useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'robinet',          libelle: 'Robinetterie',     defaut: { couleur: '#9ca3af', rugosite: 0.2,  metalique: 0.8 } });
   const joints = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'joints',           libelle: 'Joints étanchéité',defaut: { couleur: '#6b7280', rugosite: 0.6,  metalique: 0 } });
-  const ventil = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'ventilation',      libelle: 'Grille ventilation',defaut: { couleur: '#9ca3af', rugosite: 0.4,  metalique: 0.3 } });
+  const plafonnier = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'plafonnier',   libelle: 'Luminaire / plafonnier', defaut: { couleur: '#f9fafb', rugosite: 0.3, metalique: 0 } });
 
   const M = (s: typeof sol) => ({
     color: s.estSelectionne ? '#00e5ff' : s.materiau.couleur,
@@ -70,9 +70,15 @@ export function SalleDeBain({ lumiere, filDefer = false, masquerPlafond = false 
           width={1.2} height={1.2} intensity={4} color="#e8f4fd"
         />
       )}
-      <mesh position={[4.25, 2.72, 3.25]}>
+      <mesh {...plafonnier.propsInteraction} position={[4.25, 2.72, 3.25]}>
         <cylinderGeometry args={[0.1, 0.12, 0.05, 12]} />
-        <meshStandardMaterial color={lumiere ? '#e8f4fd' : '#d0d0d0'} emissive={lumiere ? '#e8f4fd' : '#000'} emissiveIntensity={lumiere ? 1.5 : 0} />
+        <meshStandardMaterial 
+          color={plafonnier.estSelectionne ? '#00e5ff' : (lumiere ? '#e8f4fd' : plafonnier.materiau.couleur)} 
+          emissive={plafonnier.emissif !== '#000000' ? plafonnier.emissif : (lumiere ? '#e8f4fd' : '#000')} 
+          emissiveIntensity={plafonnier.intensiteEmissif > 0 ? plafonnier.intensiteEmissif : (lumiere ? 1.5 : 0)}
+          roughness={plafonnier.materiau.rugosite}
+          metalness={plafonnier.materiau.metalique}
+        />
       </mesh>
 
       {/* ═══ MUR AVANT (z≈1.75) ═══ */}
@@ -345,12 +351,6 @@ export function SalleDeBain({ lumiere, filDefer = false, masquerPlafond = false 
         idPiece="salleDeBain"
         lumiere={lumiere}
       />
-
-      {/* Grille ventilation — mur avant haut */}
-      <mesh {...ventil.propsInteraction} position={[4.25, 2.55, 1.64]}>
-        <boxGeometry args={[0.22, 0.12, 0.02]} />
-        <meshStandardMaterial {...M(ventil)} />
-      </mesh>
 
       {/* Panier à linge — entre machine et WC, bien espacé */}
       <group position={[4.2, 0, 4.0]}>

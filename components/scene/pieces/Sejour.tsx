@@ -2,6 +2,8 @@
 import React from 'react';
 import { Sol } from '../structure/Sol';
 import { Interrupteur3D } from '../structure/Interrupteur3D';
+import { PriseElectrique } from '../structure/PriseElectrique';
+import { RobinetThermostatique } from '../structure/RobinetThermostatique';
 import { useElementSelectionnable } from '@/hooks/useElementSelectionnable';
 import * as THREE from 'three';
 
@@ -236,42 +238,6 @@ function Bibliotheque({ propsInteraction, mat }: { propsInteraction: Record<stri
   );
 }
 
-// ─── Lampadaire ───────────────────────────────────────────────────────────────
-// Coin arrière-gauche, derrière le fauteuil
-// propsInteraction sur le group entier → tout le lampadaire réagit au clic
-function Lampadaire({ propsInteraction, mat, lumiere }: { propsInteraction: Record<string,unknown>; mat: MatProps; lumiere: boolean }) {
-  return (
-    <group {...propsInteraction} position={[-4.8, 0, -3.8]}>
-      {/* Base */}
-      <mesh position={[0, 0.06, 0]} castShadow>
-        <cylinderGeometry args={[0.18, 0.22, 0.12, 12]} />
-        <meshPhysicalMaterial {...mat} />
-      </mesh>
-      {/* Tige */}
-      <mesh position={[0, 0.95, 0]} castShadow>
-        <cylinderGeometry args={[0.025, 0.025, 1.7, 8]} />
-        <meshPhysicalMaterial {...mat} />
-      </mesh>
-      {/* Abat-jour */}
-      <mesh position={[0, 1.88, 0]} castShadow>
-        <cylinderGeometry args={[0.28, 0.18, 0.32, 16, 1, true]} />
-        <meshStandardMaterial
-          color={mat.color} roughness={mat.roughness}
-          side={THREE.DoubleSide}
-          emissive={mat.emissive !== '#000000' ? mat.emissive : (lumiere ? '#ffd580' : '#000000')}
-          emissiveIntensity={mat.emissiveIntensity > 0 ? mat.emissiveIntensity : (lumiere ? 0.6 : 0)}
-        />
-      </mesh>
-      {/* Dessus abat-jour */}
-      <mesh position={[0, 2.04, 0]}>
-        <cylinderGeometry args={[0.18, 0.18, 0.02, 16]} />
-        <meshPhysicalMaterial {...mat} />
-      </mesh>
-      {lumiere && <pointLight position={[0, 1.75, 0]} intensity={18} distance={5} color="#ffd580" />}
-    </group>
-  );
-}
-
 // ─── Plante ───────────────────────────────────────────────────────────────────
 // Coin avant-droit — à côté de la porte d'entrée, à l'opposé de la TV
 // propsInteraction sur le group entier → pot + feuilles réagissent ensemble
@@ -343,21 +309,22 @@ function TableauDecoratif({ propsInteraction, mat }: { propsInteraction: Record<
 
 // ─── Composant principal ──────────────────────────────────────────────────────
 export function Sejour({ lumiere, filDefer = false, masquerPlafond = false }: Props) {
-  const sol       = useElementSelectionnable({ idPiece: 'sejour', idElement: 'sol',         libelle: 'Sol (parquet)',     defaut: { couleur: '#4b5563', rugosite: 0.7,  metalique: 0 } });
+  const sol       = useElementSelectionnable({ idPiece: 'sejour', idElement: 'sol',         libelle: 'Revêtement de sol : parquet, moquette, carrelage',     defaut: { couleur: '#4b5563', rugosite: 0.7,  metalique: 0 } });
   const tapis     = useElementSelectionnable({ idPiece: 'sejour', idElement: 'tapis',        libelle: 'Tapis de salon',   defaut: { couleur: '#8b7355', rugosite: 0.95, metalique: 0 } });
   const tapisBordure = useElementSelectionnable({ idPiece: 'sejour', idElement: 'tapisBordure', libelle: 'Bordure tapis',  defaut: { couleur: '#6b5a45', rugosite: 0.9, metalique: 0 } });
   const canape    = useElementSelectionnable({ idPiece: 'sejour', idElement: 'canape',       libelle: 'Canapé',           defaut: { couleur: '#6b7280', rugosite: 0.8,  metalique: 0 } });
   const tableBasse= useElementSelectionnable({ idPiece: 'sejour', idElement: 'tableBasse',   libelle: 'Table basse',      defaut: { couleur: '#8b6914', rugosite: 0.4,  metalique: 0 } });
   const television= useElementSelectionnable({ idPiece: 'sejour', idElement: 'television',   libelle: 'Télévision',       defaut: { couleur: '#111827', rugosite: 0.1,  metalique: 0.5 } });
   const meubleTV  = useElementSelectionnable({ idPiece: 'sejour', idElement: 'meubleTV',     libelle: 'Meuble TV',        defaut: { couleur: '#1c1c1c', rugosite: 0.4,  metalique: 0.1 } });
-  const lampadaire= useElementSelectionnable({ idPiece: 'sejour', idElement: 'lampadaire',   libelle: 'Lampadaire',       defaut: { couleur: '#f5f0e0', rugosite: 0.7,  metalique: 0 } });
   const fauteuil  = useElementSelectionnable({ idPiece: 'sejour', idElement: 'fauteuil',     libelle: 'Fauteuil',         defaut: { couleur: '#78350f', rugosite: 0.8,  metalique: 0 } });
   const biblio    = useElementSelectionnable({ idPiece: 'sejour', idElement: 'bibliotheque', libelle: 'Bibliothèque',     defaut: { couleur: '#5c3d2e', rugosite: 0.5,  metalique: 0 } });
   const plante    = useElementSelectionnable({ idPiece: 'sejour', idElement: 'planteVerte',  libelle: 'Plante verte',     defaut: { couleur: '#2d6a4f', rugosite: 0.9,  metalique: 0 } });
-  const radiateur = useElementSelectionnable({ idPiece: 'sejour', idElement: 'radiateur',    libelle: 'Radiateur',        defaut: { couleur: '#f3f4f6', rugosite: 0.3,  metalique: 0.2 } });
-  const tableau   = useElementSelectionnable({ idPiece: 'sejour', idElement: 'tableauDeco',  libelle: 'Tableau décoratif',defaut: { couleur: '#1e3a5f', rugosite: 0.6,  metalique: 0 } });
-  const detecteur = useElementSelectionnable({ idPiece: 'sejour', idElement: 'detecteur',    libelle: 'Détecteur fumée',  defaut: { couleur: '#f9fafb', rugosite: 0.3,  metalique: 0 } });
+  const radiateur = useElementSelectionnable({ idPiece: 'sejour', idElement: 'radiateur',    libelle: 'Radiateur (chauffage collectif ou individuel)',        defaut: { couleur: '#f3f4f6', rugosite: 0.3,  metalique: 0.2 } });
+  const peintureMurs = useElementSelectionnable({ idPiece: 'sejour', idElement: 'tableauDeco',  libelle: 'Peintures et enduits muraux', defaut: { couleur: '#1e3a5f', rugosite: 0.6,  metalique: 0 } });
+  const plafonnier = useElementSelectionnable({ idPiece: 'sejour', idElement: 'plafonnier',    libelle: 'Luminaire / plafonnier',  defaut: { couleur: '#f9fafb', rugosite: 0.3,  metalique: 0 } });
   const thermostat= useElementSelectionnable({ idPiece: 'sejour', idElement: 'thermostat',   libelle: 'Thermostat',       defaut: { couleur: '#e5e7eb', rugosite: 0.3,  metalique: 0 } });
+  const ventilation = useElementSelectionnable({ idPiece: 'sejour', idElement: 'ventilation', libelle: 'VMC / grille ventilation', defaut: { couleur: '#9ca3af', rugosite: 0.4, metalique: 0.3 } });
+  const tableauElec = useElementSelectionnable({ idPiece: 'sejour', idElement: 'tableauElectrique', libelle: 'Tableau électrique (si dans pièce)', defaut: { couleur: '#f3f4f6', rugosite: 0.3, metalique: 0.1 } });
 
   const mat = (s: ReturnType<typeof useElementSelectionnable>): MatProps => ({
     color: s.estSelectionne ? '#00e5ff' : s.materiau.couleur,
@@ -413,12 +380,6 @@ export function Sejour({ lumiere, filDefer = false, masquerPlafond = false }: Pr
           width={2.0} height={2.0} intensity={2.5} color="#ffd580"
         />
       )}
-      <group position={[-2.5, 2.72, -1.5]}>
-        <mesh>
-          <cylinderGeometry args={[0.22, 0.18, 0.06, 20]} />
-          <meshStandardMaterial color={lumiere ? '#fffde7' : '#d0d0d0'} emissive={lumiere ? '#ffd580' : '#000'} emissiveIntensity={lumiere ? 1.8 : 0} />
-        </mesh>
-      </group>
 
       {/* Tapis — au centre de la pièce, entre canapé et table basse */}
       {/* Bordure */}
@@ -440,15 +401,31 @@ export function Sejour({ lumiere, filDefer = false, masquerPlafond = false }: Pr
       <Fauteuil    propsInteraction={fauteuil.propsInteraction}   mat={matTissu(fauteuil)} />
       <Bibliotheque propsInteraction={biblio.propsInteraction}    mat={matBois(biblio)} />
       <Plante      propsInteraction={plante.propsInteraction}     mat={mat(plante)} />
-      <Lampadaire  propsInteraction={lampadaire.propsInteraction} mat={mat(lampadaire)} lumiere={lumiere} />
       <Radiateur   propsInteraction={radiateur.propsInteraction}  mat={mat(radiateur)} />
-      <TableauDecoratif propsInteraction={tableau.propsInteraction} mat={mat(tableau)} />
+      
+      {/* Robinet thermostatique du radiateur séjour */}
+      <RobinetThermostatique
+        position={[-0.5, 0.38, -4.78]}
+        rotation={[0, 0, 0]}
+        idPiece="sejour"
+        idElement="robinetThermoRadiateur"
+      />
 
-      {/* Détecteur de fumée — plafond centre */}
-      <mesh {...detecteur.propsInteraction} position={[-2.5, 2.77, -1.5]}>
-        <cylinderGeometry args={[0.055, 0.055, 0.025, 16]} />
-        <meshStandardMaterial {...mat(detecteur)} />
-      </mesh>
+      <TableauDecoratif propsInteraction={peintureMurs.propsInteraction} mat={mat(peintureMurs)} />
+
+      {/* Plafonnier — plafond centre (remplace le détecteur de fumée) */}
+      <group {...plafonnier.propsInteraction} position={[-2.5, 2.72, -1.5]}>
+        <mesh>
+          <cylinderGeometry args={[0.22, 0.18, 0.06, 20]} />
+          <meshStandardMaterial 
+            color={plafonnier.estSelectionne ? '#00e5ff' : (lumiere ? '#fffde7' : plafonnier.materiau.couleur)} 
+            emissive={plafonnier.emissif !== '#000000' ? plafonnier.emissif : (lumiere ? '#ffd580' : '#000000')} 
+            emissiveIntensity={plafonnier.intensiteEmissif > 0 ? plafonnier.intensiteEmissif : (lumiere ? 1.8 : 0)} 
+            roughness={plafonnier.materiau.rugosite}
+            metalness={plafonnier.materiau.metalique}
+          />
+        </mesh>
+      </group>
 
       {/* Interrupteur — mur avant, à droite de la porte d'entrée */}
       <Interrupteur3D
@@ -456,6 +433,36 @@ export function Sejour({ lumiere, filDefer = false, masquerPlafond = false }: Pr
         rotation={[0, -Math.PI / 2, 0]}
         idPiece="sejour"
         lumiere={lumiere}
+      />
+
+      {/* Prises électriques */}
+      {/* Prise 1 — mur arrière, à gauche de la TV */}
+      <PriseElectrique
+        position={[-4.5, 0.3, -4.86]}
+        rotation={[0, 0, 0]}
+        idPiece="sejour"
+        idElement="prise1"
+      />
+      {/* Prise 2 — mur arrière, à droite du radiateur */}
+      <PriseElectrique
+        position={[0.8, 0.3, -4.86]}
+        rotation={[0, 0, 0]}
+        idPiece="sejour"
+        idElement="prise2"
+      />
+      {/* Prise 3 — mur gauche, près du fauteuil */}
+      <PriseElectrique
+        position={[-5.86, 0.3, 0.5]}
+        rotation={[0, Math.PI / 2, 0]}
+        idPiece="sejour"
+        idElement="prise3"
+      />
+      {/* Prise 4 — cloison droite, près de la porte */}
+      <PriseElectrique
+        position={[0.62, 0.3, -0.5]}
+        rotation={[0, -Math.PI / 2, 0]}
+        idPiece="sejour"
+        idElement="prise4"
       />
 
       {/* Thermostat — mur gauche, h=1.5m */}
@@ -467,6 +474,74 @@ export function Sejour({ lumiere, filDefer = false, masquerPlafond = false }: Pr
         <mesh position={[0.012, 0.02, 0]}>
           <boxGeometry args={[0.005, 0.06, 0.06]} />
           <meshStandardMaterial {...mat(thermostat)} emissive="#22c55e" emissiveIntensity={lumiere ? 0.8 : 0} />
+        </mesh>
+      </group>
+
+      {/* VMC / Grille ventilation — mur avant haut, près du plafond */}
+      <mesh {...ventilation.propsInteraction} position={[-1.5, 2.55, 1.1]}>
+        <boxGeometry args={[0.25, 0.15, 0.02]} />
+        <meshStandardMaterial {...mat(ventilation)} />
+      </mesh>
+      {/* Grille de la VMC (lamelles) */}
+      {Array.from({ length: 8 }).map((_, i) => (
+        <mesh key={i} {...ventilation.propsInteraction} position={[-1.5, 2.55 - 0.06 + i * 0.015, 1.11]}>
+          <boxGeometry args={[0.22, 0.008, 0.005]} />
+          <meshStandardMaterial {...mat(ventilation)} />
+        </mesh>
+      ))}
+
+      {/* Tableau électrique — mur avant, près de la porte d'entrée, h=1.5m */}
+      <group {...tableauElec.propsInteraction} position={[-0.3, 1.5, -4.83]}>
+        {/* Boîtier principal */}
+        <mesh castShadow>
+          <boxGeometry args={[0.35, 0.45, 0.08]} />
+          <meshPhysicalMaterial 
+            color={tableauElec.estSelectionne ? '#00e5ff' : tableauElec.materiau.couleur}
+            roughness={tableauElec.materiau.rugosite}
+            metalness={tableauElec.materiau.metalique}
+            emissive={tableauElec.emissif}
+            emissiveIntensity={tableauElec.intensiteEmissif}
+            clearcoat={0.3}
+            clearcoatRoughness={0.2}
+          />
+        </mesh>
+        {/* Porte du tableau */}
+        <mesh position={[0, 0, 0.045]}>
+          <boxGeometry args={[0.32, 0.42, 0.01]} />
+          <meshPhysicalMaterial 
+            color={tableauElec.estSelectionne ? '#00e5ff' : '#ffffff'}
+            roughness={0.25}
+            metalness={0.05}
+            emissive={tableauElec.emissif}
+            emissiveIntensity={tableauElec.intensiteEmissif * 0.5}
+          />
+        </mesh>
+        {/* Poignée */}
+        <mesh position={[0.12, 0, 0.055]}>
+          <boxGeometry args={[0.04, 0.08, 0.01]} />
+          <meshStandardMaterial 
+            color={tableauElec.estSelectionne ? '#00e5ff' : '#9ca3af'}
+            roughness={0.3}
+            metalness={0.6}
+          />
+        </mesh>
+        {/* Étiquette */}
+        <mesh position={[0, 0.15, 0.056]}>
+          <boxGeometry args={[0.2, 0.05, 0.001]} />
+          <meshStandardMaterial 
+            color="#fef3c7"
+            roughness={0.6}
+          />
+        </mesh>
+        {/* Voyant LED */}
+        <mesh position={[-0.12, -0.18, 0.056]}>
+          <cylinderGeometry args={[0.008, 0.008, 0.005, 12]} />
+          <meshStandardMaterial 
+            color="#22c55e"
+            emissive="#22c55e"
+            emissiveIntensity={0.8}
+            roughness={0.2}
+          />
         </mesh>
       </group>
     </group>
