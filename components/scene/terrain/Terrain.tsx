@@ -3,6 +3,8 @@ import React, { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useElementSelectionnable } from '@/hooks/useElementSelectionnable';
+import { Sol } from '../structure/Sol';
+import { SolInterieur } from '../structure/SolInterieur';
 import { useScene } from '@/hooks/useSceneStore';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -51,11 +53,8 @@ export function Terrain() {
   return (
     <group>
 
-      {/* ── Pelouse ────────────────────────────────────────────────────── */}
-      <mesh {...pelouse.propsInteraction} rotation={[-Math.PI/2,0,0]} position={[0,-0.01,0]} receiveShadow>
-        <planeGeometry args={[70,70]} />
-        <meshStandardMaterial {...M(pelouse)} />
-      </mesh>
+      {/* ── Pelouse — même texture gazon que SolInterieur ──────────────── */}
+      <SolInterieur exterieur={true} />
 
       {/* ── Dalle maison ───────────────────────────────────────────────── */}
       <mesh position={[0,-0.06,0]} receiveShadow>
