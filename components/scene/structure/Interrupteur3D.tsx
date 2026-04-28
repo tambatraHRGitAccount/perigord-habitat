@@ -10,9 +10,10 @@ interface Props {
   rotation?: [number, number, number];
   idPiece: keyof EtatLumieres;
   lumiere: boolean;
+  equipementId?: string;
 }
 
-export function Interrupteur3D({ position, rotation = [0, 0, 0], idPiece, lumiere }: Props) {
+export function Interrupteur3D({ position, rotation = [0, 0, 0], idPiece, lumiere, equipementId }: Props) {
   const { toggleLumiere } = useScene();
   const [survole, setSurvole] = useState(false);
 
@@ -20,7 +21,8 @@ export function Interrupteur3D({ position, rotation = [0, 0, 0], idPiece, lumier
   const interrupteur = useElementSelectionnable({
     idPiece: idPiece as IdPiece,
     idElement: 'interrupteur',
-    libelle: 'Prise électrique / interrupteur',
+    equipementId: equipementId,
+    libelle: equipementId ? undefined : 'Prise électrique / interrupteur',
     defaut: { couleur: '#f8fafc', rugosite: 0.35, metalique: 0 }
   });
 

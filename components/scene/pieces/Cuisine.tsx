@@ -176,6 +176,53 @@ function SiphonBonde({ propsInteraction, M }: { propsInteraction: Record<string,
   );
 }
 
+// ─── Plomberie apparente sous évier ───────────────────────────────────────────
+function PlomberieEvier({ propsInteraction, M }: { propsInteraction: Record<string,unknown>; M: Record<string,unknown> }) {
+  return (
+    <group position={[4.0, 0.4, -3.5]}>
+      {/* Arrivée d'eau froide (droite) */}
+      <mesh {...propsInteraction} position={[0.12, 0, 0]}>
+        <cylinderGeometry args={[0.012, 0.012, 0.5, 12]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
+      {/* Robinet d'arrêt eau froide */}
+      <mesh {...propsInteraction} position={[0.12, 0.15, 0]}>
+        <cylinderGeometry args={[0.018, 0.018, 0.04, 12]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
+      {/* Poignée robinet eau froide */}
+      <mesh {...propsInteraction} position={[0.12, 0.15, 0.025]} rotation={[Math.PI/2, 0, 0]}>
+        <boxGeometry args={[0.04, 0.008, 0.015]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
+      {/* Arrivée d'eau chaude (gauche) */}
+      <mesh {...propsInteraction} position={[-0.12, 0, 0]}>
+        <cylinderGeometry args={[0.012, 0.012, 0.5, 12]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
+      {/* Robinet d'arrêt eau chaude */}
+      <mesh {...propsInteraction} position={[-0.12, 0.15, 0]}>
+        <cylinderGeometry args={[0.018, 0.018, 0.04, 12]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
+      {/* Poignée robinet eau chaude */}
+      <mesh {...propsInteraction} position={[-0.12, 0.15, 0.025]} rotation={[Math.PI/2, 0, 0]}>
+        <boxGeometry args={[0.04, 0.008, 0.015]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
+      {/* Flexibles de raccordement */}
+      <mesh {...propsInteraction} position={[0.12, 0.35, 0.05]} rotation={[Math.PI/6, 0, 0]}>
+        <cylinderGeometry args={[0.01, 0.01, 0.15, 12]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
+      <mesh {...propsInteraction} position={[-0.12, 0.35, 0.05]} rotation={[Math.PI/6, 0, 0]}>
+        <cylinderGeometry args={[0.01, 0.01, 0.15, 12]} />
+        <meshStandardMaterial {...M} />
+      </mesh>
+    </group>
+  );
+}
+
 // ─── Chaise ───────────────────────────────────────────────────────────────────
 function Chaise({ position, rotation, M, propsInteraction }: {
   position: [number,number,number]; rotation?: [number,number,number];
@@ -197,23 +244,28 @@ function Chaise({ position, rotation, M, propsInteraction }: {
 }
 
 export function Cuisine({ lumiere, filDefer = false, masquerPlafond = false }: Props) {
-  const sol        = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'sol',           libelle: 'Sol (carrelage)',   defaut: { couleur: '#4b5563', rugosite: 0.35, metalique: 0 } });
+  const sol        = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'sol', equipementId: 'cuisine-12', defaut: { couleur: '#4b5563', rugosite: 0.35, metalique: 0 } });
   const planTravail= useElementSelectionnable({ idPiece: 'cuisine', idElement: 'planDeTravail', libelle: 'Plan de travail',  defaut: { couleur: '#9ca3af', rugosite: 0.2,  metalique: 0.3 } });
   const meubles    = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'meublesHauts',  libelle: 'Meubles',          defaut: { couleur: '#f3f4f6', rugosite: 0.5,  metalique: 0 } });
-  const refrigo    = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'refrigerateur', libelle: 'Réfrigérateur',    defaut: { couleur: '#f0f0f0', rugosite: 0.25, metalique: 0.15 } });
-  const evier      = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'evier',         libelle: 'Évier (acier inoxydable ou résine)', defaut: { couleur: '#d1d5db', rugosite: 0.15, metalique: 0.6 } });
-  const robinetterie = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'robinetterie', libelle: 'Robinetterie cuisine', defaut: { couleur: '#c0c0c0', rugosite: 0.1, metalique: 0.8 } });
-  const douchette  = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'douchette',     libelle: 'Douchette / mitigeur évier', defaut: { couleur: '#b8b8b8', rugosite: 0.12, metalique: 0.75 } });
-  const siphon     = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'siphon',        libelle: 'Siphon et bonde d\'évier', defaut: { couleur: '#a8a8a8', rugosite: 0.2, metalique: 0.7 } });
-  const plaque     = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'plaqueCuisson', libelle: 'Plaque de cuisson',defaut: { couleur: '#1f2937', rugosite: 0.2,  metalique: 0.6 } });
-  const four       = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'four',          libelle: 'Four',             defaut: { couleur: '#2d2d2d', rugosite: 0.3,  metalique: 0.4 } });
-  const hotte      = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'hotteAspirante',libelle: 'Hotte aspirante',  defaut: { couleur: '#9ca3af', rugosite: 0.2,  metalique: 0.6 } });
-  const table      = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'tableCuisine',  libelle: 'Table de cuisine', defaut: { couleur: '#8b6914', rugosite: 0.4,  metalique: 0 } });
-  const chaises    = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'chaises',       libelle: 'Chaises',          defaut: { couleur: '#374151', rugosite: 0.5,  metalique: 0 } });
-  const lavVaisselle=useElementSelectionnable({ idPiece: 'cuisine', idElement: 'lavVaisselle',  libelle: 'Lave-vaisselle',   defaut: { couleur: '#e5e7eb', rugosite: 0.3,  metalique: 0.15 } });
+  const refrigo    = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'refrigerateur', equipementId: 'cuisine-9', defaut: { couleur: '#f0f0f0', rugosite: 0.25, metalique: 0.15 } });
+  const evier      = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'evier', equipementId: 'cuisine-1', defaut: { couleur: '#d1d5db', rugosite: 0.15, metalique: 0.6 } });
+  const robinetterie = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'robinetterie', equipementId: 'cuisine-2', defaut: { couleur: '#c0c0c0', rugosite: 0.1, metalique: 0.8 } });
+  const douchette  = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'douchette', equipementId: 'cuisine-3', defaut: { couleur: '#b8b8b8', rugosite: 0.12, metalique: 0.75 } });
+  const siphon     = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'siphon', equipementId: 'cuisine-4', defaut: { couleur: '#a8a8a8', rugosite: 0.2, metalique: 0.7 } });
+  const plomberie  = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'plomberie', equipementId: 'cuisine-5', defaut: { couleur: '#9ca3af', rugosite: 0.2, metalique: 0.4 } });
+  const plaque     = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'plaqueCuisson', equipementId: 'cuisine-7', defaut: { couleur: '#1f2937', rugosite: 0.2,  metalique: 0.6 } });
+  const four       = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'four', equipementId: 'cuisine-8', defaut: { couleur: '#2d2d2d', rugosite: 0.3,  metalique: 0.4 } });
+  const hotte      = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'hotteAspirante', equipementId: 'cuisine-6', defaut: { couleur: '#9ca3af', rugosite: 0.2,  metalique: 0.6 } });
+  const credence   = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'credence', equipementId: 'cuisine-11', defaut: { couleur: '#f8f8f8', rugosite: 0.25, metalique: 0 } });
+  const table      = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'tableCuisine',  libelle: 'Table de cuisine', defaut: { couleur: '#f5f5f5', rugosite: 0.2,  metalique: 0.1 } });
+  const chaises    = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'chaises',       libelle: 'Chaises',          defaut: { couleur: '#2c2c2c', rugosite: 0.3,  metalique: 0.1 } });
+  const lavVaisselle=useElementSelectionnable({ idPiece: 'cuisine', idElement: 'lavVaisselle', equipementId: 'cuisine-10', defaut: { couleur: '#e5e7eb', rugosite: 0.3,  metalique: 0.15 } });
   const microOndes = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'microOndes',    libelle: 'Micro-ondes',      defaut: { couleur: '#1f2937', rugosite: 0.3,  metalique: 0.3 } });
   const poubelle   = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'poubelleTri',   libelle: 'Poubelle de tri',  defaut: { couleur: '#22c55e', rugosite: 0.6,  metalique: 0.1 } });
   const plafonnier = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'plafonnier',    libelle: 'Luminaire / plafonnier', defaut: { couleur: '#f9fafb', rugosite: 0.3, metalique: 0 } });
+  const ventilation = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'ventilation', equipementId: 'cuisine-13', defaut: { couleur: '#9ca3af', rugosite: 0.4, metalique: 0.3 } });
+  const colonneGaz = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'colonneGaz', equipementId: 'cuisine-15', defaut: { couleur: '#fbbf24', rugosite: 0.3, metalique: 0.5 } });
+  const laveLinge  = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'laveLinge', equipementId: 'cuisine-16', defaut: { couleur: '#f3f4f6', rugosite: 0.3, metalique: 0.1 } });
   const serrure    = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'serrurePorte',  libelle: 'Serrure de porte', defaut: { couleur: '#d4af37', rugosite: 0.2,  metalique: 0.8 } });
   const interphone = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'interphone',    libelle: 'Interphone',       defaut: { couleur: '#f3f4f6', rugosite: 0.3,  metalique: 0.2 } });
 
@@ -330,6 +382,115 @@ export function Cuisine({ lumiere, filDefer = false, masquerPlafond = false }: P
       {/* Siphon et bonde d'évier */}
       <SiphonBonde propsInteraction={siphon.propsInteraction} M={M(siphon)} />
 
+      {/* Plomberie apparente sous évier */}
+      <PlomberieEvier propsInteraction={plomberie.propsInteraction} M={M(plomberie)} />
+
+      {/* Crédence (carrelage mural derrière le plan de travail) */}
+      <mesh {...credence.propsInteraction} position={[3.65, 1.35, -3.86]}>
+        <boxGeometry args={[3.7, 0.9, 0.02]} />
+        <meshStandardMaterial 
+          color={credence.estSelectionne ? '#00e5ff' : credence.materiau.couleur}
+          roughness={credence.materiau.rugosite}
+          metalness={credence.materiau.metalique}
+          emissive={credence.emissif}
+          emissiveIntensity={credence.intensiteEmissif}
+        />
+      </mesh>
+      {/* Joints de carrelage crédence */}
+      {Array.from({ length: 6 }).map((_, i) => (
+        <mesh key={`h${i}`} {...credence.propsInteraction} position={[1.95 + i * 0.6, 1.35, -3.865]}>
+          <boxGeometry args={[0.01, 0.9, 0.005]} />
+          <meshStandardMaterial color={credence.estSelectionne ? '#00e5ff' : '#d0d0d0'} roughness={0.8} />
+        </mesh>
+      ))}
+      {Array.from({ length: 4 }).map((_, i) => (
+        <mesh key={`v${i}`} {...credence.propsInteraction} position={[3.65, 0.9 + i * 0.22, -3.865]}>
+          <boxGeometry args={[3.7, 0.01, 0.005]} />
+          <meshStandardMaterial color={credence.estSelectionne ? '#00e5ff' : '#d0d0d0'} roughness={0.8} />
+        </mesh>
+      ))}
+
+      {/* VMC / Grille ventilation cuisine — plafond, coin arrière */}
+      <mesh {...ventilation.propsInteraction} position={[2.0, 2.75, -3.8]}>
+        <boxGeometry args={[0.25, 0.02, 0.25]} />
+        <meshStandardMaterial 
+          color={ventilation.estSelectionne ? '#00e5ff' : ventilation.materiau.couleur}
+          roughness={ventilation.materiau.rugosite}
+          metalness={ventilation.materiau.metalique}
+          emissive={ventilation.emissif}
+          emissiveIntensity={ventilation.intensiteEmissif}
+        />
+      </mesh>
+      {/* Grille de la VMC (lamelles) */}
+      {Array.from({ length: 8 }).map((_, i) => (
+        <mesh key={i} {...ventilation.propsInteraction} position={[2.0, 2.76, -3.8 + (-0.1 + i * 0.025)]}>
+          <boxGeometry args={[0.22, 0.005, 0.008]} />
+          <meshStandardMaterial 
+            color={ventilation.estSelectionne ? '#00e5ff' : ventilation.materiau.couleur}
+            roughness={ventilation.materiau.rugosite}
+            metalness={ventilation.materiau.metalique}
+          />
+        </mesh>
+      ))}
+
+      {/* Colonne montante gaz — coin arrière droit */}
+      <mesh {...colonneGaz.propsInteraction} position={[5.85, 1.4, -3.85]}>
+        <cylinderGeometry args={[0.025, 0.025, 2.8, 16]} />
+        <meshStandardMaterial 
+          color={colonneGaz.estSelectionne ? '#00e5ff' : colonneGaz.materiau.couleur}
+          roughness={colonneGaz.materiau.rugosite}
+          metalness={colonneGaz.materiau.metalique}
+          emissive={colonneGaz.emissif}
+          emissiveIntensity={colonneGaz.intensiteEmissif}
+        />
+      </mesh>
+      {/* Étiquette "GAZ" sur la colonne */}
+      <mesh {...colonneGaz.propsInteraction} position={[5.85, 1.5, -3.82]} rotation={[0, 0, 0]}>
+        <boxGeometry args={[0.08, 0.12, 0.005]} />
+        <meshStandardMaterial color={colonneGaz.estSelectionne ? '#00e5ff' : '#fef3c7'} roughness={0.6} />
+      </mesh>
+
+      {/* Lave-linge — près de la poubelle */}
+      <group position={[2.2, 0.45, 0.5]}>
+        <mesh {...laveLinge.propsInteraction} castShadow>
+          <boxGeometry args={[0.62, 0.9, 0.62]} />
+          <meshStandardMaterial 
+            color={laveLinge.estSelectionne ? '#00e5ff' : laveLinge.materiau.couleur}
+            roughness={laveLinge.materiau.rugosite}
+            metalness={laveLinge.materiau.metalique}
+            emissive={laveLinge.emissif}
+            emissiveIntensity={laveLinge.intensiteEmissif}
+          />
+        </mesh>
+        {/* Hublot */}
+        <mesh {...laveLinge.propsInteraction} position={[0, 0.15, 0.32]}>
+          <cylinderGeometry args={[0.18, 0.18, 0.02, 24]} rotation={[Math.PI/2, 0, 0]} />
+          <meshPhysicalMaterial 
+            color={laveLinge.estSelectionne ? '#00e5ff' : '#1f2937'}
+            roughness={0.1}
+            metalness={0.3}
+            transmission={0.7}
+            transparent
+            opacity={0.5}
+          />
+        </mesh>
+        {/* Panneau de commande */}
+        <mesh {...laveLinge.propsInteraction} position={[0, 0.38, 0.32]}>
+          <boxGeometry args={[0.5, 0.08, 0.01]} />
+          <meshStandardMaterial 
+            color={laveLinge.estSelectionne ? '#00e5ff' : '#2d2d2d'}
+            roughness={0.3}
+          />
+        </mesh>
+        {/* Boutons de commande */}
+        {[-0.15, -0.05, 0.05, 0.15].map((x, i) => (
+          <mesh key={i} {...laveLinge.propsInteraction} position={[x, 0.38, 0.335]}>
+            <cylinderGeometry args={[0.012, 0.012, 0.01, 12]} />
+            <meshStandardMaterial color={laveLinge.estSelectionne ? '#00e5ff' : '#6b7280'} roughness={0.4} />
+          </mesh>
+        ))}
+      </group>
+
       {/* Lave-vaisselle */}
       <group position={[4.7, 0.45, -3.66]}>
         <mesh {...lavVaisselle.propsInteraction} castShadow><boxGeometry args={[0.62, 0.9, 0.62]} /><meshStandardMaterial {...M(lavVaisselle)} /></mesh>
@@ -347,22 +508,22 @@ export function Cuisine({ lumiere, filDefer = false, masquerPlafond = false }: P
         <mesh {...microOndes.propsInteraction} position={[-0.2, 0, 0.2]}><boxGeometry args={[0.06, 0.22, 0.02]} /><meshStandardMaterial {...M(microOndes)} /></mesh>
       </group>
 
-      {/* Table */}
-      <mesh {...table.propsInteraction} position={[2.8, 0.76, -0.8]} castShadow receiveShadow>
+      {/* Table - centrée entre les chaises */}
+      <mesh {...table.propsInteraction} position={[2.8, 0.76, -1.25]} castShadow receiveShadow>
         <boxGeometry args={[1.4, 0.05, 0.9]} />
         <meshStandardMaterial {...M(table)} />
       </mesh>
       {[[-0.55,-0.35],[0.55,-0.35],[-0.55,0.35],[0.55,0.35]].map(([lx,lz],i) => (
-        <mesh {...table.propsInteraction} key={i} position={[2.8+lx, 0.38, -0.8+lz]} castShadow>
+        <mesh {...table.propsInteraction} key={i} position={[2.8+lx, 0.38, -1.25+lz]} castShadow>
           <boxGeometry args={[0.06, 0.76, 0.06]} />
           <meshStandardMaterial {...M(table)} />
         </mesh>
       ))}
 
-      {/* Chaises */}
-      {([[-0.55,-1.05,0,0],[0.55,-1.05,0,0],[-0.55,0.15,0,Math.PI],[0.55,0.15,0,Math.PI]] as [number,number,number,number][]).map(([lx,lz,,ry],i) => (
+      {/* Chaises - bien positionnées autour de la table */}
+      {([[-0.55,-0.6,0,0],[0.55,-0.6,0,0],[-0.55,0.6,0,Math.PI],[0.55,0.6,0,Math.PI]] as [number,number,number,number][]).map(([lx,lz,,ry],i) => (
         <Chaise key={i}
-          position={[2.8+lx, 0, -0.8+lz]}
+          position={[2.8+lx, 0, -1.25+lz]}
           rotation={[0, ry, 0]}
           M={M(chaises)}
           propsInteraction={chaises.propsInteraction}

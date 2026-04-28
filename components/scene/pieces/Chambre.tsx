@@ -206,16 +206,19 @@ function Bureau({ propsInteraction, M, mat }: { propsInteraction: Record<string,
 }
 
 export function Chambre({ lumiere, filDefer = false, masquerPlafond = false }: Props) {
-  const sol     = useElementSelectionnable({ idPiece: 'chambre', idElement: 'sol',       libelle: 'Moquette',      defaut: { couleur: '#4b5563', rugosite: 0.95, metalique: 0 } });
-  const cadre   = useElementSelectionnable({ idPiece: 'chambre', idElement: 'lit',       libelle: 'Cadre de lit',  defaut: { couleur: '#5c3d2e', rugosite: 0.5,  metalique: 0 } });
-  const literie = useElementSelectionnable({ idPiece: 'chambre', idElement: 'literie',   libelle: 'Literie',       defaut: { couleur: '#e5e7eb', rugosite: 0.7,  metalique: 0 } });
-  const tableChevet = useElementSelectionnable({ idPiece: 'chambre', idElement: 'tableChevet', libelle: 'Tables de chevet', defaut: { couleur: '#5c3d2e', rugosite: 0.5, metalique: 0 } });
+  const sol     = useElementSelectionnable({ idPiece: 'chambre', idElement: 'sol',       equipementId: 'chambre-1', defaut: { couleur: '#4b5563', rugosite: 0.95, metalique: 0 } });
+  const peinture = useElementSelectionnable({ idPiece: 'chambre', idElement: 'peinture', equipementId: 'chambre-2', defaut: { couleur: '#e5e7eb', rugosite: 0.9, metalique: 0 } });
+  const cadre   = useElementSelectionnable({ idPiece: 'chambre', idElement: 'lit',       libelle: 'Cadre de lit',  defaut: { couleur: '#2c2c2c', rugosite: 0.3,  metalique: 0.1 } });
+  const literie = useElementSelectionnable({ idPiece: 'chambre', idElement: 'literie',   libelle: 'Literie',       defaut: { couleur: '#f8f8f8', rugosite: 0.6,  metalique: 0 } });
+  const tableChevet = useElementSelectionnable({ idPiece: 'chambre', idElement: 'tableChevet', libelle: 'Tables de chevet', defaut: { couleur: '#2c2c2c', rugosite: 0.3, metalique: 0.1 } });
   const lampeChevet = useElementSelectionnable({ idPiece: 'chambre', idElement: 'lampeChevet', libelle: 'Luminaire / plafonnier', defaut: { couleur: '#f5f0e0', rugosite: 0.7, metalique: 0 } });
   const plafonnier = useElementSelectionnable({ idPiece: 'chambre', idElement: 'plafonnier', libelle: 'Luminaire / plafonnier', defaut: { couleur: '#f9fafb', rugosite: 0.3, metalique: 0 } });
-  const armoire = useElementSelectionnable({ idPiece: 'chambre', idElement: 'armoire',   libelle: 'Armoire',       defaut: { couleur: '#5c3d2e', rugosite: 0.5,  metalique: 0 } });
-  const bureau  = useElementSelectionnable({ idPiece: 'chambre', idElement: 'bureau',    libelle: 'Bureau',        defaut: { couleur: '#8b6914', rugosite: 0.4,  metalique: 0 } });
+  const armoire = useElementSelectionnable({ idPiece: 'chambre', idElement: 'armoire',   equipementId: 'chambre-11', defaut: { couleur: '#1a1a1a', rugosite: 0.25,  metalique: 0.15 } });
+  const bureau  = useElementSelectionnable({ idPiece: 'chambre', idElement: 'bureau',    libelle: 'Bureau',        defaut: { couleur: '#2c2c2c', rugosite: 0.3,  metalique: 0.1 } });
   const miroir  = useElementSelectionnable({ idPiece: 'chambre', idElement: 'miroir',    libelle: 'Miroir',        defaut: { couleur: '#a8d8ea', rugosite: 0.05, metalique: 0.1 } });
-  const rideaux = useElementSelectionnable({ idPiece: 'chambre', idElement: 'rideaux',   libelle: 'Rideaux',       defaut: { couleur: '#dbeafe', rugosite: 0.9,  metalique: 0 } });
+  const rideaux = useElementSelectionnable({ idPiece: 'chambre', idElement: 'rideaux',   libelle: 'Rideaux',       defaut: { couleur: '#f5f5f5', rugosite: 0.8,  metalique: 0 } });
+  const radiateur = useElementSelectionnable({ idPiece: 'chambre', idElement: 'radiateur', equipementId: 'chambre-6', defaut: { couleur: '#e5e7eb', rugosite: 0.3, metalique: 0.6 } });
+  const vmc = useElementSelectionnable({ idPiece: 'chambre', idElement: 'vmc', equipementId: 'chambre-8', defaut: { couleur: '#f3f4f6', rugosite: 0.5, metalique: 0.2 } });
 
   const M = (s: typeof sol) => ({
     color: s.estSelectionne ? '#00e5ff' : s.materiau.couleur,
@@ -364,6 +367,7 @@ export function Chambre({ lumiere, filDefer = false, masquerPlafond = false }: P
         rotation={[0, -Math.PI / 2, 0]}
         idPiece="chambre"
         lumiere={lumiere}
+        equipementId="chambre-9"
       />
 
       {/* Prises électriques */}
@@ -373,6 +377,7 @@ export function Chambre({ lumiere, filDefer = false, masquerPlafond = false }: P
         rotation={[0, Math.PI / 2, 0]}
         idPiece="chambre"
         idElement="prise1"
+        equipementId="chambre-9"
       />
       {/* Prise 2 — mur arrière, à gauche de la fenêtre */}
       <PriseElectrique
@@ -380,6 +385,7 @@ export function Chambre({ lumiere, filDefer = false, masquerPlafond = false }: P
         rotation={[0, Math.PI, 0]}
         idPiece="chambre"
         idElement="prise2"
+        equipementId="chambre-9"
       />
       {/* Prise 3 — cloison droite, près de l'armoire */}
       <PriseElectrique
@@ -387,6 +393,7 @@ export function Chambre({ lumiere, filDefer = false, masquerPlafond = false }: P
         rotation={[0, -Math.PI / 2, 0]}
         idPiece="chambre"
         idElement="prise3"
+        equipementId="chambre-9"
       />
       {/* Prise 4 — près de la porte couloir */}
       <PriseElectrique
@@ -394,7 +401,47 @@ export function Chambre({ lumiere, filDefer = false, masquerPlafond = false }: P
         rotation={[0, -Math.PI / 2, 0]}
         idPiece="chambre"
         idElement="prise4"
+        equipementId="chambre-9"
       />
+
+      {/* Radiateur — mur arrière, à droite de la fenêtre */}
+      <group {...radiateur.propsInteraction} position={[-1.5, 0.5, 4.84]}>
+        <mesh castShadow receiveShadow>
+          <boxGeometry args={[0.8, 0.6, 0.12]} />
+          <meshStandardMaterial {...M(radiateur)} />
+        </mesh>
+        {/* Grille radiateur */}
+        {Array.from({ length: 8 }).map((_, i) => (
+          <mesh key={i} position={[-0.35 + i * 0.1, 0, 0.065]}>
+            <boxGeometry args={[0.08, 0.55, 0.01]} />
+            <meshStandardMaterial color="#d1d5db" roughness={0.4} metalness={0.5} />
+          </mesh>
+        ))}
+        {/* Robinet thermostatique */}
+        <RobinetThermostatique
+          position={[0.5, -0.15, 0.1]}
+          rotation={[0, 0, 0]}
+          idPiece="chambre"
+          idElement="robinet-radiateur"
+          equipementId="chambre-7"
+        />
+      </group>
+
+      {/* VMC / Grille ventilation — plafond, coin avant-gauche */}
+      <group {...vmc.propsInteraction} position={[-4.5, 2.75, 2.0]}>
+        {/* Grille VMC */}
+        <mesh castShadow>
+          <boxGeometry args={[0.25, 0.04, 0.25]} />
+          <meshStandardMaterial {...M(vmc)} />
+        </mesh>
+        {/* Fentes de ventilation */}
+        {Array.from({ length: 5 }).map((_, i) => (
+          <mesh key={i} position={[0, -0.025, -0.1 + i * 0.05]}>
+            <boxGeometry args={[0.22, 0.005, 0.03]} />
+            <meshStandardMaterial color="#9ca3af" roughness={0.6} />
+          </mesh>
+        ))}
+      </group>
     </group>
   );
 }

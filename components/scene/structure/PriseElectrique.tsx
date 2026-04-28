@@ -7,14 +7,16 @@ interface Props {
   rotation?: [number, number, number];
   idPiece: IdPiece | 'exterieur';
   idElement?: string;
+  equipementId?: string;
 }
 
-export function PriseElectrique({ position, rotation = [0, 0, 0], idPiece, idElement = 'prise' }: Props) {
+export function PriseElectrique({ position, rotation = [0, 0, 0], idPiece, idElement = 'prise', equipementId }: Props) {
   // Élément sélectionnable
   const prise = useElementSelectionnable({
     idPiece,
     idElement,
-    libelle: 'Prise électrique / interrupteur',
+    equipementId: equipementId,
+    libelle: equipementId ? undefined : 'Prise électrique / interrupteur',
     defaut: { couleur: '#f8fafc', rugosite: 0.35, metalique: 0 }
   });
 
