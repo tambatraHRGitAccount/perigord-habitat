@@ -44,8 +44,8 @@ export function Porte({
     );
   });
 
-  const couleurCadre   = '#f5f5f5'; // Blanc PVC luxe
-  const couleurPanneau = '#ffffff'; // Blanc pur PVC
+  const couleurCadre   = '#6b3410'; // brun terre cuite (même que tuiles toit)
+  const couleurPanneau = '#8b4513'; // brun terre cuite principal
 
   // Profondeur du cadre = épaisseur du mur exacte pour ne pas déborder
   const profCadre = 0.25;
