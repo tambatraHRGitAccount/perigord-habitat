@@ -57,7 +57,7 @@ export default function Dashboard() {
       title: "Voir les locataires",
       description: "Gérer les locataires",
       icon: Users,
-      href: "/client/logement",
+      href: "/maison",
       color: "green" as const
     },
     {

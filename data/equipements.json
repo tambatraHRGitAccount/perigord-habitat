@@ -110,7 +110,6 @@
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
       "typeRemarque": "contrat"
     },
-
     {
       "id": "cuisine-1",
       "piece": "Cuisine",
@@ -287,7 +286,6 @@
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
       "typeRemarque": "contrat"
     },
-
     {
       "id": "sdb-1",
       "piece": "Salle de bain / Douche",
@@ -475,7 +473,6 @@
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
       "typeRemarque": "contrat"
     },
-
     {
       "id": "wc-1",
       "piece": "WC / Toilettes",
@@ -564,7 +561,6 @@
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
       "typeRemarque": "contrat"
     },
-
     {
       "id": "chambre-1",
       "piece": "Chambre",
@@ -686,7 +682,6 @@
       "remarque": "Réparation à la charge du locataire. Lui rappeler son obligation d'entretien courant dès l'état des lieux d'entrée.",
       "typeRemarque": "locataire"
     },
-
     {
       "id": "salon-1",
       "piece": "Salon / Séjour",
@@ -808,7 +803,6 @@
       "remarque": "Bailleur responsable. Ouvrir un Ordre de Service et mandater un prestataire agréé. Pas de refacturation au locataire.",
       "typeRemarque": "bailleur"
     },
-
     {
       "id": "collectif-1",
       "piece": "Équipements collectifs / Parties communes",
