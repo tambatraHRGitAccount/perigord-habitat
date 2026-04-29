@@ -8,6 +8,7 @@ import { DashboardLayout } from "@/components/tableau_de_bord/DashboardLayout";
 import { EquipmentCard } from "@/components/equipment/EquipmentCard";
 import { EquipmentFilters } from "@/components/equipment/EquipmentFilters";
 import { EquipmentModal } from "@/components/equipment/EquipmentModal";
+import { EquipmentEditModal } from "@/components/equipment/EquipmentEditModal";
 import { useEquipmentData } from "@/hooks/equipment/useEquipmentData";
 import type { Equipment } from "@/types/equipment";
 
@@ -15,12 +16,13 @@ export default function EquipmentPage() {
   const router = useRouter();
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null);
+  const [editingEquipment, setEditingEquipment] = useState<Equipment | null>(null);
 
   useEffect(() => {
     const checkAuth = async () => {
       const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
-      
+
       if (!user) {
         router.push("/login");
         return;
@@ -28,7 +30,6 @@ export default function EquipmentPage() {
 
       const role = user.user_metadata?.role ?? user.app_metadata?.role;
 
-      // Seul le bailleur peut accéder aux équipements
       if (role !== "bailleur") {
         router.push("/not-authorized");
         return;
@@ -48,6 +49,9 @@ export default function EquipmentPage() {
     setSearchQuery,
     selectedPiece,
     setSelectedPiece,
+    updateEquipment,
+    saving,
+    saveError,
   } = useEquipmentData();
 
   if (!isAuthorized) {
@@ -72,12 +76,13 @@ export default function EquipmentPage() {
           onPieceChange={setSelectedPiece}
         />
 
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
           {filteredEquipments.map((equipment) => (
             <EquipmentCard
               key={equipment.id}
               equipment={equipment}
-              onClick={setSelectedEquipment}
+              onDetails={setSelectedEquipment}
+              onEdit={setEditingEquipment}
             />
           ))}
         </div>
@@ -89,10 +94,26 @@ export default function EquipmentPage() {
           </div>
         )}
 
+        {/* Modal Détails */}
         {selectedEquipment && (
           <EquipmentModal
             equipment={selectedEquipment}
             onClose={() => setSelectedEquipment(null)}
+          />
+        )}
+
+        {/* Modal Modifier */}
+        {editingEquipment && (
+          <EquipmentEditModal
+            equipment={editingEquipment}
+            pieces={pieces}
+            onClose={() => setEditingEquipment(null)}
+            onSave={async (updated) => {
+              const ok = await updateEquipment(updated);
+              if (ok) setEditingEquipment(null);
+            }}
+            saving={saving}
+            saveError={saveError}
           />
         )}
 

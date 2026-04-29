@@ -5,10 +5,14 @@ import type { Equipment } from "@/types/equipment";
 import equipementsData from "@/data/equipements.json";
 
 export function useEquipmentData() {
+  const [equipments, setEquipments] = useState<Equipment[]>(
+    equipementsData.equipements as Equipment[]
+  );
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedPiece, setSelectedPiece] = useState<string>("all");
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
-  const equipments = equipementsData.equipements as Equipment[];
   const pieces = Array.from(new Set(equipments.map((eq) => eq.piece)));
 
   const filteredEquipments = equipments.filter((eq) => {
@@ -21,6 +25,43 @@ export function useEquipmentData() {
     return matchSearch && matchPiece;
   });
 
+  async function updateEquipment(updated: Equipment): Promise<boolean> {
+    setSaving(true);
+    setSaveError(null);
+
+    // Mise à jour optimiste — l'UI se rafraîchit immédiatement
+    setEquipments((prev) =>
+      prev.map((eq) => (eq.id === updated.id ? updated : eq))
+    );
+
+    try {
+      const res = await fetch("/api/equipements", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updated),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error ?? "Erreur serveur");
+      }
+
+      return true;
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Erreur inconnue";
+      setSaveError(message);
+
+      // Rollback — on remet l'ancienne valeur
+      setEquipments((prev) =>
+        prev.map((eq) => (eq.id === updated.id ? (equipementsData.equipements as Equipment[]).find((e) => e.id === eq.id) ?? eq : eq))
+      );
+
+      return false;
+    } finally {
+      setSaving(false);
+    }
+  }
+
   return {
     equipments,
     pieces,
@@ -29,5 +70,8 @@ export function useEquipmentData() {
     setSearchQuery,
     selectedPiece,
     setSelectedPiece,
+    updateEquipment,
+    saving,
+    saveError,
   };
 }
