@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { ControleurCamera } from './ui/ControleurCamera';
 import { SensibiliteCamera } from './ui/SensibiliteCamera';
 import { EquipementDetailModal } from '@/components/modals/EquipementDetailModal';
@@ -17,6 +18,7 @@ const PIECES: { id: IdPiece; label: string; icon: string }[] = [
 export function InterfaceMaison() {
   const { pieceActive, setPieceActive, tooltip, equipementModalId, setEquipementModalId } = useScene();
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const router = useRouter();
 
   const estExterieur = pieceActive === 'exterieur';
 
@@ -63,9 +65,26 @@ export function InterfaceMaison() {
       {/* ── Header ───────────────────────────────────────────────────────── */}
       <div className="absolute top-0 left-0 right-0 pointer-events-auto z-20">
         <div className="bg-gray-950/75 backdrop-blur-md">
-          <div className="flex items-center justify-center px-4 h-12 gap-2">
-            <ControleurCamera />
-            <SensibiliteCamera />
+          <div className="flex items-center justify-between px-4 h-12 gap-2">
+            {/* Bouton retour */}
+            <button
+              onClick={() => router.back()}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium
+                bg-gray-800 hover:bg-gray-700 active:bg-gray-900
+                text-gray-300 hover:text-white border border-white/10 hover:border-white/20
+                shadow transition-all duration-150 hover:scale-105 active:scale-95"
+            >
+              <span>←</span>
+              <span>Quitter 3D</span>
+            </button>
+
+            <div className="flex items-center gap-2">
+              <ControleurCamera />
+              <SensibiliteCamera />
+            </div>
+
+            {/* Spacer pour centrer les contrôles */}
+            <div className="w-[110px]" />
           </div>
         </div>
       </div>
